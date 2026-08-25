@@ -250,6 +250,7 @@ h3 {
 }
 
 .site-header {
+  display: none !important;
   position: sticky;
   z-index: 100;
   top: 0;
