@@ -250,7 +250,7 @@ function renderHome() {
   }
 
   document.body.classList.add("home-page");
-  app.innerHTML = `${headerTemplate()}${mainTemplate()}${footerTemplate()}`;
+  app.innerHTML = `${mainTemplate()}${footerTemplate()}`;
 }
 
 renderHome();
