@@ -737,7 +737,7 @@ h3 {
 
 .hero--art {
   position: relative;
-  min-height: max(720px, 100svh);
+  min-height: max(840px, 118svh);
   display: block;
   isolation: isolate;
   overflow: hidden;
@@ -1598,7 +1598,7 @@ h3 {
   }
 
   .hero--art {
-    min-height: max(680px, 100svh);
+    min-height: max(800px, calc(100svh + 140px));
   }
 
   .hero-art__arte {
