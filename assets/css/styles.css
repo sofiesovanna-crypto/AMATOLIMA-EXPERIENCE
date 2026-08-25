@@ -770,13 +770,13 @@ h3 {
 
 .hero-art__arte {
   z-index: 1;
-  top: clamp(108px, 12vh, 164px);
+  top: clamp(140px, 15.6vh, 213px);
   left: 4.4vw;
   width: max-content;
   padding: 0.22em 0.32em 0.28em;
   margin: -0.22em -0.32em -0.28em;
   font-family: "Anastasia Script", "Pinyon Script", cursive;
-  font-size: clamp(18.2rem, 29.9vw, 29.9rem);
+  font-size: clamp(16.38rem, 26.91vw, 26.91rem);
   font-weight: 400;
   letter-spacing: -0.055em;
   line-height: 1.2;
@@ -1603,9 +1603,9 @@ h3 {
   }
 
   .hero-art__arte {
-    top: 20%;
+    top: 26%;
     left: 50%;
-    font-size: clamp(10.4rem, 49.4vw, 14.8rem);
+    font-size: clamp(9.36rem, 44.46vw, 13.32rem);
     letter-spacing: -0.07em;
     transform: translateX(-51%);
   }
