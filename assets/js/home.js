@@ -101,7 +101,7 @@ function heroTemplate() {
 
       <img
         class="hero-art__wood"
-        src="assets/images/hero-mask.png"
+        src="assets/images/hero-mask-3.png"
         alt=""
         aria-hidden="true"
       />
