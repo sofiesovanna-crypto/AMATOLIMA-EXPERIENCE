@@ -99,12 +99,17 @@ function heroTemplate() {
         <span class="hero-art__habitar">habitar</span>
       </h1>
 
-      <img
-        class="hero-art__wood"
-        src="assets/images/hero-mask.png"
-        alt=""
-        aria-hidden="true"
-      />
+      <picture class="hero-art__media" aria-hidden="true">
+        <source
+          media="(max-width: 760px)"
+          srcset="assets/images/hero-mask-mobile.png"
+        />
+        <img
+          class="hero-art__wood"
+          src="assets/images/hero-mask.png"
+          alt=""
+        />
+      </picture>
     </section>`;
 }
 
