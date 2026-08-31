@@ -1523,19 +1523,19 @@ h3 {
 
 @media (min-width: 761px) {
   .hero--art {
-    min-height: max(880px, 145svh);
+    min-height: max(880px, 165svh);
   }
 
   .hero-art__wood {
     right: 0;
-    bottom: 20svh;
+    bottom: 40svh;
     left: 0;
     width: 100%;
     height: auto;
     max-width: 100%;
     object-fit: contain;
     object-position: center bottom;
-    transform: translateY(20%);
+    transform: translateY(30%);
   }
 }
 
