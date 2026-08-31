@@ -103,7 +103,7 @@ function heroTemplate() {
         <source media="(max-width: 760px)" srcset="assets/images/hero-mask-2.png" />
         <img
           class="hero-art__wood"
-          src="assets/images/hero-mask-3.png"
+          src="assets/images/hero-mask-2.png"
           alt=""
           aria-hidden="true"
         />
