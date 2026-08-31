@@ -1527,12 +1527,12 @@ h3 {
   }
 
   .hero-art__wood {
-    right: auto;
+    right: 0;
     bottom: 40svh;
-    left: 10%;
-    width: 80%;
+    left: 0;
+    width: 100%;
     height: auto;
-    max-width: 80%;
+    max-width: 100%;
     object-fit: contain;
     object-position: center bottom;
     transform: translateY(30%);
