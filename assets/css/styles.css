@@ -417,7 +417,7 @@ h3 {
 }
 
 .hero__visual img {
-  width: 80%;
+  width: 100%;
   height: 5%;
   object-fit: cover;
   object-position: center;
