@@ -1533,7 +1533,7 @@ h3 {
   }
 
   .hero-art__a {
-    font-size: clamp(18rem, 29vw, 29rem);
+    font-size: clamp(20rem, 31vw, 31rem);
     letter-spacing: 0;
     transform: translate(-4%, -5%);
   }
