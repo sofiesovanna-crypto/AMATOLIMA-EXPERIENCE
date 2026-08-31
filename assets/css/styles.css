@@ -1532,6 +1532,12 @@ h3 {
     transform: translate(-4%, -5%);
   }
 
+  .hero-art__a {
+    display: inline-block;
+    transform: scale(1.1);
+    transform-origin: right bottom;
+  }
+
   .hero-art__wood {
     right: 0;
     bottom: 70svh;
