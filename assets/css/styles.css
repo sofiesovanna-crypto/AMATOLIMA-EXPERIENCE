@@ -1535,7 +1535,7 @@ h3 {
   .hero-art__a {
     font-size: clamp(18rem, 29vw, 29rem);
     letter-spacing: 0;
-    transform: translate(-4%, -8%);
+    transform: translate(-4%, -11%);
   }
 
   .hero-art__wood {
