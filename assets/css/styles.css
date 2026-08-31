@@ -1526,6 +1526,10 @@ h3 {
     min-height: max(880px, 195svh);
   }
 
+  .hero-art__arte {
+    font-size: clamp(16.71rem, 27.45vw, 27.45rem);
+  }
+
   .hero-art__wood {
     right: 0;
     bottom: 70svh;
