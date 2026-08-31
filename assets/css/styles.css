@@ -1523,12 +1523,12 @@ h3 {
 
 @media (min-width: 761px) {
   .hero--art {
-    min-height: max(880px, 185svh);
+    min-height: max(880px, 165svh);
   }
 
   .hero-art__wood {
     right: 0;
-    bottom: 60svh;
+    bottom: 40svh;
     left: 0;
     width: 100%;
     height: auto;
