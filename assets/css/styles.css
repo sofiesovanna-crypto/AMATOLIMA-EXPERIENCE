@@ -349,12 +349,12 @@ h3 { margin-bottom: 15px; font-size: clamp(1.7rem,3vw,2.65rem); letter-spacing: 
   .hero-art__a {
     position: relative;
     top: 0.1em;
+    left: -0.48em;
     display: inline-block;
     flex: 0 0 auto;
     font-size: clamp(18.05rem, 27.98vw, 27.98rem);
     line-height: 1;
     letter-spacing: 0;
-    translate: -48% 0;
     transform: none;
   }
 
