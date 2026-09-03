@@ -340,6 +340,7 @@ h3 { margin-bottom: 15px; font-size: clamp(1.7rem,3vw,2.65rem); letter-spacing: 
     display: inline-flex;
     align-items: baseline;
     overflow: visible;
+    padding-right: 0.5em;
     font-size: clamp(17.44rem, 28.54vw, 28.54rem);
     letter-spacing: 0;
     transform: translate(-2%, -3%);
@@ -365,6 +366,7 @@ h3 { margin-bottom: 15px; font-size: clamp(1.7rem,3vw,2.65rem); letter-spacing: 
     display: inline-block;
     flex: 0 0 auto;
     margin-left: -0.24em;
+    overflow: visible;
     font-size: 1.1em;
     line-height: 1;
   }
