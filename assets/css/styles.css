@@ -331,15 +331,52 @@ h3 { margin-bottom: 15px; font-size: clamp(1.7rem,3vw,2.65rem); letter-spacing: 
 /* ========================================================================== */
 @media (min-width:761px) {
   /* Altura total do hero no desktop. */
-  .hero--art{min-height:max(880px,195svh)}
-  /* Tamanho, espaçamento e deslocamento geral da palavra Arte. */
-  .hero-art__arte{font-size:clamp(17.44rem,28.54vw,28.54rem);letter-spacing:0;transform:translate(-2%,-3%)}
-  /* Tamanho e posição exclusivos da letra A. */
-  .hero-art__a{font-size:clamp(20rem,31vw,31rem);letter-spacing:0;transform:translate(-18%,-12%) !important}
-  /* Distância exclusiva do RTE em relação ao A no desktop. */
-  .hero-art__rte{margin-left:-0.24em}
+  .hero--art {
+    min-height: max(880px, 195svh);
+  }
+
+  /* Estrutura independente para A + rte, mantendo o conjunto na posição atual. */
+  .hero-art__arte {
+    display: inline-flex;
+    align-items: baseline;
+    overflow: visible;
+    font-size: clamp(17.44rem, 28.54vw, 28.54rem);
+    letter-spacing: 0;
+    transform: translate(-2%, -3%);
+  }
+
+  /* A maior e 10% abaixo da própria linha de base. */
+  .hero-art__a {
+    position: relative;
+    top: 0.1em;
+    display: inline-block;
+    flex: 0 0 auto;
+    font-size: clamp(20rem, 31vw, 31rem);
+    line-height: 1;
+    letter-spacing: 0;
+    translate: -18% 0;
+    transform: none;
+  }
+
+  /* RTE permanece independente e na mesma distância visual. */
+  .hero-art__rte {
+    display: inline-block;
+    flex: 0 0 auto;
+    margin-left: -0.24em;
+  }
+
   /* Posição, escala e encaixe da imagem de madeira no desktop. */
-  .hero-art__wood{right:0;bottom:70svh;left:0;width:100%;height:auto;max-width:100%;object-fit:contain;object-position:center bottom;transform:translateY(43%)}
+  .hero-art__wood {
+    right: 0;
+    bottom: 70svh;
+    left: 0;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: center bottom;
+    transform: translateY(43%);
+  }
 }
 
 /* ========================================================================== */
