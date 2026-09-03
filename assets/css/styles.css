@@ -383,7 +383,7 @@ h3 { margin-bottom: 15px; font-size: clamp(1.7rem,3vw,2.65rem); letter-spacing: 
     max-width: 100%;
     object-fit: contain;
     object-position: center bottom;
-    transform: translateY(43%);
+    transform: translateY(40%);
   }
 }
 
