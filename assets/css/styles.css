@@ -335,7 +335,7 @@ h3 { margin-bottom: 15px; font-size: clamp(1.7rem,3vw,2.65rem); letter-spacing: 
   /* Tamanho, espaçamento e deslocamento geral da palavra Arte. */
   .hero-art__arte{font-size:clamp(17.44rem,28.54vw,28.54rem);letter-spacing:0;transform:translate(-2%,-3%)}
   /* Tamanho e posição exclusivos da letra A. */
-  .hero-art__a{font-size:clamp(20rem,31vw,31rem);letter-spacing:0;transform:translate(-18%,-22%) !important}
+  .hero-art__a{font-size:clamp(20rem,31vw,31rem);letter-spacing:0;transform:translate(-18%,-12%) !important}
   /* Distância exclusiva do RTE em relação ao A no desktop. */
   .hero-art__rte{margin-left:-0.24em}
   /* Posição, escala e encaixe da imagem de madeira no desktop. */
