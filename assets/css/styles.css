@@ -366,6 +366,8 @@ h3 { margin-bottom: 15px; font-size: clamp(1.7rem,3vw,2.65rem); letter-spacing: 
     display: inline-block;
     flex: 0 0 auto;
     margin-left: -0.24em;
+    margin-right: -0.22em;
+    padding-right: 0.22em;
     overflow: visible;
     font-size: 1.1em;
     line-height: 1;
