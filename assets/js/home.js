@@ -47,7 +47,7 @@ function heroTemplate() {
   return `
     <section class="hero hero--art" aria-labelledby="home-title">
       <h1 id="home-title" class="hero-art__headline">
-        <span class="hero-art__arte"><span class="hero-art__a">A</span><span class="hero-art__rte">rte</span></span>
+        <span class="hero-art__arte">Arte</span>
         <span class="hero-art__de">de</span>
         <span class="hero-art__habitar">habitar</span>
       </h1>
