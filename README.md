@@ -31,7 +31,7 @@ O arquivo `.nojekyll` já está incluído para que os arquivos estáticos sejam 
 - `assets/css/styles.css` — identidade visual, layout e responsividade.
 - `assets/js/home.js` — conteúdo e estrutura visual da Home, incluindo a hero.
 - `assets/js/main.js` — menu mobile, animações e demonstração do formulário.
-- `assets/images/hero-mask.png` — máscara transparente da hero (mantida no repositório).
+- `assets/images/hero-organic-mask.png` — máscara transparente da hero.
 - `assets/images/` — monograma e imagens dos projetos.
 
 ## Antes de publicar
