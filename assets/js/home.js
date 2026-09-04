@@ -235,8 +235,10 @@ function projectsTemplate() {
           id="project-index-title"
           data-masked-heading
           data-masked-video="https://videos.pexels.com/video-files/32537473/13876139_3840_2160_24fps.mp4"
+          data-mask-lines="Arquitetura antes|da decoração."
         >
-          Arquitetura antes da decoração.
+          <span>Arquitetura antes</span>
+          <span>da decoração.</span>
         </h2>
       </div>
 
