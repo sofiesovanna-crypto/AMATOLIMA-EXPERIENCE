@@ -140,20 +140,23 @@ function perspectiveTemplate() {
       <img src="${image}" alt="${alt}" loading="lazy" draggable="false" />
     </figure>`).join("");
 
+  const phrase = "A MATÉRIA PRECEDE O ATIVO";
+  const characters = Array.from(phrase).map((character, index) =>
+    character === " "
+      ? `<span class="material-spiral__space" aria-hidden="true">&nbsp;</span>`
+      : `<span class="material-spiral__character" style="--character-index:${index}" aria-hidden="true">${character}</span>`
+  ).join("");
+
   return `
     <section class="material-spiral" id="perspectiva" aria-labelledby="material-title">
-      <div class="material-spiral__gallery" data-material-spiral aria-label="Galeria de matéria natural em movimento">
-        <div class="material-spiral__stage">
-          ${cards}
-          <div class="material-spiral__center">
-            <h2 class="material-spiral__title" id="material-title" aria-label="A matéria precede o ativo">
-              <span class="material-spiral__title-side material-spiral__title-side--left" aria-hidden="true">A MATÉRIA PRECEDE</span>
-              <span class="material-spiral__title-gap" aria-hidden="true"></span>
-              <span class="material-spiral__title-side material-spiral__title-side--right" aria-hidden="true">O ATIVO</span>
-            </h2>
-          </div>
-        </div>
+      <div class="material-spiral__copy">
+        <h2 class="material-spiral__title" id="material-title" aria-label="${phrase}">${characters}</h2>
       </div>
+
+      <div class="material-spiral__gallery" data-material-spiral aria-label="Carrossel de matéria natural em movimento">
+        <div class="material-spiral__stage">${cards}</div>
+      </div>
+
       <span class="material-spiral__hint" aria-hidden="true">Role ou arraste para explorar</span>
     </section>`;
 }
