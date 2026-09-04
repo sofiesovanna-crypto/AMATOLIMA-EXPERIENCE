@@ -43,20 +43,25 @@
       targetY = 50;
     });
 
+    heading.style.clipPath = "none";
+
     if (window.gsap && window.ScrollTrigger) {
       gsap.registerPlugin(ScrollTrigger);
-      gsap.to(heading, {
-        clipPath: "inset(0 0% 0 0)",
-        duration: 1.55,
-        ease: "power3.inOut",
-        scrollTrigger: {
-          trigger: heading,
-          start: "top 82%",
-          once: true
+      gsap.fromTo(
+        heading,
+        { opacity: .38, backgroundSize: "150% auto" },
+        {
+          opacity: 1,
+          backgroundSize: "132% auto",
+          duration: 1.45,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: heading,
+            start: "top 88%",
+            once: true
+          }
         }
-      });
-    } else {
-      heading.style.clipPath = "none";
+      );
     }
 
     frame = requestAnimationFrame(render);
