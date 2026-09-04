@@ -17,7 +17,6 @@
     let previousTime = performance.now();
     let frameId = 0;
     let visible = true;
-    let hovered = false;
     let dragging = false;
     let lastPointerY = 0;
     let lastScrollY = window.scrollY;
@@ -31,6 +30,9 @@
 
     const intersectionObserver = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
+      if (entry.isIntersecting) {
+        root.closest(".material-spiral")?.classList.add("is-in-view");
+      }
     }, { threshold: .04 });
     intersectionObserver.observe(root);
 
@@ -67,14 +69,12 @@
 
     root.addEventListener("pointerup", stopDrag);
     root.addEventListener("pointercancel", stopDrag);
-    root.addEventListener("mouseenter", () => { hovered = true; });
-    root.addEventListener("mouseleave", () => { hovered = false; });
 
     const render = (time) => {
       const delta = Math.min((time - previousTime) / 1000, .05);
       previousTime = time;
 
-      const desiredSpeed = visible && !reduceMotion.matches && !dragging && !hovered ? .32 : 0;
+      const desiredSpeed = visible && !reduceMotion.matches && !dragging ? .32 : 0;
       autoVelocity += (desiredSpeed - autoVelocity) * (1 - Math.exp(-delta * 5));
       targetProgress += autoVelocity * delta;
       progress += (targetProgress - progress) * (1 - Math.exp(-delta * (dragging ? 20 : 9)));
