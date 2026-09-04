@@ -1,5 +1,7 @@
 .project-index{
   position:relative;
+  z-index:2;
+  margin-top:-30svh;
   padding:clamp(120px,15vw,230px) clamp(18px,3vw,48px) clamp(110px,14vw,210px);
   overflow:hidden;
   background:#f1f1f1;
@@ -70,6 +72,7 @@
 
 @media(max-width:760px){
   .project-index{
+    margin-top:-20svh;
     padding:96px 16px 110px;
   }
 
@@ -78,7 +81,7 @@
   }
 
   .project-index__heading{
-    font-size:clamp(3rem,15vw,5.3rem);
+    font-size:clamp(2.75rem,13.2vw,4.8rem);
     background-size:auto 150%;
   }
 
@@ -148,4 +151,8 @@
   .masked-heading__canvas{display:none}
   .project-index__heading.has-video-mask,
   .project-index__statement.has-video-mask{color:#261c12}
+}
+
+.project-index__heading > span{
+  display:block;
 }
