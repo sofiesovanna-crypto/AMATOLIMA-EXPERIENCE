@@ -156,100 +156,14 @@ function perspectiveTemplate() {
     <section class="material-spiral" id="perspectiva" aria-labelledby="material-title" data-material-scroll>
       <div class="material-spiral__viewport">
         <div class="material-spiral__copy">
-          <h2 class="material-spiral__title" id="material-title" data-spiral-text aria-live="polite"></h2>
-        </div>
-
-        <div class="material-spiral__gallery" data-material-spiral aria-label="Carrossel de materiais controlado pelo scroll">
-          <div class="material-spiral__stage">${cards}</div>
-        </div>
-        <div class="material-card-experience" data-material-card aria-label="Cartão Amato Lima com projetos selecionados">
-          <div class="material-card-experience__fluid" data-ferrofluid aria-hidden="true"></div>
-          <div class="material-card-experience__stage">
-            <div class="material-card-experience__card" data-project-card>
-              <div class="material-card-experience__face material-card-experience__face--project">
-                <div class="material-card-experience__projects">
-                  <img class="is-active" data-card-project src="assets/images/hero-mask-2.png" alt="Projeto Amato Lima — composição de madeira" />
-                  <img data-card-project src="assets/images/hero-mask-3.png" alt="Projeto Amato Lima — matéria natural" />
-                  <img data-card-project src="assets/images/hero-mask-mobile.png" alt="Projeto Amato Lima — detalhe arquitetônico" />
-                </div>
-                <span class="material-card-experience__reflection" data-card-reflection aria-hidden="true"></span>
-              </div>
-              <div class="material-card-experience__face material-card-experience__face--identity">
-                <img class="material-card-experience__mark" src="assets/images/monograma.png" alt="" />
-                <div class="material-card-experience__wordmark"><strong>Amato Lima</strong><span>Ativos Imobiliários</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>`;
-}
-
-function principlesTemplate() {
-  const text = "A matéria orienta cada decisão. Luz, textura e proporção trabalham juntas para criar espaços precisos, acolhedores e construídos para permanecer.";
-  let characterIndex = 0;
-
-  const words = text.split(" ").map((word) => {
-    const characters = Array.from(word).map((character) => {
-      const index = characterIndex++;
-      return `<span class="editorial-foundations__character" style="--shine-index:${index}">${character}</span>`;
-    }).join("");
-
-    characterIndex++;
-    return `<span class="editorial-foundations__word">${characters}</span>`;
-  }).join(" ");
-
-  return `
-    <section class="editorial-foundations" id="fundamentos">
-      <div class="editorial-foundations__layout">
-        <figure class="editorial-foundations__image-wrap">
-          <img src="assets/images/hero-mask-mobile.png" alt="Detalhe de matéria natural em composição vertical" loading="lazy" />
-        </figure>
-
-        <div class="editorial-foundations__copy">
-          <p class="editorial-foundations__text" data-editorial-scroll-reveal>${words}</p>
-        </div>
-      </div>
-    </section>`;
-}
-
-function projectsTemplate() {
-  const projects = [
-    { name: "Residência Horizonte", location: "Jardim Europa — São Paulo, SP" },
-    { name: "Casa Matéria", location: "Alto de Pinheiros — São Paulo, SP" },
-    { name: "Apartamento Luz", location: "Itaim Bibi — São Paulo, SP" },
-    { name: "Casa Jardim", location: "Cidade Jardim — São Paulo, SP" },
-  ];
-
-  const projectRows = projects.map(({ name, location }) => `
-    <li class="project-index__item">
-      <span class="project-index__name">${name}</span>
-      <span class="project-index__location">${location}</span>
-    </li>`).join("");
-
-  return `
-    <section class="project-index" id="projetos-selecionados" aria-labelledby="project-index-title">
-      <div class="project-index__heading-wrap">
-        <h2
-          class="project-index__heading"
-          id="project-index-title"
-          data-masked-heading
-          data-masked-video="https://videos.pexels.com/video-files/32537473/13876139_3840_2160_24fps.mp4"
-          data-mask-lines="Arquitetura antes|da decoração."
-        >
-          <span>Arquitetura antes</span>
-          <span>da decoração.</span>
+          <h2 class="project-index__heading" id="project-index-title">
+          <span class="project-index__line project-index__line--one">Arquitetura</span>
+          <span class="project-index__line project-index__line--two">antes da</span>
+          <span class="project-index__line project-index__line--three">decoração.</span>
         </h2>
       </div>
 
       <div class="project-index__list-wrap">
-        <p
-          class="project-index__statement"
-          data-masked-heading
-          data-masked-video="https://videos.pexels.com/video-files/32537473/13876139_3840_2160_24fps.mp4"
-        >
-          Cada projeto começa pela matéria.
-        </p>
         <ul class="project-index__list" aria-label="Projetos selecionados">
           ${projectRows}
         </ul>
