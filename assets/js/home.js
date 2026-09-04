@@ -214,9 +214,38 @@ function principlesTemplate() {
 }
 
 function projectsTemplate() {
-  const cards = selectedProjects.map(({ title, category, image, alt }) => `
-    <a class="project-card" href="projetos.html"><img src="${image}" alt="${alt}" /><span class="project-card__caption"><h3>${title}</h3><span>${category}</span></span></a>`).join("");
-  return `<section class="section"><div class="container"><div class="intro-grid"><div><p class="eyebrow">Projetos selecionados</p><h2>Arquitetura antes da decoração.</h2></div><div class="intro-grid__aside body-copy"><p>Cada projeto parte das características do imóvel e encontra uma linguagem própria. O resultado está nos encontros precisos, na iluminação incorporada e nos materiais usados com intenção.</p></div></div><div class="project-grid reveal">${cards}</div></div></section>`;
+  const projects = [
+    { name: "Residência Horizonte", location: "Jardim Europa — São Paulo, SP" },
+    { name: "Casa Matéria", location: "Alto de Pinheiros — São Paulo, SP" },
+    { name: "Apartamento Luz", location: "Itaim Bibi — São Paulo, SP" },
+    { name: "Casa Jardim", location: "Cidade Jardim — São Paulo, SP" },
+  ];
+
+  const projectRows = projects.map(({ name, location }) => `
+    <li class="project-index__item">
+      <span class="project-index__name">${name}</span>
+      <span class="project-index__location">${location}</span>
+    </li>`).join("");
+
+  return `
+    <section class="project-index" id="projetos-selecionados" aria-labelledby="project-index-title">
+      <div class="project-index__heading-wrap">
+        <h2
+          class="project-index__heading"
+          id="project-index-title"
+          data-masked-heading
+          style="--masked-image:url('assets/images/hero-mask-3.png')"
+        >
+          Arquitetura antes da decoração.
+        </h2>
+      </div>
+
+      <div class="project-index__list-wrap">
+        <ul class="project-index__list" aria-label="Projetos selecionados">
+          ${projectRows}
+        </ul>
+      </div>
+    </section>`;
 }
 
 function quoteTemplate() {
