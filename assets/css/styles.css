@@ -213,7 +213,7 @@ h3 { margin-bottom: 15px; font-size: clamp(1.7rem,3vw,2.65rem); letter-spacing: 
 @keyframes art-wood-arrival { to { opacity: 1; translate: 0 0; } }
 @keyframes art-wood-drift {
   0%,100% { translate: 0 0; scale: 1; }
-  35% { translate: calc(var(--wood-drift-x) * -.45) calc(var(--wood-drift-y) * -.35); scale: calc(1 + ((var(--wood-drift-scale) - 1) * .45)); }
+  35% { translate: calc(var(--wood-drift-x) * -.45) calc(var(--wood-drift-y) * -.35); scale: 1.005; }
   68% { translate: var(--wood-drift-x) var(--wood-drift-y); scale: var(--wood-drift-scale); }
 }
 @keyframes hero-text-gradient { 0% { background-position: 8% 50%; } 50% { background-position: 92% 50%; } 100% { background-position: 8% 50%; } }
