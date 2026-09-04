@@ -241,6 +241,13 @@ function projectsTemplate() {
       </div>
 
       <div class="project-index__list-wrap">
+        <p
+          class="project-index__statement"
+          data-masked-heading
+          style="--masked-image:url('assets/images/hero-mask-2.png')"
+        >
+          Cada projeto começa pela matéria.
+        </p>
         <ul class="project-index__list" aria-label="Projetos selecionados">
           ${projectRows}
         </ul>
