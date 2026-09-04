@@ -73,19 +73,19 @@
   align-items: center;
   justify-content: center;
   margin: 0;
-  color: #562e1a;
-  font-family: var(--serif);
+  color: #261c12;
+  font-family: "Safira March", var(--serif);
   font-size: clamp(2.45rem,4.45vw,5.55rem);
-  font-weight: 500;
-  letter-spacing: -.085em;
+  font-weight: 400;
+  letter-spacing: -.035em;
   line-height: .88;
   white-space: nowrap;
-  transition: letter-spacing 1450ms cubic-bezier(.22,1,.36,1);
+  transition: letter-spacing 950ms cubic-bezier(.22,1,.36,1);
   will-change: letter-spacing;
 }
 
 .material-spiral.is-in-view .material-spiral__title {
-  letter-spacing: -.025em;
+  letter-spacing: .012em;
 }
 
 .material-spiral__title-side {
@@ -127,10 +127,10 @@
   .material-spiral__center { width: 96vw; }
   .material-spiral__title {
     font-size: clamp(.68rem,2.85vw,.92rem);
-    letter-spacing: -.075em;
+    letter-spacing: -.03em;
   }
   .material-spiral.is-in-view .material-spiral__title {
-    letter-spacing: -.015em;
+    letter-spacing: .01em;
   }
   .material-spiral__title-gap {
     width: clamp(220px,62vw,260px);
@@ -142,7 +142,7 @@
 @media (prefers-reduced-motion:reduce) {
   .material-spiral__gallery { cursor: default; }
   .material-spiral__title {
-    letter-spacing: -.025em;
+    letter-spacing: .012em;
     transition: none;
   }
 }
