@@ -109,26 +109,29 @@
     padding:25px 21px;
   }
 }
-.project-index__heading.has-video-mask{
-  color:transparent;
+
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .project-index__line{
+    color:transparent;
+    background-image:url("../images/hero-mask-3.png");
+    background-size:135% auto;
+    background-position:50% 50%;
+    background-repeat:no-repeat;
+    background-clip:text;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:project-title-material 18s ease-in-out infinite alternate;
+  }
+
+  .project-index__line--two{animation-delay:-5s}
+  .project-index__line--three{animation-delay:-10s}
 }
 
-.project-index__heading.has-video-mask .project-index__line{
-  color:transparent;
-}
-
-.masked-heading__canvas{
-  position:absolute;
-  z-index:2;
-  inset:0;
-  display:block;
-  width:100%;
-  height:100%;
-  pointer-events:none;
+@keyframes project-title-material{
+  from{background-position:42% 48%}
+  to{background-position:58% 53%}
 }
 
 @media(prefers-reduced-motion:reduce){
-  .masked-heading__canvas{display:none}
-  .project-index__heading.has-video-mask,
-  .project-index__heading.has-video-mask .project-index__line{color:#242220}
+  .project-index__line{animation:none}
 }
