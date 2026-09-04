@@ -358,7 +358,7 @@ h3 { margin-bottom: 15px; font-size: clamp(1.7rem,3vw,2.65rem); letter-spacing: 
 @media (min-width:761px) {
   /* Altura total do hero no desktop. */
   .hero--art {
-    min-height: max(880px, 195svh);
+    min-height: max(880px, 125svh);
   }
 
   /* Palavra Arte reunida em um único elemento. */
@@ -388,7 +388,7 @@ h3 { margin-bottom: 15px; font-size: clamp(1.7rem,3vw,2.65rem); letter-spacing: 
   /* Posição, escala e encaixe da imagem de madeira no desktop. */
   .hero-art__wood {
     right: 0;
-    bottom: 70svh;
+    bottom: 0;
     left: 0;
     width: 100%;
     height: auto;
