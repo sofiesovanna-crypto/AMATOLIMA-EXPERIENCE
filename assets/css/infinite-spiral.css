@@ -4,7 +4,7 @@
   min-height: clamp(720px, 92svh, 980px);
   overflow: hidden;
   isolation: isolate;
-  background: #716359;
+  background: #1c1717;
 }
 
 .material-spiral__gallery {
