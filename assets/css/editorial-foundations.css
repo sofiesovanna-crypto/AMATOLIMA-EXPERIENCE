@@ -1,14 +1,14 @@
 /* Seção editorial que substitui os cards de fundamentos. */
 .editorial-foundations {
   position: relative;
-  min-height: 132svh;
+  min-height: 112svh;
   overflow: hidden;
   background: #f1f1f1;
 }
 
 .editorial-foundations__layout {
   width: 100%;
-  min-height: 132svh;
+  min-height: 112svh;
   display: grid;
   grid-template-columns: minmax(360px,38.5%) minmax(0,61.5%);
   align-items: start;
@@ -18,8 +18,8 @@
 
 .editorial-foundations__image-wrap {
   width: 100%;
-  height: 112svh;
-  min-height: 760px;
+  height: 94svh;
+  min-height: 620px;
   margin: 10svh 0 0;
   overflow: hidden;
   background: #e6e1da;
