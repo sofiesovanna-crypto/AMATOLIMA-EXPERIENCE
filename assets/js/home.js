@@ -9,6 +9,14 @@ const navigationItems = [
   { label: "Contato", href: "contato.html" },
 ];
 
+const flowingMenuItems = [
+  { label: "Sobre", href: "sobre.html", image: "assets/images/projeto-fachada.jpg" },
+  { label: "Ativos", href: "ativos.html", image: "assets/images/projeto-pedra.jpg" },
+  { label: "Reformas", href: "reformas.html", image: "assets/images/projeto-lavabo.jpg" },
+  { label: "Projetos", href: "projetos.html", image: "assets/images/projeto-piscina.jpg" },
+  { label: "Contato", href: "contato.html", image: "assets/images/hero-mask.png" },
+];
+
 const principles = [
   { number: "01", title: "Valor percebido", description: "Decisões arquitetônicas que qualificam o imóvel e ampliam sua permanência no mercado." },
   { number: "02", title: "Luxo silencioso", description: "Proporção, luz, funcionalidade e acabamento comunicam alto padrão sem ostentação." },
@@ -25,6 +33,41 @@ const selectedProjects = [
 function navigationTemplate() {
   return navigationItems.map(({ label, href, current }) => `
     <li><a href="${href}"${current ? ' aria-current="page"' : ""}>${label}</a></li>`).join("");
+}
+
+function flowingMenuTemplate() {
+  const items = flowingMenuItems.map(({ label, href, image }) => `
+    <div class="flowing-menu__item" data-flowing-menu-item data-speed="15">
+      <a class="flowing-menu__link" href="${href}">${label}</a>
+      <div class="flowing-menu__marquee" aria-hidden="true">
+        <div class="flowing-menu__marquee-wrap">
+          <div class="flowing-menu__marquee-inner" data-flowing-menu-inner>
+            <div class="flowing-menu__part" data-flowing-menu-part>
+              <span>${label}</span>
+              <span class="flowing-menu__img" style="background-image:url('${image}')"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`).join("");
+
+  return `
+    <button class="flowing-menu-toggle" type="button" data-flowing-menu-open aria-label="Abrir menu" aria-controls="flowing-menu-panel" aria-expanded="false">
+      <span class="flowing-menu-toggle__label">Menu</span>
+      <span class="flowing-menu-toggle__icon" aria-hidden="true"></span>
+    </button>
+    <aside class="flowing-menu-panel" id="flowing-menu-panel" data-flowing-menu-panel aria-hidden="true">
+      <div class="flowing-menu-panel__header">
+        <a class="flowing-menu-panel__brand" href="index.html" aria-label="Amato Lima — página inicial">
+          <span class="flowing-menu-panel__brand-name">Amato Lima</span>
+          <span class="flowing-menu-panel__brand-descriptor">Ativos Imobiliários</span>
+        </a>
+        <button class="flowing-menu-close" type="button" data-flowing-menu-close aria-label="Fechar menu"></button>
+      </div>
+      <div class="flowing-menu-wrap">
+        <nav class="flowing-menu" aria-label="Navegação principal">${items}</nav>
+      </div>
+    </aside>`;
 }
 
 function headerTemplate() {
@@ -108,7 +151,7 @@ function renderHome() {
   const app = document.querySelector("[data-app]");
   if (!app) throw new Error("O elemento principal da aplicação não foi encontrado.");
   document.body.classList.add("home-page");
-  app.innerHTML = `${mainTemplate()}${footerTemplate()}`;
+  app.innerHTML = `${flowingMenuTemplate()}${mainTemplate()}${footerTemplate()}`;
 }
 
 renderHome();
