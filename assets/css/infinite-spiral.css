@@ -80,20 +80,20 @@
   letter-spacing: -.045em;
   line-height: .88;
   white-space: nowrap;
-  opacity: 0;
-  transform: scaleX(.46);
+  opacity: .08;
+  transform: translateY(7px) scaleX(.72);
   transform-origin: center;
-  filter: blur(5px);
+  filter: blur(2.2px);
   transition:
-    transform 1400ms cubic-bezier(.16,.78,.2,1),
-    opacity 850ms ease,
-    filter 1100ms ease;
+    transform 1650ms cubic-bezier(.22,1,.36,1),
+    opacity 1100ms cubic-bezier(.22,1,.36,1),
+    filter 1350ms ease;
   will-change: transform, opacity, filter;
 }
 
 .material-spiral.is-in-view .material-spiral__title {
   opacity: 1;
-  transform: scaleX(1);
+  transform: translateY(0) scaleX(1);
   filter: blur(0);
 }
 
