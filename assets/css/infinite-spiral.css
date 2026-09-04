@@ -46,7 +46,7 @@
   display: block;
   overflow: hidden;
   margin: 0;
-  border: 1px solid rgba(255,253,249,.46);
+  border: 0;
   border-radius: 3px;
   background: rgba(255,253,249,.18);
   box-shadow: 0 18px 48px rgba(54,37,25,.16);
@@ -70,24 +70,13 @@
 
 .material-spiral__center {
   position: absolute;
-  z-index: 4;
+  z-index: 500;
   top: 50%;
   left: 50%;
   width: min(86vw, 640px);
   text-align: center;
   transform: translate(-50%,-50%);
   pointer-events: none;
-}
-
-.material-spiral__eyebrow {
-  display: block;
-  margin-bottom: 18px;
-  color: #9a7659;
-  font-family: var(--sans);
-  font-size: .66rem;
-  font-weight: 600;
-  letter-spacing: .28em;
-  text-transform: uppercase;
 }
 
 .material-spiral__title {
@@ -123,7 +112,6 @@
   .material-spiral__card { width: clamp(92px, 27vw, 124px); }
   .material-spiral__center { width: min(82vw, 390px); }
   .material-spiral__title { font-size: clamp(2.75rem, 13vw, 4.25rem); }
-  .material-spiral__eyebrow { margin-bottom: 12px; font-size: .54rem; }
   .material-spiral__hint { bottom: 20px; }
 }
 
