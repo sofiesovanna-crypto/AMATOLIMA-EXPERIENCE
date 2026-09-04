@@ -70,14 +70,15 @@
 
     const activate = event => {
       if (!root.classList.contains("is-open")) return;
-      startItemMarquee(item);
       if (!gsapApi || reducedMotion) {
+        startItemMarquee(item);
         marquee.style.transform = "translateY(0)";
         inner.style.transform = "translateY(0)";
         return;
       }
       const edge = closestEdge(event, item);
       gsapApi.killTweensOf([marquee, inner]);
+      startItemMarquee(item);
       gsapApi.timeline({ defaults: { duration: .62, ease: "expo.out" } })
         .set(marquee, { y: edge === "top" ? "-101%" : "101%" }, 0)
         .set(inner, { y: edge === "top" ? "101%" : "-101%" }, 0)
