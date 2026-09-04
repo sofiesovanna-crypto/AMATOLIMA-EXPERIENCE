@@ -77,24 +77,15 @@
   font-family: var(--serif);
   font-size: clamp(2.45rem,4.45vw,5.55rem);
   font-weight: 500;
-  letter-spacing: -.045em;
+  letter-spacing: -.085em;
   line-height: .88;
   white-space: nowrap;
-  opacity: .08;
-  transform: translateY(7px) scaleX(.72);
-  transform-origin: center;
-  filter: blur(2.2px);
-  transition:
-    transform 1650ms cubic-bezier(.22,1,.36,1),
-    opacity 1100ms cubic-bezier(.22,1,.36,1),
-    filter 1350ms ease;
-  will-change: transform, opacity, filter;
+  transition: letter-spacing 1450ms cubic-bezier(.22,1,.36,1);
+  will-change: letter-spacing;
 }
 
 .material-spiral.is-in-view .material-spiral__title {
-  opacity: 1;
-  transform: translateY(0) scaleX(1);
-  filter: blur(0);
+  letter-spacing: -.025em;
 }
 
 .material-spiral__title-side {
@@ -136,7 +127,10 @@
   .material-spiral__center { width: 96vw; }
   .material-spiral__title {
     font-size: clamp(.68rem,2.85vw,.92rem);
-    letter-spacing: -.025em;
+    letter-spacing: -.075em;
+  }
+  .material-spiral.is-in-view .material-spiral__title {
+    letter-spacing: -.015em;
   }
   .material-spiral__title-gap {
     width: clamp(220px,62vw,260px);
@@ -148,9 +142,7 @@
 @media (prefers-reduced-motion:reduce) {
   .material-spiral__gallery { cursor: default; }
   .material-spiral__title {
-    opacity: 1;
-    transform: none;
-    filter: none;
+    letter-spacing: -.025em;
     transition: none;
   }
 }
