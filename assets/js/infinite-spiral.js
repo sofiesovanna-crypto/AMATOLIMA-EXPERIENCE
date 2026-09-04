@@ -11,6 +11,54 @@
     const cards = Array.from(root.querySelectorAll("[data-spiral-card]"));
     if (!cards.length) return;
 
+    const section = root.closest(".material-spiral");
+    const textElement = section?.querySelector("[data-spiral-text]");
+    let activeTextIndex = -1;
+    let textChangeTimer = 0;
+
+    const renderText = (text) => {
+      if (!textElement) return;
+      const fragment = document.createDocumentFragment();
+
+      Array.from(text).forEach((character, index) => {
+        const span = document.createElement("span");
+        span.className = character === " " ? "material-spiral__space" : "material-spiral__character";
+        span.style.setProperty("--character-index", String(index));
+        span.textContent = character === " " ? "\u00a0" : character;
+        span.setAttribute("aria-hidden", "true");
+        fragment.appendChild(span);
+      });
+
+      textElement.replaceChildren(fragment);
+      textElement.setAttribute("aria-label", text);
+    };
+
+    const setActiveText = (index, immediate = false) => {
+      if (!textElement || index === activeTextIndex) return;
+      activeTextIndex = index;
+      const nextText = cards[index]?.dataset.spiralLabel || "";
+
+      window.clearTimeout(textChangeTimer);
+      if (immediate) {
+        renderText(nextText);
+        return;
+      }
+
+      textElement.classList.remove("is-entering");
+      textElement.classList.add("is-exiting");
+
+      textChangeTimer = window.setTimeout(() => {
+        renderText(nextText);
+        textElement.classList.remove("is-exiting");
+        textElement.classList.add("is-entering");
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          textElement.classList.remove("is-entering");
+        }));
+      }, 280);
+    };
+
+    setActiveText(0, true);
+
     let progress = 0;
     let targetProgress = 0;
     let autoVelocity = 0;
@@ -28,7 +76,6 @@
     });
     resizeObserver.observe(root);
 
-    const section = root.closest(".material-spiral");
     const intersectionObserver = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
       section?.classList.toggle("is-in-view", entry.isIntersecting);
@@ -87,6 +134,9 @@
       const spacing = mobile ? Math.min(92, height * .12) : Math.min(118, height * .13);
       const cardsPerTurn = mobile ? 6 : 7;
 
+      const nextActiveIndex = modulo(Math.round(progress), count);
+      setActiveText(nextActiveIndex);
+
       cards.forEach((card, index) => {
         let offset = index - progress;
         offset = modulo(offset + half, count) - half;
@@ -121,6 +171,7 @@
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
       window.removeEventListener("scroll", onScroll);
+      window.clearTimeout(textChangeTimer);
     }, { once: true });
   });
 })();
