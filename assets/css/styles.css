@@ -369,7 +369,7 @@ h3 { margin-bottom: 15px; font-size: clamp(1.7rem,3vw,2.65rem); letter-spacing: 
 @media (min-width:761px) {
   /* Altura total do hero no desktop. */
   .hero--art {
-    min-height: max(740px, 110svh);
+    min-height: max(820px, 122svh);
   }
 
   /* Palavra Arte reunida em um único elemento. */
@@ -408,7 +408,7 @@ h3 { margin-bottom: 15px; font-size: clamp(1.7rem,3vw,2.65rem); letter-spacing: 
     object-fit: contain;
     object-position: center bottom;
     filter: sepia(18%) saturate(112%) hue-rotate(3deg) brightness(99%) contrast(112%);
-    transform: translateY(25%);
+    transform: translateY(20%);
   }
 }
 
