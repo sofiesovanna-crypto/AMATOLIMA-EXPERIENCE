@@ -76,7 +76,7 @@
       const sectionTop = section.getBoundingClientRect().top + window.scrollY;
       const travel = Math.max(section.offsetHeight - window.innerHeight, 1);
       const localProgress = clamp((window.scrollY - sectionTop) / travel, 0, 1);
-      targetProgress = localProgress * (cards.length - 1);
+      targetProgress = clamp(localProgress * cards.length - .5, 0, cards.length - 1);
     };
 
     const resizeObserver = new ResizeObserver(() => {
