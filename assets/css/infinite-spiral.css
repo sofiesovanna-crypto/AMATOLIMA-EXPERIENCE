@@ -3,7 +3,7 @@
   position: relative;
   height: 600svh;
   min-height: 4320px;
-  background: radial-gradient(circle at 52% 25%,#fafafa 0,#f5f5f5 38%,#eeeeef 100%);
+  background: #f1f1f1;
 }
 
 .material-spiral__viewport {
