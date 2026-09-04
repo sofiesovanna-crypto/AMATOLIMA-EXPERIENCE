@@ -72,7 +72,12 @@
       context.fillStyle = "#000";
       const total = Math.max(lineHeight, lines.length * lineHeight);
       const firstY = canvas.height / 2 - total / 2 + lineHeight / 2;
-      lines.forEach((value, index) => context.fillText(value, canvas.width / 2, firstY + index * lineHeight));
+      const staggered = heading.dataset.maskLayout === "staggered";
+      const positions = [0.29, 0.52, 0.74];
+      lines.forEach((value, index) => {
+        const x = staggered ? canvas.width * (positions[index] || .5) : canvas.width / 2;
+        context.fillText(value, x, firstY + index * lineHeight);
+      });
     };
 
     const render = () => {
