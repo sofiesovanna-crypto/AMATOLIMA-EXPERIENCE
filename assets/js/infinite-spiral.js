@@ -101,7 +101,13 @@
         const depth = (z / Math.max(radius, 1) + 1) / 2;
         const depthScale = .72 + depth * .48;
         const focusScale = 1 + Math.max(0, 1 - Math.abs(offset) / 3.6) * .12;
-        const opacity = clamp(1 - Math.max(0, edge - .62) / .38, 0, 1);
+        const edgeOpacity = clamp(1 - Math.max(0, edge - .62) / .38, 0, 1);
+        const textBandHeight = mobile ? 72 : 108;
+        const verticalOverlap = 1 - clamp((Math.abs(y) - textBandHeight * .35) / textBandHeight, 0, 1);
+        const horizontalOverlap = 1 - clamp((Math.abs(x) - width * .28) / (width * .18), 0, 1);
+        const frontDepth = clamp((depth - .48) / .34, 0, 1);
+        const textOverlap = verticalOverlap * horizontalOverlap * frontDepth;
+        const opacity = edgeOpacity * (1 - textOverlap * .72);
         const blur = Math.max(0, edge - .56) * 10;
 
         card.style.transform = `translate(-50%,-50%) translate3d(${x}px,${y}px,${z}px) rotateZ(${Math.sin(radians) * 3}deg) scale(${depthScale * focusScale})`;
