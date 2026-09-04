@@ -30,8 +30,8 @@
   background-clip:text;
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  clip-path:inset(0 100% 0 0);
-  will-change:background-position,clip-path;
+  clip-path:none;
+  will-change:background-position,opacity;
 }
 
 .project-index__list-wrap{
@@ -123,8 +123,8 @@
   background-clip:text;
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  clip-path:inset(0 100% 0 0);
-  will-change:background-position,clip-path;
+  clip-path:none;
+  will-change:background-position,opacity;
 }
 
 @media(max-width:760px){
