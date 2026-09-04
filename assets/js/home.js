@@ -131,6 +131,7 @@ function heroTemplate() {
         <source media="(max-width: 760px)" srcset="assets/images/hero-mask-2.png" />
         <img class="hero-art__wood" src="assets/images/hero-mask.png" alt="" aria-hidden="true" />
       </picture>
+      <span class="hero-art__base-reflection" aria-hidden="true"></span>
     </section>`;
 }
 
@@ -161,7 +162,25 @@ function perspectiveTemplate() {
         <div class="material-spiral__gallery" data-material-spiral aria-label="Carrossel de materiais controlado pelo scroll">
           <div class="material-spiral__stage">${cards}</div>
         </div>
-
+        <div class="material-card-experience" data-material-card aria-label="Cartão Amato Lima com projetos selecionados">
+          <div class="material-card-experience__fluid" data-ferrofluid aria-hidden="true"></div>
+          <div class="material-card-experience__stage">
+            <div class="material-card-experience__card" data-project-card>
+              <div class="material-card-experience__face material-card-experience__face--project">
+                <div class="material-card-experience__projects">
+                  <img class="is-active" data-card-project src="assets/images/hero-mask-2.png" alt="Projeto Amato Lima — composição de madeira" />
+                  <img data-card-project src="assets/images/hero-mask-3.png" alt="Projeto Amato Lima — matéria natural" />
+                  <img data-card-project src="assets/images/hero-mask-mobile.png" alt="Projeto Amato Lima — detalhe arquitetônico" />
+                </div>
+                <span class="material-card-experience__reflection" data-card-reflection aria-hidden="true"></span>
+              </div>
+              <div class="material-card-experience__face material-card-experience__face--identity">
+                <img class="material-card-experience__mark" src="assets/images/monograma.png" alt="" />
+                <div class="material-card-experience__wordmark"><strong>Amato Lima</strong><span>Ativos Imobiliários</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>`;
 }
