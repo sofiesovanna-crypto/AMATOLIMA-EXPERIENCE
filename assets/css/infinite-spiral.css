@@ -4,7 +4,7 @@
   min-height: clamp(720px, 92svh, 980px);
   overflow: hidden;
   isolation: isolate;
-  background: #1c1717;
+  background: radial-gradient(circle at 52% 25%,#fafafa 0,#f5f5f5 38%,#eeeeef 100%);
 }
 
 .material-spiral__gallery {
