@@ -143,11 +143,12 @@ function perspectiveTemplate() {
   return `
     <section class="material-spiral" id="perspectiva" aria-labelledby="material-title">
       <div class="material-spiral__gallery" data-material-spiral aria-label="Galeria de matéria natural em movimento">
-        <div class="material-spiral__stage">${cards}</div>
-      </div>
-      <div class="material-spiral__center">
-        <span class="material-spiral__eyebrow">Nossa perspectiva</span>
-        <h2 class="material-spiral__title" id="material-title">A matéria<br />precede o ativo.</h2>
+        <div class="material-spiral__stage">
+          ${cards}
+          <div class="material-spiral__center">
+            <h2 class="material-spiral__title" id="material-title">A matéria<br />precede o ativo.</h2>
+          </div>
+        </div>
       </div>
       <span class="material-spiral__hint" aria-hidden="true">Role ou arraste para explorar</span>
     </section>`;
