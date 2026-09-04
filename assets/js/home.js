@@ -135,22 +135,39 @@ function heroTemplate() {
 }
 
 function perspectiveTemplate() {
-  const cards = materialSpiralImages.map(({ image, alt }) => `
-    <figure class="material-spiral__card" data-spiral-card data-spiral-label="${alt}">
-      <img src="${image}" alt="${alt}" loading="lazy" draggable="false" />
-    </figure>`).join("");
+  const scrollPhrases = [
+    "A MATÉRIA PRECEDE O ATIVO",
+    "MADEIRA CLARA",
+    "PISO TRAVERTINO",
+    "VIDROS REFLECTA BRONZE",
+    "PEDRAS EM QUARTZO BRANCO",
+  ];
+
+  const cards = scrollPhrases.map((phrase, index) => {
+    const item = materialSpiralImages[index % materialSpiralImages.length];
+    return `
+      <figure class="material-spiral__card" data-spiral-card data-spiral-label="${phrase}">
+        <img src="${item.image}" alt="${item.alt}" loading="lazy" draggable="false" />
+      </figure>`;
+  }).join("");
 
   return `
-    <section class="material-spiral" id="perspectiva" aria-labelledby="material-title">
-      <div class="material-spiral__copy">
-        <h2 class="material-spiral__title" id="material-title" data-spiral-text aria-live="polite"></h2>
-      </div>
+    <section class="material-spiral" id="perspectiva" aria-labelledby="material-title" data-material-scroll>
+      <div class="material-spiral__viewport">
+        <div class="material-spiral__copy">
+          <h2 class="material-spiral__title" id="material-title" data-spiral-text aria-live="polite"></h2>
+        </div>
 
-      <div class="material-spiral__gallery" data-material-spiral aria-label="Carrossel de matéria natural em movimento">
-        <div class="material-spiral__stage">${cards}</div>
-      </div>
+        <div class="material-spiral__gallery" data-material-spiral aria-label="Carrossel de materiais controlado pelo scroll">
+          <div class="material-spiral__stage">${cards}</div>
+        </div>
 
-      <span class="material-spiral__hint" aria-hidden="true">Role ou arraste para explorar</span>
+        <span class="material-spiral__progress" aria-hidden="true">
+          <span data-spiral-step>01</span>
+          <span class="material-spiral__progress-line"></span>
+          <span>05</span>
+        </span>
+      </div>
     </section>`;
 }
 
