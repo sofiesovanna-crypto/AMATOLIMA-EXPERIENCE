@@ -22,6 +22,8 @@
 
   if (!panel || !toggle || !backdrop) return;
 
+  const closedX = () => panel.getBoundingClientRect().width || window.innerWidth;
+
   const repeatMarqueeParts = item => {
     const inner = item.querySelector("[data-flowing-menu-inner]");
     const original = inner?.querySelector("[data-flowing-menu-part]");
@@ -109,9 +111,9 @@
     const tl = gsapApi.timeline({ onComplete: () => { busy = false; } });
     tl.to(backdrop, { opacity: 1, duration: .35, ease: "power2.out" }, 0);
     prelayers.forEach((layer, index) => {
-      tl.fromTo(layer, { xPercent: 100 }, { xPercent: 0, duration: .5, ease: "power4.out" }, index * .07);
+      tl.fromTo(layer, { x: closedX(), xPercent: 0 }, { x: 0, xPercent: 0, duration: .5, ease: "power4.out" }, index * .07);
     });
-    tl.fromTo(panel, { xPercent: 100 }, { xPercent: 0, duration: .65, ease: "power4.out" }, .15);
+    tl.fromTo(panel, { x: closedX(), xPercent: 0 }, { x: 0, xPercent: 0, duration: .65, ease: "power4.out" }, .15);
     tl.to(labels, { yPercent: 0, rotate: 0, duration: .9, ease: "power4.out", stagger: .08 }, .27);
     if (socialTitle) tl.to(socialTitle, { opacity: 1, duration: .45 }, .48);
     tl.to(socialLinks, { y: 0, opacity: 1, duration: .5, stagger: .07, ease: "power3.out" }, .5);
@@ -134,7 +136,7 @@
 
     gsapApi.killTweensOf([panel, backdrop, icon, textInner, ...prelayers]);
     gsapApi.timeline({ onComplete: () => { busy = false; } })
-      .to([panel, ...prelayers], { xPercent: 100, duration: .34, ease: "power3.in" }, 0)
+      .to([panel, ...prelayers], { x: closedX(), xPercent: 0, duration: .34, ease: "power3.in" }, 0)
       .to(backdrop, { opacity: 0, duration: .28, ease: "power2.in" }, 0)
       .to(icon, { rotate: 0, duration: .35, ease: "power3.inOut" }, 0)
       .to(textInner, { yPercent: 0, duration: .35, ease: "power3.inOut" }, 0);
@@ -154,7 +156,7 @@
   }, { passive: true });
 
   if (gsapApi) {
-    gsapApi.set([panel, ...prelayers], { xPercent: 100 });
+    gsapApi.set([panel, ...prelayers], { x: closedX(), xPercent: 0 });
     gsapApi.set(backdrop, { opacity: 0 });
   }
 })();
