@@ -46,7 +46,7 @@ function flowingMenuTemplate() {
           <div class="flowing-menu__marquee-inner" data-flowing-menu-inner>
             <div class="flowing-menu__part" data-flowing-menu-part>
               <span>${label}</span>
-              <span class="flowing-menu__img" style="background-image:url('${image}')"></span>
+              <img class="flowing-menu__img" src="${image}" alt="" />
             </div>
           </div>
         </div>
