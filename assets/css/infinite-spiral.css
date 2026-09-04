@@ -1,13 +1,24 @@
-/* Seção editorial inspirada no layout TextRotate, com o carrossel Amato Lima. */
+/* Seção editorial pinada: cinco passos de scroll, carrossel à esquerda e texto à direita. */
 .material-spiral {
   position: relative;
-  min-height: max(720px,100svh);
-  overflow: hidden;
-  isolation: isolate;
+  height: 500svh;
+  min-height: 3600px;
   background: radial-gradient(circle at 52% 25%,#fafafa 0,#f5f5f5 38%,#eeeeef 100%);
 }
 
-/* Texto fixo nos dois terços direitos, como no componente de referência. */
+.material-spiral__viewport {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  width: 100%;
+  height: 100svh;
+  min-height: 680px;
+  overflow: hidden;
+  isolation: isolate;
+  background: inherit;
+}
+
+/* Texto pequeno e estável nos dois terços direitos, conforme a referência. */
 .material-spiral__copy {
   position: absolute;
   z-index: 3;
@@ -18,26 +29,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(32px,5vw,84px);
+  padding: clamp(40px,6vw,96px);
   pointer-events: none;
 }
 
 .material-spiral__title {
   width: 100%;
-  max-width: 900px;
-  min-height: 2.05em;
+  min-height: 2.2em;
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
   margin: 0;
+  overflow: hidden;
   color: #261c12;
-  font-family: "Safira March",var(--serif);
-  font-size: clamp(2.7rem,5.25vw,6.2rem);
+  font-family: "Alta","Cormorant Garamond",Georgia,serif;
+  font-size: clamp(.82rem,1.35vw,1.3rem);
   font-weight: 400;
-  letter-spacing: .01em;
-  line-height: .96;
+  letter-spacing: .18em;
+  line-height: 1.1;
   text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .material-spiral__character {
@@ -45,28 +57,28 @@
   opacity: 1;
   transform: translateY(0);
   transition:
-    opacity 420ms cubic-bezier(.22,1,.36,1),
-    transform 600ms cubic-bezier(.22,1,.36,1);
+    opacity 390ms cubic-bezier(.22,1,.36,1),
+    transform 570ms cubic-bezier(.22,1,.36,1);
   transition-delay: calc(var(--character-index) * 4ms);
   will-change: opacity,transform;
 }
 
 .material-spiral__title.is-exiting .material-spiral__character {
   opacity: 0;
-  transform: translateY(-50px);
+  transform: translateY(-48px);
 }
 
 .material-spiral__title.is-entering .material-spiral__character {
   opacity: 0;
-  transform: translateY(50px);
+  transform: translateY(48px);
 }
 
 .material-spiral__space {
-  width: .28em;
-  flex: 0 0 .28em;
+  width: .48em;
+  flex: 0 0 .48em;
 }
 
-/* O carrossel substitui a coluna de imagens e ocupa a metade esquerda. */
+/* O carrossel ocupa a mesma metade esquerda reservada às imagens no código-base. */
 .material-spiral__gallery {
   position: absolute;
   z-index: 2;
@@ -93,18 +105,19 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: clamp(112px,11vw,178px);
-  aspect-ratio: 1.28/1;
+  width: clamp(104px,10vw,160px);
+  aspect-ratio: 1/1;
   display: block;
   overflow: hidden;
   margin: 0;
   border: 0;
-  border-radius: 3px;
-  background: rgba(255,253,249,.12);
-  box-shadow: 0 16px 42px rgba(54,37,25,.13);
+  border-radius: 0;
+  background: rgba(255,253,249,.1);
+  box-shadow: 0 14px 36px rgba(38,28,18,.12);
   transform-style: preserve-3d;
   backface-visibility: hidden;
   will-change: transform,opacity,filter;
+  transition: box-shadow 500ms ease;
 }
 
 .material-spiral__card img {
@@ -115,52 +128,65 @@
   max-width: none;
   object-fit: cover;
   object-position: center;
-  filter: saturate(.82) sepia(.10) contrast(1.02);
+  filter: saturate(.78) sepia(.12) contrast(1.01);
+  transition: filter 500ms ease;
   user-select: none;
   pointer-events: none;
 }
 
-.material-spiral__hint {
+.material-spiral__card.is-active {
+  box-shadow: 0 22px 52px rgba(38,28,18,.2);
+}
+
+.material-spiral__card.is-active img {
+  filter: saturate(.92) sepia(.08) contrast(1.04);
+}
+
+.material-spiral__progress {
   position: absolute;
   z-index: 4;
-  bottom: 28px;
-  left: 0;
-  width: 50%;
-  color: rgba(38,28,18,.52);
+  right: clamp(24px,3vw,48px);
+  bottom: clamp(24px,3vw,44px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(38,28,18,.48);
   font-family: var(--sans);
-  font-size: .56rem;
+  font-size: .52rem;
   font-weight: 500;
-  letter-spacing: .22em;
-  text-align: center;
-  text-transform: uppercase;
-  pointer-events: none;
+  letter-spacing: .18em;
+}
+
+.material-spiral__progress-line {
+  width: 46px;
+  height: 1px;
+  background: currentColor;
+  transform-origin: left;
 }
 
 @media (max-width:760px) {
   .material-spiral {
-    min-height: max(720px,100svh);
+    height: 500svh;
+    min-height: 3200px;
+  }
+
+  .material-spiral__viewport {
+    min-height: 620px;
   }
 
   .material-spiral__gallery {
-    top: 0;
-    right: 0;
-    bottom: auto;
-    width: 100%;
-    height: 56%;
+    width: 45%;
   }
 
   .material-spiral__copy {
-    top: auto;
-    bottom: 0;
-    width: 100%;
-    height: 44%;
-    padding: 26px 22px 54px;
+    width: 65%;
+    padding: 28px 18px;
   }
 
   .material-spiral__title {
-    max-width: 540px;
-    font-size: clamp(2rem,9.8vw,3.35rem);
-    line-height: .94;
+    justify-content: center;
+    font-size: clamp(.55rem,2.25vw,.72rem);
+    letter-spacing: .12em;
   }
 
   .material-spiral__character {
@@ -168,21 +194,25 @@
   }
 
   .material-spiral__title.is-exiting .material-spiral__character {
-    transform: translateY(-36px);
+    transform: translateY(-34px);
   }
 
   .material-spiral__title.is-entering .material-spiral__character {
-    transform: translateY(36px);
+    transform: translateY(34px);
   }
 
   .material-spiral__card {
-    width: clamp(82px,24vw,108px);
+    width: clamp(66px,20vw,86px);
   }
 
-  .material-spiral__hint {
-    bottom: auto;
-    top: calc(56% - 30px);
-    width: 100%;
+  .material-spiral__progress {
+    right: 16px;
+    bottom: 18px;
+    gap: 8px;
+  }
+
+  .material-spiral__progress-line {
+    width: 28px;
   }
 }
 
