@@ -28,12 +28,11 @@
     });
     resizeObserver.observe(root);
 
+    const section = root.closest(".material-spiral");
     const intersectionObserver = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
-      if (entry.isIntersecting) {
-        root.closest(".material-spiral")?.classList.add("is-in-view");
-      }
-    }, { threshold: .04 });
+      section?.classList.toggle("is-in-view", entry.isIntersecting);
+    }, { threshold: .08 });
     intersectionObserver.observe(root);
 
     const onScroll = () => {
