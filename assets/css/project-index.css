@@ -1,0 +1,104 @@
+.project-index{
+  position:relative;
+  padding:clamp(120px,15vw,230px) clamp(18px,3vw,48px) clamp(110px,14vw,210px);
+  overflow:hidden;
+  background:#f1f1f1;
+}
+
+.project-index__heading-wrap{
+  width:min(1180px,92vw);
+  margin:0 auto clamp(120px,15vw,220px);
+  overflow:hidden;
+}
+
+.project-index__heading{
+  --mask-x:50%;
+  --mask-y:50%;
+  margin:0;
+  color:transparent;
+  font-family:var(--serif);
+  font-size:clamp(3.35rem,8.4vw,9.2rem);
+  font-weight:400;
+  letter-spacing:-.045em;
+  line-height:.95;
+  text-align:center;
+  text-wrap:balance;
+  background-image:var(--masked-image);
+  background-position:var(--mask-x) var(--mask-y);
+  background-size:132% auto;
+  background-repeat:no-repeat;
+  background-clip:text;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  clip-path:inset(0 100% 0 0);
+  will-change:background-position,clip-path;
+}
+
+.project-index__list-wrap{
+  width:min(1180px,94vw);
+  margin:0 auto;
+}
+
+.project-index__list{
+  display:grid;
+  gap:8px;
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+
+.project-index__item{
+  min-height:clamp(150px,15vw,210px);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:clamp(24px,3vw,42px);
+  color:#261c12;
+  background:#e9e7e3;
+}
+
+.project-index__name,
+.project-index__location{
+  display:block;
+  font-family:var(--sans);
+  font-size:clamp(.67rem,.78vw,.82rem);
+  font-weight:500;
+  letter-spacing:.1em;
+  line-height:1.5;
+  text-transform:uppercase;
+}
+
+.project-index__location{
+  color:rgba(38,28,18,.55);
+  font-weight:400;
+}
+
+@media(max-width:760px){
+  .project-index{
+    padding:96px 16px 110px;
+  }
+
+  .project-index__heading-wrap{
+    margin-bottom:90px;
+  }
+
+  .project-index__heading{
+    font-size:clamp(3rem,15vw,5.3rem);
+    background-size:auto 150%;
+  }
+
+  .project-index__list-wrap{
+    width:100%;
+  }
+
+  .project-index__item{
+    min-height:164px;
+    padding:25px 21px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .project-index__heading{
+    clip-path:none;
+  }
+}
