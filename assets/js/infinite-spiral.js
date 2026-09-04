@@ -84,7 +84,7 @@
       const width = Math.max(bounds.width, 1);
       const height = Math.max(bounds.height, 1);
       const mobile = width <= 760;
-      const radius = Math.min(mobile ? width * .38 : width * .32, mobile ? 142 : 390);
+      const radius = 125;
       const spacing = mobile ? Math.min(92, height * .12) : Math.min(118, height * .13);
       const cardsPerTurn = mobile ? 6 : 7;
 
@@ -92,7 +92,7 @@
         let offset = index - progress;
         offset = modulo(offset + half, count) - half;
 
-        const angle = offset * (360 / cardsPerTurn) - 18;
+        const angle = offset * (360 / cardsPerTurn) - 24;
         const radians = angle * Math.PI / 180;
         const x = Math.sin(radians) * radius;
         const z = Math.cos(radians) * radius;
@@ -101,17 +101,9 @@
         const depth = (z / Math.max(radius, 1) + 1) / 2;
         const depthScale = .72 + depth * .48;
         const focusScale = 1 + Math.max(0, 1 - Math.abs(offset) / 3.6) * .12;
-        const edgeOpacity = clamp(1 - Math.max(0, edge - .62) / .38, 0, 1);
-        const textBandHeight = mobile ? 72 : 108;
-        const verticalOverlap = 1 - clamp((Math.abs(y) - textBandHeight * .35) / textBandHeight, 0, 1);
-        const horizontalOverlap = 1 - clamp((Math.abs(x) - width * .28) / (width * .18), 0, 1);
-        const frontDepth = clamp((depth - .48) / .34, 0, 1);
-        const textOverlap = verticalOverlap * horizontalOverlap * frontDepth;
-        const opacity = edgeOpacity * (1 - textOverlap * .42);
+        const opacity = clamp(1 - Math.max(0, edge - .62) / .38, 0, 1);
         const blur = Math.max(0, edge - .56) * 10;
-        const layer = depth > .5
-          ? 600 + Math.round(depth * 300)
-          : Math.round(depth * 450);
+        const layer = Math.round(depth * 1000);
 
         card.style.transform = `translate(-50%,-50%) translate3d(${x}px,${y}px,${z}px) rotateZ(${Math.sin(radians) * 3}deg) scale(${depthScale * focusScale})`;
         card.style.opacity = opacity.toFixed(3);
