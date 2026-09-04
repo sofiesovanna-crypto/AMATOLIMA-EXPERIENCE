@@ -1,8 +1,8 @@
 /* Seção editorial pinada: cinco passos de scroll, carrossel à esquerda e texto à direita. */
 .material-spiral {
   position: relative;
-  height: 500svh;
-  min-height: 3600px;
+  height: 600svh;
+  min-height: 4320px;
   background: radial-gradient(circle at 52% 25%,#fafafa 0,#f5f5f5 38%,#eeeeef 100%);
 }
 
@@ -43,7 +43,7 @@
   overflow: hidden;
   color: #261c12;
   font-family: "Alta","Cormorant Garamond",Georgia,serif;
-  font-size: clamp(.82rem,1.35vw,1.3rem);
+  font-size: clamp(.86rem,1.42vw,1.365rem);
   font-weight: 400;
   letter-spacing: .18em;
   line-height: 1.1;
@@ -166,8 +166,8 @@
 
 @media (max-width:760px) {
   .material-spiral {
-    height: 500svh;
-    min-height: 3200px;
+    height: 600svh;
+    min-height: 3840px;
   }
 
   .material-spiral__viewport {
@@ -185,7 +185,7 @@
 
   .material-spiral__title {
     justify-content: center;
-    font-size: clamp(.55rem,2.25vw,.72rem);
+    font-size: clamp(.58rem,2.36vw,.76rem);
     letter-spacing: .12em;
   }
 
