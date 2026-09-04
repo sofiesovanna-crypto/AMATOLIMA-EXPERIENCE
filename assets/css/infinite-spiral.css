@@ -80,6 +80,21 @@
   letter-spacing: -.045em;
   line-height: .88;
   white-space: nowrap;
+  opacity: 0;
+  transform: scaleX(.46);
+  transform-origin: center;
+  filter: blur(5px);
+  transition:
+    transform 1400ms cubic-bezier(.16,.78,.2,1),
+    opacity 850ms ease,
+    filter 1100ms ease;
+  will-change: transform, opacity, filter;
+}
+
+.material-spiral.is-in-view .material-spiral__title {
+  opacity: 1;
+  transform: scaleX(1);
+  filter: blur(0);
 }
 
 .material-spiral__title-side {
@@ -132,4 +147,10 @@
 
 @media (prefers-reduced-motion:reduce) {
   .material-spiral__gallery { cursor: default; }
+  .material-spiral__title {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
 }
