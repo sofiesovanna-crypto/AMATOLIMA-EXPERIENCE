@@ -107,13 +107,16 @@
         const horizontalOverlap = 1 - clamp((Math.abs(x) - width * .28) / (width * .18), 0, 1);
         const frontDepth = clamp((depth - .48) / .34, 0, 1);
         const textOverlap = verticalOverlap * horizontalOverlap * frontDepth;
-        const opacity = edgeOpacity * (1 - textOverlap * .72);
+        const opacity = edgeOpacity * (1 - textOverlap * .42);
         const blur = Math.max(0, edge - .56) * 10;
+        const layer = depth > .5
+          ? 600 + Math.round(depth * 300)
+          : Math.round(depth * 450);
 
         card.style.transform = `translate(-50%,-50%) translate3d(${x}px,${y}px,${z}px) rotateZ(${Math.sin(radians) * 3}deg) scale(${depthScale * focusScale})`;
         card.style.opacity = opacity.toFixed(3);
         card.style.filter = blur > .05 ? `blur(${blur.toFixed(2)}px)` : "none";
-        card.style.zIndex = String(Math.round(depth * 1000));
+        card.style.zIndex = String(layer);
         card.style.pointerEvents = opacity > .3 ? "auto" : "none";
       });
 
