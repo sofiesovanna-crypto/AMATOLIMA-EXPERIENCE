@@ -234,7 +234,7 @@ function projectsTemplate() {
           class="project-index__heading"
           id="project-index-title"
           data-masked-heading
-          style="--masked-image:url('assets/images/hero-mask-3.png')"
+          data-masked-video="https://videos.pexels.com/video-files/32537473/13876139_3840_2160_24fps.mp4"
         >
           Arquitetura antes da decoração.
         </h2>
@@ -244,7 +244,7 @@ function projectsTemplate() {
         <p
           class="project-index__statement"
           data-masked-heading
-          style="--masked-image:url('assets/images/hero-mask-2.png')"
+          data-masked-video="https://videos.pexels.com/video-files/32537473/13876139_3840_2160_24fps.mp4"
         >
           Cada projeto começa pela matéria.
         </p>
