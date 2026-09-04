@@ -337,7 +337,7 @@ h3 { margin-bottom: 15px; font-size: clamp(1.7rem,3vw,2.65rem); letter-spacing: 
     padding-right: 0.5em;
     font-size: clamp(15.34rem, 25.11vw, 25.11rem);
     letter-spacing: 0;
-    transform: translate(0%, -8%) scaleY(1.15);
+    transform: translate(0%, -3%) scaleY(1.15);
     transform-origin: center bottom;
   }
 
