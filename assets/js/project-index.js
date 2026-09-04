@@ -20,7 +20,6 @@
 
     const context = canvas.getContext("2d");
     const video = document.createElement("video");
-    video.src = source;
     video.crossOrigin = "anonymous";
     video.muted = true;
     video.loop = true;
@@ -107,6 +106,14 @@
       video.play().catch(() => {});
     }, { once:true });
 
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting || video.src) return;
+      video.src = source;
+      video.load();
+      observer.disconnect();
+    }, { rootMargin: "-8% 0px -8% 0px", threshold: .08 });
+    observer.observe(heading);
+
     video.addEventListener("error", () => {
       ready = false;
       heading.classList.remove("has-video-mask");
@@ -117,6 +124,7 @@
     frame = requestAnimationFrame(render);
     addEventListener("pagehide", () => {
       cancelAnimationFrame(frame);
+      observer.disconnect();
       video.pause();
       video.removeAttribute("src");
     }, { once:true });
