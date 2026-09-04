@@ -25,6 +25,7 @@
 .material-spiral__title {
   width: 100%;
   max-width: 900px;
+  min-height: 2.05em;
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
@@ -41,18 +42,23 @@
 
 .material-spiral__character {
   display: inline-block;
-  opacity: 0;
-  transform: translateY(22px);
+  opacity: 1;
+  transform: translateY(0);
   transition:
-    opacity 620ms cubic-bezier(.22,1,.36,1),
-    transform 760ms cubic-bezier(.22,1,.36,1);
-  transition-delay: calc(var(--character-index) * 18ms);
+    opacity 420ms cubic-bezier(.22,1,.36,1),
+    transform 600ms cubic-bezier(.22,1,.36,1);
+  transition-delay: calc(var(--character-index) * 4ms);
   will-change: opacity,transform;
 }
 
-.material-spiral.is-in-view .material-spiral__character {
-  opacity: 1;
-  transform: translateY(0);
+.material-spiral__title.is-exiting .material-spiral__character {
+  opacity: 0;
+  transform: translateY(-50px);
+}
+
+.material-spiral__title.is-entering .material-spiral__character {
+  opacity: 0;
+  transform: translateY(50px);
 }
 
 .material-spiral__space {
@@ -158,8 +164,15 @@
   }
 
   .material-spiral__character {
-    transform: translateY(16px);
-    transition-delay: calc(var(--character-index) * 12ms);
+    transition-delay: calc(var(--character-index) * 3ms);
+  }
+
+  .material-spiral__title.is-exiting .material-spiral__character {
+    transform: translateY(-36px);
+  }
+
+  .material-spiral__title.is-entering .material-spiral__character {
+    transform: translateY(36px);
   }
 
   .material-spiral__card {
