@@ -158,10 +158,10 @@ h3 { margin-bottom: 15px; font-size: clamp(1.7rem,3vw,2.65rem); letter-spacing: 
 .hero-art__arte,.hero-art__de,.hero-art__habitar { position: absolute; display: block; }
 
 /* Palavra ARTE: posição geral, fonte cursiva, tamanho, gradiente e entrada. */
-.hero-art__arte { z-index: 1; top: clamp(140px,15.6vh,213px); left: 4.4vw; width: max-content; padding: .22em .32em .28em; margin: -.22em -.32em -.28em; font-family: "Anastasia Script","Pinyon Script",cursive; font-size: clamp(16.38rem,26.91vw,26.91rem); font-weight: 400; letter-spacing: -.055em; line-height: 1.2; text-transform: none; white-space: nowrap; background-image: linear-gradient(135deg,#b77a36,#f5d69d,#d09a50,#7a421f,#512919,#a9612b,#efc47f,#b77a36,#f5d69d,#d09a50,#7a421f,#512919,#a9612b,#efc47f); background-size: 700% 100%; background-position: 0% 50%; background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent; filter: drop-shadow(0 1px 0 rgba(83,42,18,.10)); opacity: 0; translate: 0 24px; animation: art-script-arrival 1100ms 180ms cubic-bezier(.22,.7,.2,1) forwards,hero-text-gradient 16s 1300ms ease-in-out infinite; }
+.hero-art__arte { z-index: 1; top: clamp(140px,15.6vh,213px); left: 4.4vw; width: max-content; padding: .22em .32em .28em; margin: -.22em -.32em -.28em; font-family: "Anastasia Script","Pinyon Script",cursive; font-size: clamp(16.38rem,26.91vw,26.91rem); font-weight: 400; letter-spacing: -.055em; line-height: 1.2; text-transform: none; white-space: nowrap; background-image: linear-gradient(135deg,#b77a36,#f5d69d,#d09a50,#7a421f,#512919,#a9612b,#efc47f,#b77a36,#f5d69d,#d09a50,#7a421f,#512919,#a9612b,#efc47f); background-size: 700% 100%; background-position: 0% 50%; background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent; filter: drop-shadow(0 1px 0 rgba(83,42,18,.10)); opacity: 0; translate: 0 24px; animation: art-script-arrival 1100ms 180ms cubic-bezier(.22,.7,.2,1) forwards,hero-text-gradient 10s 1300ms ease-in-out infinite; }
 
 /* Estilo compartilhado de DE e HABITAR: fonte, gradiente e animação. */
-.hero-art__de,.hero-art__habitar { z-index: 3; font-family: var(--wordmark); line-height: .86; background-image: linear-gradient(135deg,#d0a263,#fff3d9,#f3d5a3,#fff8e7,#c58e49,#fff0cf,#f6ddb2,#fff8e7); background-size: 400% 100%; background-position: 0% 50%; background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent; filter: drop-shadow(0 1px 1px rgba(82,43,20,.12)); opacity: 0; animation: art-serif-arrival 900ms 700ms ease forwards,hero-text-gradient 18s 1600ms ease-in-out infinite; }
+.hero-art__de,.hero-art__habitar { z-index: 3; font-family: var(--wordmark); line-height: .86; background-image: linear-gradient(135deg,#d0a263,#fff3d9,#f3d5a3,#fff8e7,#c58e49,#fff0cf,#f6ddb2,#fff8e7); background-size: 400% 100%; background-position: 0% 50%; background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent; filter: drop-shadow(0 1px 1px rgba(82,43,20,.12)); opacity: 0; animation: art-serif-arrival 900ms 700ms ease forwards,hero-text-gradient 12s 1600ms ease-in-out infinite; }
 
 /* Palavra DE: posição, tamanho, peso e espaçamento entre letras. */
 .hero-art__de { top: 55.5%; left: 46.2%; font-size: clamp(5.6rem,8.3vw,8.2rem); font-weight: 400; letter-spacing: .04em; }
@@ -179,7 +179,7 @@ h3 { margin-bottom: 15px; font-size: clamp(1.7rem,3vw,2.65rem); letter-spacing: 
 @keyframes art-script-arrival { to { opacity: 1; translate: 0 0; } }
 @keyframes art-serif-arrival { from { opacity: 0; translate: 0 14px; } to { opacity: 1; translate: 0 0; } }
 @keyframes art-wood-arrival { to { opacity: 1; translate: 0 0; } }
-@keyframes hero-text-gradient { 0% { background-position: 12% 50%; } 50% { background-position: 88% 50%; } 100% { background-position: 12% 50%; } }
+@keyframes hero-text-gradient { 0% { background-position: 8% 50%; } 50% { background-position: 92% 50%; } 100% { background-position: 8% 50%; } }
 
 /* ========================================================================== */
 /* 12. GRIDS DE CONTEÚDO                                                      */
