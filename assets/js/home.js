@@ -10,10 +10,10 @@ const navigationItems = [
 ];
 
 const flowingMenuItems = [
-  { label: "Sobre", href: "sobre.html", image: "assets/images/projeto-fachada.jpg" },
-  { label: "Ativos", href: "ativos.html", image: "assets/images/projeto-pedra.jpg" },
-  { label: "Reformas", href: "reformas.html", image: "assets/images/projeto-lavabo.jpg" },
-  { label: "Projetos", href: "projetos.html", image: "assets/images/projeto-piscina.jpg" },
+  { label: "Sobre", href: "sobre.html", image: "assets/images/hero-mask-3.png" },
+  { label: "Ativos", href: "ativos.html", image: "assets/images/hero-mask-2.png" },
+  { label: "Reformas", href: "reformas.html", image: "assets/images/hero-mask-mobile.png" },
+  { label: "Projetos", href: "projetos.html", image: "assets/images/hero-mask.png" },
   { label: "Contato", href: "contato.html", image: "assets/images/hero-mask.png" },
 ];
 
@@ -24,10 +24,10 @@ const principles = [
 ];
 
 const selectedProjects = [
-  { title: "Residência Horizonte", category: "Fachada e interiores", image: "assets/images/projeto-fachada.jpg", alt: "Fachada contemporânea com pedra e madeira" },
-  { title: "Casa Matéria", category: "Organic luxury", image: "assets/images/projeto-pedra.jpg", alt: "Banheira em pedra integrada ao jardim" },
-  { title: "Apartamento Luz", category: "Reforma integral", image: "assets/images/projeto-lavabo.jpg", alt: "Lavabo com pedra, madeira e luz incorporada" },
-  { title: "Casa Jardim", category: "Paisagismo e convivência", image: "assets/images/projeto-piscina.jpg", alt: "Piscina com paisagismo integrado" },
+  { title: "Residência Horizonte", category: "Fachada e interiores", image: "assets/images/hero-mask-3.png", alt: "Fachada contemporânea com pedra e madeira" },
+  { title: "Casa Matéria", category: "Organic luxury", image: "assets/images/hero-mask-2.png", alt: "Banheira em pedra integrada ao jardim" },
+  { title: "Apartamento Luz", category: "Reforma integral", image: "assets/images/hero-mask-mobile.png", alt: "Lavabo com pedra, madeira e luz incorporada" },
+  { title: "Casa Jardim", category: "Paisagismo e convivência", image: "assets/images/hero-mask.png", alt: "Piscina com paisagismo integrado" },
 ];
 
 function navigationTemplate() {
