@@ -3,7 +3,7 @@
   position: relative;
   min-height: 132svh;
   overflow: hidden;
-  background: radial-gradient(circle at 52% 25%,#fafafa 0,#f5f5f5 38%,#eeeeef 100%);
+  background: #f1f1f1;
 }
 
 .editorial-foundations__layout {
@@ -47,7 +47,7 @@
   margin: 0;
   color: #4c4037;
   font-family: var(--sans);
-  font-size: clamp(.76rem,.92vw,.94rem);
+  font-size: clamp(.91rem,1.1vw,1.13rem);
   font-weight: 400;
   letter-spacing: .045em;
   line-height: 1.72;
@@ -99,7 +99,7 @@
 
   .editorial-foundations__text {
     max-width: 580px;
-    font-size: clamp(.72rem,2.7vw,.9rem);
+    font-size: clamp(.86rem,3.24vw,1.08rem);
   }
 }
 
