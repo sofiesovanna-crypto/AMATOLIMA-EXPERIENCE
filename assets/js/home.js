@@ -172,9 +172,31 @@ function perspectiveTemplate() {
 }
 
 function principlesTemplate() {
-  const cards = principles.map(({ number, title, description }) => `
-    <article class="principle"><span class="principle__number">${number}</span><h3>${title}</h3><p>${description}</p></article>`).join("");
-  return `<section class="section section--linen"><div class="container"><p class="eyebrow">Três fundamentos</p><div class="principles reveal">${cards}</div></div></section>`;
+  const text = "A matéria orienta cada decisão. Luz, textura e proporção trabalham juntas para criar espaços precisos, acolhedores e construídos para permanecer.";
+  let characterIndex = 0;
+
+  const words = text.split(" ").map((word) => {
+    const characters = Array.from(word).map((character) => {
+      const index = characterIndex++;
+      return `<span class="editorial-foundations__character" style="--shine-index:${index}">${character}</span>`;
+    }).join("");
+
+    characterIndex++;
+    return `<span class="editorial-foundations__word">${characters}</span>`;
+  }).join(" ");
+
+  return `
+    <section class="editorial-foundations" id="fundamentos">
+      <div class="editorial-foundations__layout">
+        <figure class="editorial-foundations__image-wrap">
+          <img src="assets/images/hero-mask-mobile.png" alt="Detalhe de matéria natural em composição vertical" loading="lazy" />
+        </figure>
+
+        <div class="editorial-foundations__copy">
+          <p class="editorial-foundations__text" data-editorial-scroll-reveal>${words}</p>
+        </div>
+      </div>
+    </section>`;
 }
 
 function projectsTemplate() {
