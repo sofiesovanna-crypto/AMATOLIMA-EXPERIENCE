@@ -1,0 +1,4 @@
+html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}.lenis.lenis-stopped{overflow:hidden}
+.hero--art{isolation:isolate}.hero-art__base-reflection{position:absolute;z-index:4;right:0;bottom:-1px;left:0;height:clamp(44px,7vw,96px);pointer-events:none;opacity:0;background:linear-gradient(180deg,transparent 0%,rgba(244,244,244,.16) 42%,rgba(244,244,244,.74) 100%);mix-blend-mode:screen;transform:translateY(38%)}
+.material-spiral__viewport{transform-origin:center top;will-change:transform}
+@media(max-width:760px){.hero-art__base-reflection{height:54px}}@media(prefers-reduced-motion:reduce){.hero-art__base-reflection{opacity:.42;transform:none}}
