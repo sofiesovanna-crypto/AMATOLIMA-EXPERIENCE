@@ -46,6 +46,11 @@ function headerTemplate() {
 function heroTemplate() {
   return `
     <section class="hero hero--art" aria-labelledby="home-title">
+      <div class="hero-art__brand" aria-label="Amato Lima — Ativos Imobiliários">
+        <span class="hero-art__brand-name">Amato Lima</span>
+        <span class="hero-art__brand-descriptor">Ativos Imobiliários</span>
+      </div>
+
       <h1 id="home-title" class="hero-art__headline">
         <span class="hero-art__arte">Arte</span>
         <span class="hero-art__de">de</span>
