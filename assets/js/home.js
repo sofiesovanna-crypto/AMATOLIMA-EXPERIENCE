@@ -162,11 +162,6 @@ function perspectiveTemplate() {
           <div class="material-spiral__stage">${cards}</div>
         </div>
 
-        <span class="material-spiral__progress" aria-hidden="true">
-          <span data-spiral-step>01</span>
-          <span class="material-spiral__progress-line"></span>
-          <span>05</span>
-        </span>
       </div>
     </section>`;
 }
