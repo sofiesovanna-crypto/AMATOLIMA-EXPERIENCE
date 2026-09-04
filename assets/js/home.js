@@ -231,7 +231,14 @@ function projectsTemplate() {
   return `
     <section class="project-index" id="projetos-selecionados" aria-labelledby="project-index-title">
       <div class="project-index__heading-wrap">
-        <h2 class="project-index__heading" id="project-index-title">
+        <h2
+          class="project-index__heading"
+          id="project-index-title"
+          data-masked-heading
+          data-mask-lines="Arquitetura|antes da|decoração."
+          data-mask-layout="staggered"
+          data-masked-video="https://videos.pexels.com/video-files/32537473/13876139_3840_2160_24fps.mp4"
+        >
           <span class="project-index__line project-index__line--one">Arquitetura</span>
           <span class="project-index__line project-index__line--two">antes da</span>
           <span class="project-index__line project-index__line--three">decoração.</span>
