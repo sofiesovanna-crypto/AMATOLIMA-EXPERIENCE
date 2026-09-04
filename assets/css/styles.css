@@ -363,7 +363,7 @@ h3 { margin-bottom: 15px; font-size: clamp(1.7rem,3vw,2.65rem); letter-spacing: 
     max-width: 100%;
     object-fit: contain;
     object-position: center bottom;
-    filter: sepia(26%) saturate(128%) hue-rotate(-7deg) brightness(99%) contrast(112%);
+    filter: sepia(18%) saturate(112%) hue-rotate(3deg) brightness(99%) contrast(112%);
     transform: translateY(20%);
   }
 }
