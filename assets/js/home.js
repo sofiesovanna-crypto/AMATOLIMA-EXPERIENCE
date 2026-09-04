@@ -36,9 +36,11 @@ function navigationTemplate() {
 }
 
 function flowingMenuTemplate() {
-  const items = flowingMenuItems.map(({ label, href, image }) => `
+  const items = flowingMenuItems.map(({ label, href, image }, index) => `
     <div class="flowing-menu__item" data-flowing-menu-item data-speed="15">
-      <a class="flowing-menu__link" href="${href}">${label}</a>
+      <a class="flowing-menu__link" href="${href}" data-index="${String(index + 1).padStart(2, "0")}">
+        <span class="flowing-menu__label">${label}</span>
+      </a>
       <div class="flowing-menu__marquee" aria-hidden="true">
         <div class="flowing-menu__marquee-wrap">
           <div class="flowing-menu__marquee-inner" data-flowing-menu-inner>
@@ -52,22 +54,45 @@ function flowingMenuTemplate() {
     </div>`).join("");
 
   return `
-    <button class="flowing-menu-toggle" type="button" data-flowing-menu-open aria-label="Abrir menu" aria-controls="flowing-menu-panel" aria-expanded="false">
-      <span class="flowing-menu-toggle__label">Menu</span>
-      <span class="flowing-menu-toggle__icon" aria-hidden="true"></span>
-    </button>
-    <aside class="flowing-menu-panel" id="flowing-menu-panel" data-flowing-menu-panel aria-hidden="true">
-      <div class="flowing-menu-panel__header">
+    <div class="staggered-flow-menu" data-staggered-flow-menu>
+      <button class="flowing-menu-backdrop" type="button" data-flowing-menu-backdrop aria-label="Fechar menu" tabindex="-1"></button>
+      <div class="flowing-menu-prelayers" aria-hidden="true">
+        <span class="flowing-menu-prelayer" data-flowing-menu-prelayer></span>
+        <span class="flowing-menu-prelayer" data-flowing-menu-prelayer></span>
+      </div>
+
+      <aside class="flowing-menu-panel" id="flowing-menu-panel" data-flowing-menu-panel aria-hidden="true">
         <a class="flowing-menu-panel__brand" href="index.html" aria-label="Amato Lima — página inicial">
           <span class="flowing-menu-panel__brand-name">Amato Lima</span>
           <span class="flowing-menu-panel__brand-descriptor">Ativos Imobiliários</span>
         </a>
-        <button class="flowing-menu-close" type="button" data-flowing-menu-close aria-label="Fechar menu"></button>
-      </div>
-      <div class="flowing-menu-wrap">
-        <nav class="flowing-menu" aria-label="Navegação principal">${items}</nav>
-      </div>
-    </aside>`;
+
+        <div class="flowing-menu-wrap">
+          <nav class="flowing-menu" aria-label="Navegação principal">${items}</nav>
+        </div>
+
+        <div class="flowing-menu-socials" aria-label="Links de contato">
+          <p class="flowing-menu-socials__title">Conecte-se</p>
+          <ul class="flowing-menu-socials__list">
+            <li><a href="#">Instagram</a></li>
+            <li><a href="mailto:contato@amatolima.com.br">E-mail</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <button class="flowing-menu-toggle" type="button" data-flowing-menu-toggle aria-label="Abrir menu" aria-controls="flowing-menu-panel" aria-expanded="false">
+        <span class="flowing-menu-toggle__text-wrap" aria-hidden="true">
+          <span class="flowing-menu-toggle__text-inner">
+            <span class="flowing-menu-toggle__line">Menu</span>
+            <span class="flowing-menu-toggle__line">Fechar</span>
+          </span>
+        </span>
+        <span class="flowing-menu-toggle__icon" aria-hidden="true">
+          <span class="flowing-menu-toggle__icon-line"></span>
+          <span class="flowing-menu-toggle__icon-line flowing-menu-toggle__icon-line--vertical"></span>
+        </span>
+      </button>
+    </div>`;
 }
 
 function headerTemplate() {
