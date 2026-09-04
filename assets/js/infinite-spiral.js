@@ -84,7 +84,7 @@
       const width = Math.max(bounds.width, 1);
       const height = Math.max(bounds.height, 1);
       const mobile = width <= 760;
-      const radius = 125;
+      const radius = mobile ? 75 : 125;
       const spacing = mobile ? Math.min(92, height * .12) : Math.min(118, height * .13);
       const cardsPerTurn = mobile ? 6 : 7;
 
