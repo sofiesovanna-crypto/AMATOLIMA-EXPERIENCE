@@ -38,7 +38,7 @@ function navigationTemplate() {
 function flowingMenuTemplate() {
   const items = flowingMenuItems.map(({ label, href, image }, index) => `
     <div class="flowing-menu__item" data-flowing-menu-item data-speed="15">
-      <a class="flowing-menu__link" href="${href}" data-index="${String(index + 1).padStart(2, "0")}">
+      <a class="flowing-menu__link" href="${href}">
         <span class="flowing-menu__label">${label}</span>
       </a>
       <div class="flowing-menu__marquee" aria-hidden="true">
@@ -55,29 +55,17 @@ function flowingMenuTemplate() {
 
   return `
     <div class="staggered-flow-menu" data-staggered-flow-menu>
-      <button class="flowing-menu-backdrop" type="button" data-flowing-menu-backdrop aria-label="Fechar menu" tabindex="-1"></button>
+      <div class="flowing-menu-backdrop" data-flowing-menu-backdrop aria-hidden="true"></div>
       <div class="flowing-menu-prelayers" aria-hidden="true">
         <span class="flowing-menu-prelayer" data-flowing-menu-prelayer></span>
         <span class="flowing-menu-prelayer" data-flowing-menu-prelayer></span>
       </div>
 
       <aside class="flowing-menu-panel" id="flowing-menu-panel" data-flowing-menu-panel aria-hidden="true">
-        <a class="flowing-menu-panel__brand" href="index.html" aria-label="Amato Lima — página inicial">
-          <span class="flowing-menu-panel__brand-name">Amato Lima</span>
-          <span class="flowing-menu-panel__brand-descriptor">Ativos Imobiliários</span>
-        </a>
-
         <div class="flowing-menu-wrap">
           <nav class="flowing-menu" aria-label="Navegação principal">${items}</nav>
         </div>
 
-        <div class="flowing-menu-socials" aria-label="Links de contato">
-          <p class="flowing-menu-socials__title">Conecte-se</p>
-          <ul class="flowing-menu-socials__list">
-            <li><a href="#">Instagram</a></li>
-            <li><a href="mailto:contato@amatolima.com.br">E-mail</a></li>
-          </ul>
-        </div>
       </aside>
 
       <button class="flowing-menu-toggle" type="button" data-flowing-menu-toggle aria-label="Abrir menu" aria-controls="flowing-menu-panel" aria-expanded="false">
