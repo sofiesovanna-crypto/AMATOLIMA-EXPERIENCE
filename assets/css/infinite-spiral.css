@@ -4,18 +4,7 @@
   min-height: clamp(720px, 92svh, 980px);
   overflow: hidden;
   isolation: isolate;
-  background:
-    radial-gradient(circle at 50% 48%, rgba(244,244,244,.98) 0 15%, rgba(239,231,219,.70) 34%, rgba(224,210,191,.44) 62%, transparent 82%),
-    #efe7db;
-}
-
-.material-spiral::before {
-  position: absolute;
-  z-index: 2;
-  inset: 0;
-  content: "";
-  background: radial-gradient(circle at center, rgba(244,244,244,.98) 0 11%, rgba(244,244,244,.84) 18%, rgba(244,244,244,0) 38%);
-  pointer-events: none;
+  background: #efe7db;
 }
 
 .material-spiral__gallery {
@@ -73,7 +62,7 @@
   z-index: 500;
   top: 50%;
   left: 50%;
-  width: min(86vw, 640px);
+  width: min(92vw, 1180px);
   text-align: center;
   transform: translate(-50%,-50%);
   pointer-events: none;
@@ -83,11 +72,11 @@
   margin: 0;
   color: #562e1a;
   font-family: var(--serif);
-  font-size: clamp(3.2rem, 6.3vw, 6.8rem);
+  font-size: clamp(2.25rem, 4.55vw, 5.1rem);
   font-weight: 500;
   letter-spacing: -.04em;
   line-height: .92;
-  text-wrap: balance;
+  white-space: nowrap;
 }
 
 .material-spiral__hint {
@@ -108,10 +97,9 @@
 
 @media (max-width:760px) {
   .material-spiral { min-height: max(680px, 86svh); }
-  .material-spiral::before { background: radial-gradient(circle at center, rgba(244,244,244,.98) 0 13%, rgba(244,244,244,.82) 23%, transparent 43%); }
   .material-spiral__card { width: clamp(92px, 27vw, 124px); }
-  .material-spiral__center { width: min(82vw, 390px); }
-  .material-spiral__title { font-size: clamp(2.75rem, 13vw, 4.25rem); }
+  .material-spiral__center { width: 94vw; }
+  .material-spiral__title { font-size: clamp(1.25rem, 5.5vw, 2rem); letter-spacing: -.025em; }
   .material-spiral__hint { bottom: 20px; }
 }
 
