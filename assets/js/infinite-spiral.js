@@ -93,7 +93,7 @@
 
         const angle = offset * (360 / cardsPerTurn) - 24;
         const radians = angle * Math.PI / 180;
-        const x = Math.sin(radians) * radius + width * .13;
+        const x = Math.sin(radians) * radius;
         const z = Math.cos(radians) * radius;
         const y = offset * spacing;
         const edge = Math.min(Math.abs(offset) / Math.max(half, 1), 1);
