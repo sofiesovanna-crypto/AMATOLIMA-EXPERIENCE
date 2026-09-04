@@ -30,6 +30,21 @@ const selectedProjects = [
   { title: "Casa Jardim", category: "Paisagismo e convivência", image: "assets/images/hero-mask.png", alt: "Piscina com paisagismo integrado" },
 ];
 
+const materialSpiralImages = [
+  { image: "assets/images/hero-mask-3.png", alt: "Madeira natural em composição escultórica" },
+  { image: "assets/images/hero-mask-2.png", alt: "Textura orgânica de madeira" },
+  { image: "assets/images/hero-mask-mobile.png", alt: "Detalhe vertical de matéria natural" },
+  { image: "assets/images/hero-mask.png", alt: "Curvas e veios da madeira" },
+  { image: "assets/images/hero-mask-2.png", alt: "Encontro entre luz e madeira" },
+  { image: "assets/images/hero-mask-3.png", alt: "Forma natural esculpida" },
+  { image: "assets/images/hero-mask.png", alt: "Matéria em movimento" },
+  { image: "assets/images/hero-mask-mobile.png", alt: "Textura de madeira aquecida" },
+  { image: "assets/images/hero-mask-3.png", alt: "Superfície orgânica" },
+  { image: "assets/images/hero-mask-2.png", alt: "Veios naturais em detalhe" },
+  { image: "assets/images/hero-mask-mobile.png", alt: "Matéria e profundidade" },
+  { image: "assets/images/hero-mask.png", alt: "Madeira em composição editorial" },
+];
+
 function navigationTemplate() {
   return navigationItems.map(({ label, href, current }) => `
     <li><a href="${href}"${current ? ' aria-current="page"' : ""}>${label}</a></li>`).join("");
@@ -120,15 +135,22 @@ function heroTemplate() {
 }
 
 function perspectiveTemplate() {
+  const cards = materialSpiralImages.map(({ image, alt }) => `
+    <figure class="material-spiral__card" data-spiral-card>
+      <img src="${image}" alt="${alt}" loading="lazy" draggable="false" />
+    </figure>`).join("");
+
   return `
-    <section class="section" id="perspectiva"><div class="container intro-grid">
-      <div class="reveal"><p class="eyebrow">Nossa perspectiva</p><h2>A matéria precede o ativo.</h2></div>
-      <div class="intro-grid__aside body-copy reveal">
-        <p>A Amato Lima identifica propriedades com potencial, conduz reformas de alto padrão e devolve ao mercado imóveis preparados para uma nova etapa.</p>
-        <p>Arquitetura, engenharia e curadoria trabalham juntas para criar espaços sofisticados sem excesso — atuais, acolhedores e construídos para permanecer.</p>
-        <a class="button button--ghost" href="sobre.html">Conheça a Amato Lima</a>
+    <section class="material-spiral" id="perspectiva" aria-labelledby="material-title">
+      <div class="material-spiral__gallery" data-material-spiral aria-label="Galeria de matéria natural em movimento">
+        <div class="material-spiral__stage">${cards}</div>
       </div>
-    </div></section>`;
+      <div class="material-spiral__center">
+        <span class="material-spiral__eyebrow">Nossa perspectiva</span>
+        <h2 class="material-spiral__title" id="material-title">A matéria<br />precede o ativo.</h2>
+      </div>
+      <span class="material-spiral__hint" aria-hidden="true">Role ou arraste para explorar</span>
+    </section>`;
 }
 
 function principlesTemplate() {
