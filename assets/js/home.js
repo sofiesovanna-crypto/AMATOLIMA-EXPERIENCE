@@ -146,7 +146,7 @@ function perspectiveTemplate() {
         <div class="material-spiral__stage">
           ${cards}
           <div class="material-spiral__center">
-            <h2 class="material-spiral__title" id="material-title">A matéria<br />precede o ativo.</h2>
+            <h2 class="material-spiral__title" id="material-title">A MATÉRIA PRECEDE O ATIVO</h2>
           </div>
         </div>
       </div>
