@@ -46,21 +46,27 @@
       const size = parseFloat(styles.fontSize) * dpr;
       const lineHeight = parseFloat(styles.lineHeight) * dpr || size;
       const maxWidth = canvas.width * .96;
-      const words = heading.childNodes[0]?.textContent.trim().split(/\s+/) || [];
-      const lines = [];
+      const forcedLines = heading.dataset.maskLines
+        ? heading.dataset.maskLines.split("|").map((line) => line.trim()).filter(Boolean)
+        : null;
+      const label = heading.dataset.maskLines || heading.textContent;
+      const words = label.replaceAll("|", " ").trim().split(/\s+/);
+      const lines = forcedLines ? [...forcedLines] : [];
       let line = "";
 
       context.font = `${styles.fontWeight} ${size}px ${styles.fontFamily}`;
-      words.forEach((word) => {
-        const test = line ? line + " " + word : word;
-        if (line && context.measureText(test).width > maxWidth) {
-          lines.push(line);
-          line = word;
-        } else {
-          line = test;
-        }
-      });
-      if (line) lines.push(line);
+      if (!forcedLines) {
+        words.forEach((word) => {
+          const test = line ? line + " " + word : word;
+          if (line && context.measureText(test).width > maxWidth) {
+            lines.push(line);
+            line = word;
+          } else {
+            line = test;
+          }
+        });
+        if (line) lines.push(line);
+      }
 
       context.textAlign = "center";
       context.textBaseline = "middle";
