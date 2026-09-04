@@ -48,19 +48,17 @@
       gsapApi.fromTo(
         imageWrap,
         {
-          opacity: .76,
-          clipPath: "inset(0 0 16% 0)",
-          willChange: "opacity, clip-path",
+          clipPath: "inset(0 0 100% 0)",
+          willChange: "clip-path",
         },
         {
-          opacity: 1,
           clipPath: "inset(0 0 0% 0)",
           ease: "none",
           scrollTrigger: {
             trigger: imageWrap,
-            start: "top 92%",
-            end: "top 24%",
-            scrub: 1.3,
+            start: "top 96%",
+            end: "top 18%",
+            scrub: 1.8,
             invalidateOnRefresh: true,
           },
         }
@@ -68,15 +66,21 @@
 
       gsapApi.fromTo(
         image,
-        { scale: 1.025, transformOrigin: "50% 50%" },
         {
+          yPercent: 5,
+          scale: 1.035,
+          transformOrigin: "50% 50%",
+          willChange: "transform",
+        },
+        {
+          yPercent: 0,
           scale: 1,
           ease: "none",
           scrollTrigger: {
             trigger: imageWrap,
-            start: "top 92%",
-            end: "top 24%",
-            scrub: 1.3,
+            start: "top 96%",
+            end: "top 18%",
+            scrub: 1.8,
             invalidateOnRefresh: true,
           },
         }
