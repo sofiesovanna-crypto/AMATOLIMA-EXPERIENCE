@@ -269,8 +269,10 @@
 }
 
 .flowing-menu__img {
+  display: block;
   width: clamp(90px,9vw,130px);
   height: min(6.5vh,56px);
+  flex: 0 0 clamp(90px,9vw,130px);
   margin-inline: 13px;
   border-radius: 999px;
   background-position: center;
