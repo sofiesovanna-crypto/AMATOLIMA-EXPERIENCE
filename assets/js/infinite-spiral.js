@@ -54,7 +54,7 @@
         requestAnimationFrame(() => requestAnimationFrame(() => {
           textElement.classList.remove("is-entering");
         }));
-      }, 280);
+      }, 350);
     };
 
     setActiveText(0, true);
