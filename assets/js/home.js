@@ -136,21 +136,14 @@ function heroTemplate() {
 
 function perspectiveTemplate() {
   const cards = materialSpiralImages.map(({ image, alt }) => `
-    <figure class="material-spiral__card" data-spiral-card>
+    <figure class="material-spiral__card" data-spiral-card data-spiral-label="${alt}">
       <img src="${image}" alt="${alt}" loading="lazy" draggable="false" />
     </figure>`).join("");
-
-  const phrase = "A MATÉRIA PRECEDE O ATIVO";
-  const characters = Array.from(phrase).map((character, index) =>
-    character === " "
-      ? `<span class="material-spiral__space" aria-hidden="true">&nbsp;</span>`
-      : `<span class="material-spiral__character" style="--character-index:${index}" aria-hidden="true">${character}</span>`
-  ).join("");
 
   return `
     <section class="material-spiral" id="perspectiva" aria-labelledby="material-title">
       <div class="material-spiral__copy">
-        <h2 class="material-spiral__title" id="material-title" aria-label="${phrase}">${characters}</h2>
+        <h2 class="material-spiral__title" id="material-title" data-spiral-text aria-live="polite"></h2>
       </div>
 
       <div class="material-spiral__gallery" data-material-spiral aria-label="Carrossel de matéria natural em movimento">
