@@ -147,9 +147,9 @@ function perspectiveTemplate() {
           ${cards}
           <div class="material-spiral__center">
             <h2 class="material-spiral__title" id="material-title" aria-label="A matéria precede o ativo">
-              <span class="material-spiral__title-side material-spiral__title-side--left" aria-hidden="true">A MATÉRIA PRES</span>
+              <span class="material-spiral__title-side material-spiral__title-side--left" aria-hidden="true">A MATÉRIA PRECEDE</span>
               <span class="material-spiral__title-gap" aria-hidden="true"></span>
-              <span class="material-spiral__title-side material-spiral__title-side--right" aria-hidden="true">CEDE O ATIVO</span>
+              <span class="material-spiral__title-side material-spiral__title-side--right" aria-hidden="true">O ATIVO</span>
             </h2>
           </div>
         </div>
