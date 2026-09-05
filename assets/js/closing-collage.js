@@ -10,10 +10,10 @@
   section.innerHTML = `
     <div class="closing-collage__pin">
       <div class="closing-collage__stage" data-closing-stage>
-        <figure class="closing-collage__layer closing-collage__layer--1" data-closing-layer><img src="assets/images/transformation/final-sala.jpg" alt="Projeto Amato Lima — arquitetura e matéria" loading="lazy" /></figure>
-        <figure class="closing-collage__layer closing-collage__layer--2" data-closing-layer><img src="assets/images/hero-mask.png" alt="Projeto Amato Lima — detalhe material" loading="lazy" /></figure>
-        <figure class="closing-collage__layer closing-collage__layer--3" data-closing-layer><img src="assets/images/hero-mask-3.png" alt="Projeto Amato Lima — composição arquitetônica" loading="lazy" /></figure>
-        <figure class="closing-collage__layer closing-collage__layer--4" data-closing-layer><img src="assets/images/transformation/render-sala.jpg" alt="Projeto Amato Lima — interior em detalhe" loading="lazy" /></figure>
+        <figure class="closing-collage__layer closing-collage__layer--1" data-closing-layer><img src="assets/images/transformation/final-sala.jpg" alt="Projeto Amato Lima — arquitetura e matéria" loading="eager" /></figure>
+        <figure class="closing-collage__layer closing-collage__layer--2" data-closing-layer><img src="assets/images/hero-mask.png" alt="Projeto Amato Lima — detalhe material" loading="eager" /></figure>
+        <figure class="closing-collage__layer closing-collage__layer--3" data-closing-layer><img src="assets/images/hero-mask-3.png" alt="Projeto Amato Lima — composição arquitetônica" loading="eager" /></figure>
+        <figure class="closing-collage__layer closing-collage__layer--4" data-closing-layer><img src="assets/images/transformation/render-sala.jpg" alt="Projeto Amato Lima — interior em detalhe" loading="eager" /></figure>
       </div>
     </div>`;
 
@@ -30,46 +30,54 @@
 
   gsapApi.registerPlugin(ScrollTriggerApi);
 
-  // Um único fluxo contínuo por propriedade. Sem pequenos tweens consecutivos,
-  // evitando a sensação de popup/encaixe entre os estados.
-  gsapApi.set(stage, { scale: .88, yPercent: 31, force3D: true });
+  gsapApi.set(stage, { scale: .90, yPercent: 22, force3D: true });
   gsapApi.set(layers, { xPercent: -50, yPercent: -50, opacity: 0, force3D: true });
-  gsapApi.set(layers[0], { scale: .68 });
-  gsapApi.set(layers[1], { scale: .22 });
-  gsapApi.set(layers[2], { scale: .18 });
-  gsapApi.set(layers[3], { scale: .15 });
-  gsapApi.set(images, { scale: 1.01, force3D: true });
+  gsapApi.set(layers[0], { scale: .72, opacity: .055 });
+  gsapApi.set(layers[1], { scale: .27 });
+  gsapApi.set(layers[2], { scale: .23 });
+  gsapApi.set(layers[3], { scale: .20 });
+  gsapApi.set(images, { scale: 1.008, force3D: true });
 
   const tl = gsapApi.timeline({
     defaults: { ease: "none" },
     scrollTrigger: {
       trigger: section,
-      start: "top bottom",
+      // Começa antes: a base já nasce enquanto a seção anterior ainda ocupa a viewport.
+      start: "top 112%",
       end: "bottom bottom",
-      scrub: 4.8,
+      // Inércia suficiente para limpar o movimento, sem fazer o scroll parecer pesado.
+      scrub: 1.65,
       invalidateOnRefresh: true,
+      fastScrollEnd: false,
     },
   });
 
-  // O palco inteiro sobe e se aproxima sem qualquer parada durante todo o percurso.
-  tl.to(stage, { yPercent: 0, scale: 1.045, duration: 100 }, 0)
+  // O palco chega ao centro cedo; depois cresce apenas de forma quase imperceptível.
+  tl.to(stage, { yPercent: 0, scale: .97, duration: 24 }, 0)
+    .to(stage, { scale: 1.035, duration: 76 }, 24)
     .to(images, { scale: 1, duration: 100 }, 0);
 
-  // BASE — nasce imediatamente, ainda enquanto a imagem editorial anterior invade a seção.
-  tl.to(layers[0], { opacity: .60, scale: .82, duration: 38 }, 0)
-    .to(layers[0], { opacity: 1, scale: 1, duration: 62 }, 38);
+  // BASE: rápida apenas no sentido de entrar cedo na composição. Ela não é substituída cedo.
+  // Nos primeiros 20% do percurso já passa de presença parcial para protagonista.
+  tl.to(layers[0], { opacity: .72, scale: .91, duration: 22 }, 0)
+    .to(layers[0], { opacity: 1, scale: 1, duration: 78 }, 22);
 
-  // SEGUNDA — o fade e o crescimento ocupam a maior parte do scroll; nada “salta”.
-  tl.to(layers[1], { opacity: .44, scale: .43, duration: 34 }, 22)
-    .to(layers[1], { opacity: 1, scale: .90, duration: 44 }, 56);
+  // As demais têm um período de leitura: aparecem, ficam reconhecíveis e só então avançam.
+  // Assim uma imagem não toma imediatamente o lugar da anterior.
+  tl.to(layers[1], { opacity: .18, scale: .34, duration: 14 }, 25)
+    .to(layers[1], { opacity: .52, scale: .49, duration: 22 }, 39)
+    .to(layers[1], { opacity: .76, scale: .62, duration: 20 }, 61)
+    .to(layers[1], { opacity: 1, scale: .90, duration: 19 }, 81);
 
-  // TERCEIRA — começa antes da segunda chegar ao meio do percurso.
-  tl.to(layers[2], { opacity: .38, scale: .39, duration: 31 }, 39)
-    .to(layers[2], { opacity: 1, scale: .80, duration: 30 }, 70);
+  tl.to(layers[2], { opacity: .12, scale: .29, duration: 13 }, 47)
+    .to(layers[2], { opacity: .43, scale: .42, duration: 20 }, 60)
+    .to(layers[2], { opacity: .70, scale: .56, duration: 18 }, 80)
+    .to(layers[2], { opacity: 1, scale: .80, duration: 12 }, 88);
 
-  // QUARTA — entra como uma transparência quase imperceptível e nunca “abre” de repente.
-  tl.to(layers[3], { opacity: .30, scale: .31, duration: 27 }, 55)
-    .to(layers[3], { opacity: 1, scale: .70, duration: 18 }, 82);
+  tl.to(layers[3], { opacity: .09, scale: .25, duration: 12 }, 66)
+    .to(layers[3], { opacity: .35, scale: .37, duration: 15 }, 78)
+    .to(layers[3], { opacity: .64, scale: .49, duration: 13 }, 87)
+    .to(layers[3], { opacity: 1, scale: .70, duration: 8 }, 92);
 
   requestAnimationFrame(() => ScrollTriggerApi.refresh());
 })();
