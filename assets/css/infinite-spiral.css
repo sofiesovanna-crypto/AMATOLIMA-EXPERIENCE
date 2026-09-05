@@ -1,8 +1,10 @@
 /* Seção editorial pinada: cinco passos de scroll, carrossel à esquerda e texto à direita. */
 .material-spiral {
   position: relative;
+  z-index: 2;
   height: 600svh;
   min-height: 4320px;
+  border-radius: clamp(18px, 2.2vw, 32px) clamp(18px, 2.2vw, 32px) 0 0;
   background: #f1f1f1;
 }
 
@@ -15,6 +17,7 @@
   min-height: 680px;
   overflow: hidden;
   isolation: isolate;
+  border-radius: inherit;
   background: inherit;
 }
 
