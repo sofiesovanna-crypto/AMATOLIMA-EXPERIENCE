@@ -59,7 +59,7 @@ function flowingMenuTemplate() {
 }
 
 function heroTemplate() {
-  return `<section class="hero hero--art" aria-labelledby="home-title"><div class="hero-art__brand" aria-label="Amato Lima — Ativos Imobiliários"><div class="hero-art__brand-line"><span class="hero-art__brand-name">Amato Lima</span><img class="hero-art__brand-mark" src="assets/images/logo/9175.png" alt="" aria-hidden="true" /></div><span class="hero-art__brand-descriptor">Ativos Imobiliários</span></div><h1 id="home-title" class="hero-art__headline"><span class="hero-art__arte">Arte</span><span class="hero-art__de">de</span><span class="hero-art__habitar">habitar</span></h1><picture><source media="(max-width: 760px)" srcset="assets/images/hero-mask-2.png" /><img class="hero-art__wood" src="assets/images/hero-mask.png" alt="" aria-hidden="true" /></picture><span class="hero-art__base-reflection" aria-hidden="true"></span></section>`;
+  return `<section class="hero hero--art" aria-labelledby="home-title"><div class="hero-art__brand" aria-label="Amato Lima — Ativos Imobiliários"><span class="hero-art__brand-name">Amato Lima</span><span class="hero-art__brand-descriptor">Ativos Imobiliários</span></div><h1 id="home-title" class="hero-art__headline"><span class="hero-art__arte">Arte</span><span class="hero-art__de">de</span><span class="hero-art__habitar">habitar</span></h1><picture><source media="(max-width: 760px)" srcset="assets/images/hero-mask-2.png" /><img class="hero-art__wood" src="assets/images/hero-mask.png" alt="" aria-hidden="true" /></picture><span class="hero-art__base-reflection" aria-hidden="true"></span></section>`;
 }
 
 function perspectiveTemplate() {
