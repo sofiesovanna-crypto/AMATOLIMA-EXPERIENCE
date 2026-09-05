@@ -48,10 +48,10 @@
   max-width: 620px;
   margin: 0;
   color: #4c4037;
-  font-family: "Helvetica Neue",Helvetica,Montserrat,Arial,sans-serif;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
   font-size: clamp(.91rem,1.1vw,1.13rem);
   font-weight: 400;
-  letter-spacing: .055em;
+  letter-spacing: .075em;
   line-height: 1.72;
   text-transform: uppercase;
 }
