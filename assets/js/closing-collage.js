@@ -10,12 +10,11 @@
   section.setAttribute("aria-label", "Projetos Amato Lima em movimento");
   section.innerHTML = `
     <div class="closing-collage__pin">
-      <div class="closing-collage__signature" aria-hidden="true">AMATO LIMA</div>
       <div class="closing-collage__stage">
-        <figure class="closing-collage__layer closing-collage__layer--1" data-closing-layer><img src="assets/images/transformation/final-sala.jpg" alt="Projeto Amato Lima — arquitetura e matéria" loading="eager" /></figure>
-        <figure class="closing-collage__layer closing-collage__layer--2" data-closing-layer><img src="assets/images/hero-mask.png" alt="Projeto Amato Lima — detalhe material" loading="eager" /></figure>
-        <figure class="closing-collage__layer closing-collage__layer--3" data-closing-layer><img src="assets/images/hero-mask-3.png" alt="Projeto Amato Lima — composição arquitetônica" loading="eager" /></figure>
-        <figure class="closing-collage__layer closing-collage__layer--4" data-closing-layer><img src="assets/images/transformation/render-sala.jpg" alt="Projeto Amato Lima — interior em detalhe" loading="eager" /></figure>
+        <figure class="closing-collage__layer closing-collage__layer--1" data-closing-layer><img src="assets/images/sections-home/11649.png" alt="Projeto Amato Lima — arquitetura e matéria" loading="eager" /></figure>
+        <figure class="closing-collage__layer closing-collage__layer--2" data-closing-layer><img src="assets/images/sections-home/11693.png" alt="Projeto Amato Lima — detalhe material" loading="eager" /></figure>
+        <figure class="closing-collage__layer closing-collage__layer--3" data-closing-layer><img src="assets/images/sections-home/27941.jpg" alt="Projeto Amato Lima — composição arquitetônica" loading="eager" /></figure>
+        <figure class="closing-collage__layer closing-collage__layer--4" data-closing-layer><img src="assets/images/sections-home/28149.jpg" alt="Projeto Amato Lima — interior em detalhe" loading="eager" /></figure>
       </div>
     </div>`;
 
