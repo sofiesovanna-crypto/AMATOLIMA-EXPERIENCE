@@ -78,7 +78,8 @@ window.addEventListener("load", async () => {
   const livingGroup = new THREE.Group();
   kitchenGroup.rotation.y = Math.PI;
   kitchenGroup.position.set(0, 0, 1.05);
-  diningGroup.position.set(-2.35, 0, .2);
+  // Jantar junto à porta; o núcleo central fica reservado exclusivamente ao estar.
+  diningGroup.position.set(-6.45, 0, 5.1);
   // O estar permanece totalmente dentro do perímetro, mesmo visto durante a volta de 360°.
   livingGroup.position.set(0, 0, -4.75);
   apartment.add(kitchenGroup, diningGroup, livingGroup);
@@ -379,15 +380,7 @@ window.addEventListener("load", async () => {
     cylinder(.055, .65, [x, .34, -.95], palette.metal, .43 + index * .006, { metalness: .35 });
   });
 
-  // Copa circular no lado oposto à bancada, seguindo a área indicada na planta.
-  cylinder(1.02, .11, [3.82, .76, -3.56], palette.quartz, .455, { roughness: .3 });
-  cylinder(.12, .7, [3.82, .37, -3.56], palette.metal, .46, { metalness: .45, roughness: .3 });
-  [[2.55,-3.56],[5.09,-3.56],[3.82,-2.28],[3.82,-4.84]].forEach((point, index) => {
-    cylinder(.34, .1, [point[0], .54, point[1]], palette.fabricLight, .465 + index * .004);
-    cylinder(.045, .5, [point[0], .27, point[1]], palette.metal, .465 + index * .004, { metalness: .4 });
-  });
-
-  // Sala de jantar clara e tátil, reinterpretando a referência sem o peso dos tons escuros.
+  // Sala de jantar clara e tátil, substituindo a antiga mesa pequena próxima à porta.
   activeParent = diningGroup;
   cylinder(2.18, .025, [2.55, -.01, -1.85], 0xd8d0c4, .47, { roughness: 1, edges: false });
   cylinder(1.34, .13, [2.55, .8, -1.85], palette.woodLight, .48, { roughness: .48 });
