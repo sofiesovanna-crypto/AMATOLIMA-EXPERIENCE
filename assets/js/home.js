@@ -363,8 +363,33 @@ function quoteTemplate() {
   return `<section class="section section--cocoa quote-band"><div class="container reveal"><p class="eyebrow">Amato Lima</p><blockquote>“Sofisticada e, acima de tudo, atemporal.”</blockquote><div class="button-row"><a class="button button--light" href="contato.html">Inicie uma conversa</a></div></div></section>`;
 }
 
+function interactiveApartmentTemplate() {
+  return `
+    <section class="apartment-build" id="transformacao-3d" aria-labelledby="apartment-build-title" data-apartment-build>
+      <div class="apartment-build__pin">
+        <div class="apartment-build__backdrop" data-apartment-backdrop aria-hidden="true"></div>
+
+        <header class="apartment-build__copy">
+          <p class="apartment-build__eyebrow">Arquitetura em construção</p>
+          <h2 id="apartment-build-title">Do traço<br />ao espaço.</h2>
+          <p class="apartment-build__label" data-apartment-label aria-live="polite">O primeiro traço</p>
+        </header>
+
+        <div class="apartment-build__scene" data-apartment-scene>
+          <canvas data-apartment-canvas aria-label="Apartamento tridimensional sendo construído durante a rolagem"></canvas>
+          <p class="apartment-build__fallback" data-apartment-fallback hidden>Uma residência é desenhada, estruturada e materializada.</p>
+        </div>
+
+        <div class="apartment-build__counter" aria-hidden="true">
+          <span data-apartment-step>01</span><i></i><span>04</span>
+        </div>
+        <div class="apartment-build__progress" aria-hidden="true"><span data-apartment-progress></span></div>
+      </div>
+    </section>`;
+}
+
 function mainTemplate() {
-  return `<main id="conteudo">${heroTemplate()}${perspectiveTemplate()}${principlesTemplate()}${projectsTemplate()}${transformationTemplate()}${quoteTemplate()}</main>`;
+  return `<main id="conteudo">${heroTemplate()}${perspectiveTemplate()}${principlesTemplate()}${projectsTemplate()}${interactiveApartmentTemplate()}${quoteTemplate()}</main>`;
 }
 
 function footerTemplate() {

@@ -1,0 +1,114 @@
+.apartment-build {
+  position: relative;
+  height: 620vh;
+  background: #f1f1f1;
+}
+
+.apartment-build__pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 680px;
+  overflow: hidden;
+  isolation: isolate;
+  color: #30251d;
+}
+
+.apartment-build__backdrop {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  background: #f1f1f1;
+  will-change: background-color;
+}
+
+.apartment-build__copy {
+  position: absolute;
+  z-index: 4;
+  top: clamp(50px, 8vh, 92px);
+  left: clamp(28px, 5vw, 82px);
+  pointer-events: none;
+}
+
+.apartment-build__eyebrow,
+.apartment-build__label,
+.apartment-build__counter {
+  margin: 0;
+  font-size: clamp(.56rem, .64vw, .7rem);
+  letter-spacing: .24em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.apartment-build__eyebrow { margin-bottom: 17px; opacity: .56; }
+.apartment-build__copy h2 {
+  margin: 0;
+  font-family: var(--serif, "Cormorant Garamond", serif);
+  font-size: clamp(3rem, 5.3vw, 6.1rem);
+  font-weight: 400;
+  letter-spacing: -.05em;
+  line-height: .82;
+}
+.apartment-build__label { margin-top: 27px; opacity: .7; }
+
+.apartment-build__scene {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.apartment-build__scene canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  outline: none;
+}
+
+.apartment-build__fallback {
+  width: min(72vw, 720px);
+  margin: 0;
+  font-family: var(--serif, serif);
+  font-size: clamp(2rem, 5vw, 5rem);
+  line-height: 1;
+  text-align: center;
+}
+
+.apartment-build__counter {
+  position: absolute;
+  z-index: 4;
+  right: clamp(25px, 4vw, 65px);
+  bottom: 42px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  opacity: .52;
+}
+.apartment-build__counter i { width: 42px; height: 1px; background: currentColor; opacity: .5; }
+
+.apartment-build__progress {
+  position: absolute;
+  z-index: 4;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: rgba(38, 28, 18, .08);
+}
+.apartment-build__progress span { display: block; width: 100%; height: 100%; background: currentColor; transform: scaleX(0); transform-origin: left; }
+
+@media (max-width: 760px) {
+  .apartment-build { height: 540vh; }
+  .apartment-build__pin { min-height: 620px; }
+  .apartment-build__copy { top: 10vh; right: 22px; left: 22px; }
+  .apartment-build__copy h2 { font-size: clamp(3.2rem, 15vw, 5rem); }
+  .apartment-build__label { margin-top: 17px; }
+  .apartment-build__scene { top: 12vh; }
+  .apartment-build__counter { right: 20px; bottom: 25px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apartment-build { height: auto; }
+  .apartment-build__pin { position: relative; min-height: 100svh; }
+}
