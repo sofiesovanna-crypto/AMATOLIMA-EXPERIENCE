@@ -30,18 +30,11 @@ const selectedProjects = [
 ];
 
 const materialSpiralImages = [
-  { image: "assets/images/hero-mask-3.png", alt: "Madeira natural em composição escultórica" },
-  { image: "assets/images/hero-mask-2.png", alt: "Textura orgânica de madeira" },
-  { image: "assets/images/hero-mask-mobile.png", alt: "Detalhe vertical de matéria natural" },
-  { image: "assets/images/hero-mask.png", alt: "Curvas e veios da madeira" },
-  { image: "assets/images/hero-mask-2.png", alt: "Encontro entre luz e madeira" },
-  { image: "assets/images/hero-mask-3.png", alt: "Forma natural esculpida" },
-  { image: "assets/images/hero-mask.png", alt: "Matéria em movimento" },
-  { image: "assets/images/hero-mask-mobile.png", alt: "Textura de madeira aquecida" },
-  { image: "assets/images/hero-mask-3.png", alt: "Superfície orgânica" },
-  { image: "assets/images/hero-mask-2.png", alt: "Veios naturais em detalhe" },
-  { image: "assets/images/hero-mask-mobile.png", alt: "Matéria e profundidade" },
-  { image: "assets/images/hero-mask.png", alt: "Madeira em composição editorial" },
+  { image: "assets/images/material/11650.png", alt: "Composição que representa a matéria antes do ativo imobiliário" },
+  { image: "assets/images/material/31803.jpg", alt: "Detalhe de madeira clara" },
+  { image: "assets/images/material/31805.jpg", alt: "Detalhe de piso em travertino" },
+  { image: "assets/images/material/31806.jpg", alt: "Detalhe de vidro reflecta bronze" },
+  { image: "assets/images/material/31808.jpg", alt: "Detalhe de pedra em quartzo branco" },
 ];
 
 function navigationTemplate() {
