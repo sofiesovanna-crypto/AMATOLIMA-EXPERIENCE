@@ -32,7 +32,7 @@
   gsapApi.registerPlugin(ScrollTriggerApi);
   gsapApi.set(layers, {
     scale: (index) => [0.78, 0.22, 0.205, 0.19][index],
-    opacity: (index) => index === 0 ? 1 : 0,
+    opacity: (index) => index === 0 ? 0.10 : 0,
     force3D: true,
     backfaceVisibility: "hidden"
   });
@@ -49,15 +49,16 @@
     }
   });
 
-  tl.to(layers[0], { scale: 1, duration: 28 }, 0)
+  tl.to(layers[0], { opacity: 1, duration: 21 }, 0)
+    .to(layers[0], { scale: 1, duration: 28 }, 0)
     .to(images[0], { scale: 1, duration: 28 }, 0)
-    .to(layers[1], { opacity: 1, duration: 4 }, 22)
+    .to(layers[1], { opacity: 1, duration: 17 }, 22)
     .to(layers[1], { scale: 1, duration: 37 }, 22)
     .to(images[1], { scale: 1, duration: 37 }, 22)
-    .to(layers[2], { opacity: 1, duration: 4 }, 47)
+    .to(layers[2], { opacity: 1, duration: 17 }, 47)
     .to(layers[2], { scale: 1, duration: 35 }, 47)
     .to(images[2], { scale: 1, duration: 35 }, 47)
-    .to(layers[3], { opacity: 1, duration: 4 }, 69)
+    .to(layers[3], { opacity: 1, duration: 17 }, 69)
     .to(layers[3], { scale: 1, duration: 31 }, 69)
     .to(images[3], { scale: 1, duration: 31 }, 69);
 
