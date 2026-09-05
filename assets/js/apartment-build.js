@@ -115,8 +115,8 @@ window.addEventListener("load", async () => {
   scene.add(glow);
 
   const palette = {
-    plaster: 0xeee9df,
-    plasterWarm: 0xd9cfc0,
+    plaster: 0xe8e4dc,
+    plasterWarm: 0xded9d0,
     wood: 0x8a5c3a,
     woodLight: 0xc4a17b,
     stone: 0xeee8dc,
@@ -126,6 +126,7 @@ window.addEventListener("load", async () => {
     fabricLight: 0xded6ca,
     metal: 0x5b493c,
     glass: 0x8d7968,
+    reflecta: 0x8f6f55,
     green: 0x65715c,
   };
 
@@ -170,6 +171,17 @@ window.addEventListener("load", async () => {
         const size = kind === "stone" ? Math.random() * 2.2 : Math.random() * 1.2;
         context.fillRect(Math.random() * 512, Math.random() * 512, size, size);
       }
+      if (kind === "stone") {
+        for (let i = 0; i < 9; i += 1) {
+          const y = 28 + i * 57 + Math.random() * 18;
+          context.strokeStyle = `rgba(104,99,92,${.045 + Math.random() * .035})`;
+          context.lineWidth = .7 + Math.random() * 1.2;
+          context.beginPath();
+          context.moveTo(-30, y);
+          context.bezierCurveTo(120, y - 48, 330, y + 38, 548, y - 14);
+          context.stroke();
+        }
+      }
     }
 
     const texture = new THREE.CanvasTexture(surface);
@@ -190,13 +202,20 @@ window.addEventListener("load", async () => {
   const textureForColor = (color) => {
     if (color === palette.wood || color === palette.woodLight) return surfaceTextures.wood;
     if (color === palette.travertine) return surfaceTextures.travertine;
-    if (color === palette.stone || color === palette.quartz || color === palette.plasterWarm) return surfaceTextures.stone;
+    if (color === palette.stone || color === palette.quartz || color === palette.plaster || color === palette.plasterWarm) return surfaceTextures.stone;
     if (color === palette.fabric || color === palette.fabricLight) return surfaceTextures.fabric;
     return null;
   };
 
   const objects = [];
   const makeMaterial = (color, roughness = .72, metalness = 0, extras = {}) => {
+    if (color === palette.reflecta) {
+      return new THREE.MeshPhysicalMaterial({
+        color: 0xa48165, roughness: .025, metalness: .32, transmission: .58,
+        thickness: .035, ior: 1.52, clearcoat: .9, clearcoatRoughness: .04,
+        transparent: true, opacity: 0, envMapIntensity: 1.65, side: THREE.DoubleSide, ...extras,
+      });
+    }
     if (color === palette.glass) {
       return new THREE.MeshPhysicalMaterial({
         color: 0xd3c4b4, roughness: .06, metalness: .02, transmission: .86,
@@ -310,7 +329,7 @@ window.addEventListener("load", async () => {
 
   // Base arquitetônica e paredes abertas, como uma maquete habitável.
   box([14.8, .22, 10.4], [0, -.16, .3], palette.travertine, .02, { roughness: .82 });
-  for (let z = -4.25; z <= 4.95; z += 1.15) box([14.2, .014, .018], [0, -.035, z], palette.stone, .06, { edges: false });
+  for (let z = -4.25; z <= 4.95; z += 1.15) box([14.2, .014, .018], [0, -.035, z], 0xb7a386, .06, { edges: false });
 
   // Parede de fundo muito clara, com um vão panorâmico e pouca massa aparente.
   box([1.85, 3.9, .2], [-6.48, 1.82, -4.5], palette.plaster, .1);
@@ -328,8 +347,8 @@ window.addEventListener("load", async () => {
   box([.14, 2.86, .09], [-7.25, 1.43, .27], palette.metal, .17);
   box([.14, 2.86, .09], [-7.25, 1.43, 1.68], palette.metal, .17);
   box([.14, .1, 1.5], [-7.25, 2.82, .975], palette.metal, .18);
-  box([.035, 2.62, 1.28], [-7.24, 1.48, .975], palette.glass, .205, {
-    roughness: .14, metalness: .12, edges: false,
+  box([.035, 2.62, 1.28], [-7.24, 1.48, .975], palette.reflecta, .205, {
+    roughness: .025, metalness: .32, edges: false,
   });
   [.84, 1.58, 2.3].forEach((y, index) => {
     box([.025, .035, 1.28], [-7.205, y, .975], 0x554940, .212 + index * .003, { edges: false });
@@ -397,8 +416,8 @@ window.addEventListener("load", async () => {
   cylinder(2.18, .025, [2.55, -.01, -1.85], 0xd8d0c4, .47, { roughness: 1, edges: false });
   cylinder(1.34, .13, [2.55, .8, -1.85], palette.woodLight, .48, { roughness: .48 });
   addObject(new THREE.CylinderGeometry(.38, .62, .76, 36), {
-    position: [2.55, .38, -1.85], color: palette.travertine, order: .49,
-    roughness: .72, metalness: .02,
+    position: [2.55, .38, -1.85], color: palette.woodLight, order: .49,
+    roughness: .58, metalness: .02,
   });
   for (let index = 0; index < 6; index += 1) {
     const angle = (index / 6) * Math.PI * 2;
@@ -653,7 +672,7 @@ window.addEventListener("load", async () => {
   // Marcenaria inferior e superior em linho quente, com fundo em pedra clara.
   roundedBox([5.75, .78, .72], [-2.58, .38, -3.72], 0xd8d0c4, .34, { radius: .025, roughness: .74 });
   box([5.86, .1, .86], [-2.58, .82, -3.72], palette.quartz, .35, { roughness: .22 });
-  box([5.7, 1.05, .06], [-2.58, 1.48, -4.06], palette.travertine, .36, { roughness: .78, edges: false });
+  box([5.7, 1.05, .06], [-2.58, 1.48, -4.06], palette.quartz, .36, { roughness: .34, edges: false });
   [-1.6, -.35, .9].forEach((x, index) => {
     roundedBox([1.16, 1.03, .48], [x, 2.24, -3.78], index === 1 ? 0xc1b8ab : 0xe2ddd5, .37 + index * .006, {
       radius: .025, roughness: .72,
@@ -745,9 +764,9 @@ window.addEventListener("load", async () => {
   sofaScaleGroup.scale.set(.82, .94, .88);
 
   // Mesa baixa com livro e vaso floral.
-  roundedBox([2.65, .16, .92], [2.55, .38, 1.42], palette.travertine, .65, { radius: .09, roughness: .68 });
-  cylinder(.22, .38, [1.55, .2, 1.42], palette.travertine, .655);
-  cylinder(.22, .38, [3.55, .2, 1.42], palette.travertine, .655);
+  roundedBox([2.65, .16, .92], [2.55, .38, 1.42], palette.woodLight, .65, { radius: .09, roughness: .52 });
+  cylinder(.22, .38, [1.55, .2, 1.42], palette.woodLight, .655);
+  cylinder(.22, .38, [3.55, .2, 1.42], palette.woodLight, .655);
   [0, .065].forEach((height, index) => {
     box([.62, .055, .42], [2.05, .5 + height, 1.38], index ? 0x889cab : 0xefe7db, .67 + index * .004, {
       rotation: [0, index ? .05 : -.03, 0], roughness: .86, edges: false,
@@ -840,9 +859,9 @@ window.addEventListener("load", async () => {
   activeParent = livingGroup;
 
   // Painel de TV contínuo, sem a lâmina perpendicular que dividia a tela.
-  roundedBox([.3, 2.85, 4.2], [-6.56, 1.35, 2.55], 0x9b7a60, .84, { radius: .025, roughness: .58 });
-  roundedBox([.12, 2.28, 3.68], [-6.34, 1.45, 2.55], 0xe5e0d8, .85, {
-    radius: .035, roughness: .78,
+  roundedBox([.3, 2.85, 4.2], [-6.56, 1.35, 2.55], palette.woodLight, .84, { radius: .025, roughness: .54 });
+  roundedBox([.12, 2.28, 3.68], [-6.34, 1.45, 2.55], palette.woodLight, .85, {
+    radius: .035, roughness: .5,
   });
   roundedBox([2.55, 1.48, .1], [-6.26, 1.55, 2.55], 0x181817, .86, {
     rotation: [0, Math.PI / 2, 0], radius: .045, roughness: .12, metalness: .15,
