@@ -37,7 +37,6 @@
 
   const item = (selector) => hero.querySelector(selector);
 
-  /* Hero keeps exactly its existing scroll motion. */
   gsap.timeline({
     scrollTrigger: {
       trigger: hero,
@@ -47,34 +46,52 @@
       invalidateOnRefresh: true
     }
   })
-    .to(item(".hero-art__brand"), { yPercent: -45, opacity: .35, ease: "none" }, 0)
-    .to(item(".hero-art__arte"), { xPercent: -3, yPercent: -14, ease: "none" }, 0)
-    .to(item(".hero-art__de"), { xPercent: 5, yPercent: -22, ease: "none" }, 0)
-    .to(item(".hero-art__habitar"), { xPercent: 8, yPercent: -17, ease: "none" }, 0)
-    .to(item(".hero-art__wood"), { yPercent: -5, ease: "none" }, 0);
+    .to(item(".hero-art__brand"), {
+      yPercent: -45,
+      opacity: .35,
+      ease: "none"
+    }, 0)
+    .to(item(".hero-art__arte"), {
+      xPercent: -3,
+      yPercent: -14,
+      ease: "none"
+    }, 0)
+    .to(item(".hero-art__de"), {
+      xPercent: 5,
+      yPercent: -22,
+      ease: "none"
+    }, 0)
+    .to(item(".hero-art__habitar"), {
+      xPercent: 8,
+      yPercent: -17,
+      ease: "none"
+    }, 0)
+    .to(item(".hero-art__wood"), {
+      yPercent: -5,
+      ease: "none"
+    }, 0);
 
-  /*
-   * The supplied sticky-panel effect is intentionally scoped to section 2.
-   * Before the material section reaches the top edge it remains ordinary page
-   * content. At top top, its own sticky viewport takes over. We do NOT pin or
-   * translate the hero and do NOT move the whole material section over it.
-   */
   if (story) {
-    const viewport = story.querySelector(".material-spiral__viewport");
+    const spiralStage = story.querySelector(".material-spiral__stage");
+    const spiralTitle = story.querySelector(".material-spiral__title");
+    const enteringElements = [spiralStage, spiralTitle].filter(Boolean);
 
-    ScrollTrigger.create({
-      trigger: story,
-      start: "top top",
-      end: "bottom bottom",
-      onEnter: () => story.classList.add("is-sticky-scroll-active"),
-      onEnterBack: () => story.classList.add("is-sticky-scroll-active"),
-      onLeave: () => story.classList.remove("is-sticky-scroll-active"),
-      onLeaveBack: () => story.classList.remove("is-sticky-scroll-active"),
-      invalidateOnRefresh: true
-    });
-
-    if (viewport) {
-      gsap.set(viewport, { clearProps: "transform" });
+    if (enteringElements.length) {
+      gsap.fromTo(
+        enteringElements,
+        { y: "-46vh" },
+        {
+          y: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: story,
+            start: () => innerWidth <= 760 ? "top 22%" : "top 31%",
+            end: "top top",
+            scrub: 1.25,
+            invalidateOnRefresh: true
+          }
+        }
+      );
     }
   }
 
