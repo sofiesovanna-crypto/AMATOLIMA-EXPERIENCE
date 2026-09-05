@@ -1,7 +1,9 @@
-/* Encerramento visual — composição concêntrica guiada pelos frames de referência. */
+/* Encerramento visual — composição concêntrica leve, com entrada progressiva. */
 .closing-collage {
   position: relative;
-  height: 760svh;
+  height: 720svh;
+  margin-top: -18svh;
+  padding-top: 18svh;
   background: #f2f3f5;
 }
 
@@ -18,8 +20,8 @@
 
 .closing-collage__stage {
   position: relative;
-  width: min(96vw, 1660px);
-  height: min(91svh, 980px);
+  width: min(82vw, 1260px);
+  height: min(69svh, 760px);
   isolation: isolate;
   transform-origin: 50% 50%;
   will-change: transform;
@@ -35,7 +37,7 @@
   overflow: hidden;
   transform-origin: 50% 50%;
   will-change: transform, opacity;
-  background: #dedbd6;
+  background: transparent;
 }
 
 .closing-collage__layer img {
@@ -44,10 +46,9 @@
   display: block;
   object-fit: cover;
   will-change: transform, opacity;
-  filter: saturate(.84) contrast(1.01) sepia(.025);
+  filter: saturate(.86) contrast(1.005) sepia(.02);
 }
 
-/* Todas usam a mesma tela-base; JS define a escala de cada moldura durante o scroll. */
 .closing-collage__layer--1 { z-index: 1; }
 .closing-collage__layer--2 { z-index: 2; }
 .closing-collage__layer--3 { z-index: 3; }
@@ -58,11 +59,11 @@
 .closing-collage__layer--4 img { object-position: center 48%; }
 
 @media (max-width: 900px) {
-  .closing-collage { height: 650svh; }
-  .closing-collage__stage { width: 94vw; height: 76svh; }
+  .closing-collage { height: 650svh; margin-top: -10svh; padding-top: 10svh; }
+  .closing-collage__stage { width: 88vw; height: 60svh; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .closing-collage { height: 100svh; }
+  .closing-collage { height: 100svh; margin-top: 0; padding-top: 0; }
   .closing-collage__layer { opacity: 1 !important; }
 }
