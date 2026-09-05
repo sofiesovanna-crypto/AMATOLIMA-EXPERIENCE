@@ -783,18 +783,30 @@ window.addEventListener("load", async () => {
       });
     });
 
+    // Folha orgânica com ponta e nervura central, sem volumes esféricos.
+    const leafShape = new THREE.Shape();
+    leafShape.moveTo(-.34, 0);
+    leafShape.bezierCurveTo(-.14, .13, .18, .14, .4, 0);
+    leafShape.bezierCurveTo(.18, -.14, -.14, -.13, -.34, 0);
+    const leafGeometry = new THREE.ShapeGeometry(leafShape, 10);
+
     [
-      [-.58, 1.58, .08, -.32], [-.35, 1.72, -.08, .2], [.42, 1.83, -.1, .3],
-      [.64, 1.98, .06, -.22], [-.48, 2.12, -.13, -.28], [-.2, 2.3, .1, .24],
-      [.38, 2.38, -.08, -.2], [.18, 2.58, .06, .26],
-    ].forEach(([dx, y, dz, tilt], index) => {
-      const leaf = addObject(new THREE.SphereGeometry(.16, 14, 10), {
+      [-.62, 1.55, .08, -.42, .08], [-.42, 1.68, -.08, -.08, -.06],
+      [-.2, 1.78, .04, .3, .08], [.36, 1.76, -.1, 2.78, -.08],
+      [.58, 1.91, .04, 2.96, .06], [.72, 2.04, -.04, 3.26, -.04],
+      [-.54, 2.08, -.1, -.45, .08], [-.3, 2.2, .1, -.08, -.05],
+      [.04, 2.3, -.06, .36, .06], [.4, 2.34, -.08, 2.78, -.07],
+      [.3, 2.52, .05, 2.96, .04], [.08, 2.66, -.04, 1.42, -.04],
+    ].forEach(([dx, y, dz, tilt, pitch], index) => {
+      const leaf = addObject(leafGeometry, {
         position: [x + dx, y, z + dz],
         color: index % 2 ? 0x78866f : 0x62715e,
+        rotation: [pitch, index % 3 === 0 ? .22 : -.12, tilt],
         order: order + .03 + index * .004, roughness: .96, edges: false,
       });
-      leaf.scale.set(1.65, .55, .72);
-      leaf.rotation.z = tilt;
+      const leafScale = index % 3 === 0 ? .9 : .72;
+      leaf.scale.set(leafScale, leafScale, leafScale);
+      leaf.material.side = THREE.DoubleSide;
       objects[objects.length - 1].baseScale.copy(leaf.scale);
     });
   };
