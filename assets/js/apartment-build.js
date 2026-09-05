@@ -309,11 +309,11 @@ window.addEventListener("load", async () => {
   box([14.8, .22, 10.4], [0, -.16, .3], palette.travertine, .02, { roughness: .82 });
   for (let z = -4.25; z <= 4.95; z += 1.15) box([14.2, .014, .018], [0, -.035, z], palette.stone, .06, { edges: false });
 
-  // Parede de fundo vazada: quatro panos enquadram uma janela real, sem parede atrás do vidro.
-  box([2.45, 3.9, .2], [-5.68, 1.82, -4.5], palette.plaster, .1);
-  box([2.45, 3.9, .2], [5.68, 1.82, -4.5], palette.plaster, .1);
-  box([8.92, .46, .2], [0, 3.67, -4.5], palette.plaster, .11);
-  box([8.92, .54, .2], [0, .11, -4.5], palette.plaster, .11);
+  // Parede de fundo muito clara, com um vão panorâmico e pouca massa aparente.
+  box([1.85, 3.9, .2], [-6.48, 1.82, -4.5], palette.plaster, .1);
+  box([1.85, 3.9, .2], [6.48, 1.82, -4.5], palette.plaster, .1);
+  box([11.15, .38, .2], [0, 3.71, -4.5], palette.plaster, .11);
+  box([11.15, .42, .2], [0, .06, -4.5], palette.plaster, .11);
 
   // Parede lateral interrompida por um acesso generoso.
   box([.2, 3.9, 5.45], [-7.38, 1.82, -1.73], palette.plasterWarm, .12);
@@ -331,11 +331,25 @@ window.addEventListener("load", async () => {
   box([.16, 3.25, 3.0], [-9.48, 1.48, 2.48], palette.plasterWarm, .23);
   box([2.3, 3.25, .16], [-8.32, 1.48, 3.96], palette.plaster, .23);
 
-  // Esquadria ampla que define a sala.
-  box([8.6, .16, .18], [1.55, 3.35, -4.34], palette.metal, .18);
-  box([8.6, .16, .18], [1.55, .55, -4.34], palette.metal, .18);
-  for (let x = -2.75; x <= 5.85; x += 1.72) box([.12, 2.95, .16], [x, 1.94, -4.34], palette.metal, .2);
-  for (let x = -1.89; x <= 4.99; x += 1.72) box([1.58, 2.65, .035], [x, 1.94, -4.37], palette.glass, .23, { roughness: .18, metalness: .05, edges: false });
+  // Esquadria panorâmica clara: perfis finos, quatro folhas e persianas horizontais.
+  const windowCenter = .18;
+  const windowWidth = 10.72;
+  box([windowWidth, .12, .18], [windowCenter, 3.45, -4.34], 0x5f5a54, .18);
+  box([windowWidth, .12, .18], [windowCenter, .43, -4.34], 0x5f5a54, .18);
+  [-5.18, -2.5, .18, 2.86, 5.54].forEach((x) => box([.075, 3.12, .16], [x, 1.94, -4.34], 0x5f5a54, .2));
+  [-3.84, -1.16, 1.52, 4.2].forEach((x) => box([2.55, 2.88, .035], [x, 1.94, -4.37], palette.glass, .23, {
+    roughness: .12, metalness: .03, edges: false,
+  }));
+
+  // Lâminas claras deixam a paisagem e a luz aparecerem na base, como na referência.
+  for (let y = 1.62; y <= 3.34; y += .095) {
+    box([10.55, .026, .052], [windowCenter, y, -4.08], 0xe9e7e1, .84 + (y - 1.62) * .006, {
+      rotation: [-.09, 0, 0], roughness: .72, edges: false,
+    });
+  }
+  [-2.5, .18, 2.86].forEach((x, index) => {
+    box([.018, 1.8, .03], [x, 2.48, -4.045], 0x8a847c, .9 + index * .003, { edges: false });
+  });
 
   // Cozinha e marcenaria contínua.
   activeParent = kitchenGroup;
@@ -602,34 +616,27 @@ window.addEventListener("load", async () => {
   box([.28, 1.22, .025], [-5.79, 1.96, -4.25], 0x716359, .89, { rotation: [0, 0, -.18], edges: false });
   box([.42, .64, .025], [-5.43, 2.22, -4.23], 0xefe7db, .895, { rotation: [0, 0, .28], edges: false });
 
-  // Cortinas com pregas, em vez de duas placas planas, respondem melhor à luz lateral.
-  [-3.09, -2.94, -2.79, 5.74, 5.89, 6.04].forEach((x, index) => {
-    roundedBox([.19, 3.02, .055], [x, 1.87, -4.16 + (index % 2) * .025], 0xe8dfd2, .9 + index * .002, {
-      radius: .022, roughness: .96, edges: false,
-    });
-  });
-
   const viewCanvas = document.createElement("canvas");
   viewCanvas.width = 1024;
   viewCanvas.height = 384;
   const viewContext = viewCanvas.getContext("2d");
   const sky = viewContext.createLinearGradient(0, 0, 0, 384);
-  sky.addColorStop(0, "#b9c9ca");
-  sky.addColorStop(.62, "#d8d8cf");
-  sky.addColorStop(1, "#8b8d79");
+  sky.addColorStop(0, "#e8f2f1");
+  sky.addColorStop(.56, "#eef3e9");
+  sky.addColorStop(1, "#a9c49b");
   viewContext.fillStyle = sky;
   viewContext.fillRect(0, 0, 1024, 384);
-  viewContext.fillStyle = "rgba(76,78,65,.28)";
+  viewContext.fillStyle = "rgba(85,112,70,.34)";
   [[30,245,88],[130,220,130],[274,260,74],[358,205,118],[498,238,102],[620,188,155],[802,230,94],[902,198,122]].forEach(([x,y,w]) => {
     viewContext.fillRect(x, y, w, 384 - y);
   });
-  viewContext.fillStyle = "rgba(243,235,207,.32)";
+  viewContext.fillStyle = "rgba(247,241,218,.44)";
   for (let x = 54; x < 970; x += 72) viewContext.fillRect(x, 282 + (x % 3) * 7, 14, 7);
   const viewTexture = new THREE.CanvasTexture(viewCanvas);
   viewTexture.colorSpace = THREE.SRGBColorSpace;
-  const windowGlow = addObject(new THREE.PlaneGeometry(8.4, 2.7), {
-    position: [1.55, 1.94, -4.25], color: 0xcbd8d5, order: .965, roughness: .08,
-    metalness: .05, map: viewTexture, emissive: 0x52666a, emissiveIntensity: .08, edges: false,
+  const windowGlow = addObject(new THREE.PlaneGeometry(10.55, 2.88), {
+    position: [windowCenter, 1.94, -4.25], color: 0xe3ece5, order: .965, roughness: .06,
+    metalness: .03, map: viewTexture, emissive: 0xa9c3b1, emissiveIntensity: .13, edges: false,
   });
   windowGlow.material.side = THREE.DoubleSide;
 
