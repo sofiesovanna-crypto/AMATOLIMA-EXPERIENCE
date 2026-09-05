@@ -37,50 +37,45 @@
 
   const item = (selector) => hero.querySelector(selector);
 
-  gsap.timeline({
-    scrollTrigger: {
-      trigger: hero,
-      start: "top top",
-      end: "bottom top",
-      scrub: 1.35,
-      invalidateOnRefresh: true
-    }
-  })
+  const heroMotion = gsap.timeline({ paused: true })
     .to(item(".hero-art__brand"), { yPercent: -45, opacity: .35, ease: "none" }, 0)
     .to(item(".hero-art__arte"), { xPercent: -3, yPercent: -14, ease: "none" }, 0)
     .to(item(".hero-art__de"), { xPercent: 5, yPercent: -22, ease: "none" }, 0)
     .to(item(".hero-art__habitar"), { xPercent: 8, yPercent: -17, ease: "none" }, 0)
     .to(item(".hero-art__wood"), { yPercent: -5, ease: "none" }, 0);
 
-  /* ScrollTrigger controla a passagem para a segunda screen como scrub real. */
+  /*
+   * Hero pinned + próxima seção sobreposta: a tela branca sobe fisicamente
+   * sobre a hero, em vez de as duas simplesmente seguirem o fluxo da página.
+   */
   if (story) {
-    const viewport = story.querySelector(".material-spiral__viewport");
-    const spiralStage = story.querySelector(".material-spiral__stage");
-    const spiralTitle = story.querySelector(".material-spiral__title");
-    const progress = story.querySelector(".material-spiral__progress");
-    const enteringElements = [spiralStage, spiralTitle, progress].filter(Boolean);
+    gsap.set(story, { yPercent: 100 });
 
-    if (viewport && enteringElements.length) {
-      gsap.set(enteringElements, { autoAlpha: 0 });
-
-      const storyEntrance = gsap.timeline({ paused: true })
-        .fromTo(
-          enteringElements,
-          { autoAlpha: 0, yPercent: 18 },
-          { autoAlpha: 1, yPercent: 0, stagger: .035, ease: "none", duration: 1 },
-          0
-        );
-
-      ScrollTrigger.create({
-        trigger: story,
-        start: "top bottom",
-        end: "top top",
-        animation: storyEntrance,
+    const transition = gsap.timeline({
+      scrollTrigger: {
+        trigger: hero,
+        start: "top top",
+        end: "+=100%",
         scrub: 1,
+        pin: hero,
+        pinSpacing: true,
         anticipatePin: 1,
         invalidateOnRefresh: true
-      });
-    }
+      }
+    });
+
+    transition
+      .add(heroMotion, 0)
+      .to(story, { yPercent: 0, ease: "none", duration: 1 }, 0);
+  } else {
+    ScrollTrigger.create({
+      trigger: hero,
+      start: "top top",
+      end: "bottom top",
+      scrub: 1.35,
+      animation: heroMotion,
+      invalidateOnRefresh: true
+    });
   }
 
   ScrollTrigger.refresh();
