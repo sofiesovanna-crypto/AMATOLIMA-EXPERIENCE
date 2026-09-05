@@ -246,12 +246,60 @@ function projectsTemplate() {
     </section>`;
 }
 
+function transformationTemplate() {
+  return `
+    <section class="project-evolution" id="transformacao" aria-labelledby="project-evolution-title" data-project-evolution>
+      <div class="project-evolution__pin">
+        <div class="project-evolution__background" aria-hidden="true"></div>
+
+        <header class="project-evolution__copy">
+          <p class="project-evolution__eyebrow">Do existente ao essencial</p>
+          <h2 id="project-evolution-title">A arquitetura revela<br />o que o imóvel pode ser.</h2>
+          <p class="project-evolution__stage-label" data-evolution-label aria-live="polite">Antes</p>
+        </header>
+
+        <div class="project-evolution__frame" data-evolution-frame>
+          <figure class="project-evolution__layer project-evolution__layer--before" data-evolution-layer="before">
+            <img src="assets/images/transformation/antes-sala.jpg" alt="Apartamento antes da transformação" />
+          </figure>
+
+          <figure class="project-evolution__layer project-evolution__layer--render" data-evolution-layer="render">
+            <img src="assets/images/transformation/render-sala.jpg" alt="Render tridimensional do projeto da área social" />
+          </figure>
+
+          <figure class="project-evolution__layer project-evolution__layer--final" data-evolution-layer="final">
+            <img src="assets/images/transformation/final-sala.jpg" alt="Área social depois da transformação" />
+          </figure>
+
+          <svg class="project-evolution__plan" viewBox="0 0 1200 760" role="img" aria-label="Planta arquitetônica sendo desenhada" data-evolution-plan>
+            <g class="project-evolution__plan-lines">
+              <path d="M92 92H1108V668H92Z" />
+              <path d="M92 286H450V668M450 92V668M450 388H1108" />
+              <path d="M746 92V388M916 388V668" />
+              <path d="M177 286V187H355V286M530 184H665V296H530Z" />
+              <path d="M526 481H820V596H526Z" />
+              <path d="M916 493H1029V603H916" />
+              <path d="M450 286a92 92 0 0 1-92 92M746 388a82 82 0 0 1 82-82M916 493a72 72 0 0 1 72-72" />
+              <path d="M127 118H413M485 118H713M781 118H1070" />
+            </g>
+          </svg>
+
+          <span class="project-evolution__wash" aria-hidden="true"></span>
+          <span class="project-evolution__reflection" aria-hidden="true" data-evolution-reflection></span>
+        </div>
+
+        <div class="project-evolution__progress" aria-hidden="true"><span data-evolution-progress></span></div>
+        <p class="project-evolution__hint">Role para acompanhar a transformação</p>
+      </div>
+    </section>`;
+}
+
 function quoteTemplate() {
   return `<section class="section section--cocoa quote-band"><div class="container reveal"><p class="eyebrow">Amato Lima</p><blockquote>“Sofisticada e, acima de tudo, atemporal.”</blockquote><div class="button-row"><a class="button button--light" href="contato.html">Inicie uma conversa</a></div></div></section>`;
 }
 
 function mainTemplate() {
-  return `<main id="conteudo">${heroTemplate()}${perspectiveTemplate()}${principlesTemplate()}${projectsTemplate()}${quoteTemplate()}</main>`;
+  return `<main id="conteudo">${heroTemplate()}${perspectiveTemplate()}${principlesTemplate()}${projectsTemplate()}${transformationTemplate()}${quoteTemplate()}</main>`;
 }
 
 function footerTemplate() {

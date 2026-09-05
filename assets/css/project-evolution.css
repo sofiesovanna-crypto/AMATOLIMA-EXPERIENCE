@@ -1,0 +1,158 @@
+.project-evolution {
+  --evolution-ink: #261c12;
+  position: relative;
+  height: 560vh;
+  background: #f1f1f1;
+}
+
+.project-evolution__pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 680px;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--evolution-ink);
+}
+
+.project-evolution__background {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  background: #f1f1f1;
+  will-change: background-color;
+}
+
+.project-evolution__copy {
+  position: absolute;
+  z-index: 8;
+  top: clamp(42px, 7vh, 82px);
+  left: clamp(24px, 6vw, 92px);
+  width: min(40vw, 600px);
+}
+
+.project-evolution__eyebrow,
+.project-evolution__stage-label,
+.project-evolution__hint {
+  margin: 0;
+  font-size: clamp(.58rem, .68vw, .72rem);
+  letter-spacing: .23em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.project-evolution__eyebrow { margin-bottom: 20px; opacity: .58; }
+
+.project-evolution__copy h2 {
+  max-width: 660px;
+  margin: 0;
+  font-family: var(--serif, "Cormorant Garamond", serif);
+  font-size: clamp(2.5rem, 4.8vw, 5.5rem);
+  font-weight: 400;
+  letter-spacing: -.045em;
+  line-height: .92;
+}
+
+.project-evolution__stage-label {
+  margin-top: 26px;
+  opacity: .72;
+}
+
+.project-evolution__frame {
+  position: absolute;
+  z-index: 2;
+  right: clamp(26px, 5vw, 76px);
+  bottom: clamp(45px, 7vh, 78px);
+  width: min(67vw, 1040px);
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #e8e4de;
+  transform-origin: 50% 65%;
+  will-change: transform;
+}
+
+.project-evolution__layer,
+.project-evolution__plan,
+.project-evolution__wash,
+.project-evolution__reflection {
+  position: absolute;
+  inset: 0;
+}
+
+.project-evolution__layer { margin: 0; overflow: hidden; }
+.project-evolution__layer img { width: 100%; height: 100%; object-fit: cover; }
+.project-evolution__layer--before img { object-position: center 48%; filter: saturate(.72) sepia(.08); }
+.project-evolution__layer--render,
+.project-evolution__layer--final { opacity: 0; clip-path: inset(0 100% 0 0); }
+.project-evolution__layer--render img { object-position: center 54%; }
+.project-evolution__layer--final img { object-position: center 48%; }
+
+.project-evolution__plan {
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  padding: 5%;
+  opacity: 0;
+  color: #4a3a2d;
+  background: rgba(244, 244, 244, .9);
+}
+
+.project-evolution__plan-lines {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.project-evolution__wash { z-index: 3; background: rgba(244,244,244,0); pointer-events: none; }
+
+.project-evolution__reflection {
+  z-index: 7;
+  inset: -25% auto -25% -30%;
+  width: 12%;
+  opacity: 0;
+  transform: skewX(-16deg);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.48), transparent);
+  filter: blur(10px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.project-evolution__progress {
+  position: absolute;
+  z-index: 8;
+  right: clamp(26px, 5vw, 76px);
+  bottom: 25px;
+  width: min(67vw, 1040px);
+  height: 1px;
+  overflow: hidden;
+  background: rgba(38,28,18,.14);
+}
+
+.project-evolution__progress span { display: block; width: 100%; height: 100%; background: currentColor; transform: scaleX(0); transform-origin: left; }
+.project-evolution__hint { position: absolute; z-index: 8; right: clamp(26px,5vw,76px); top: clamp(44px,7vh,82px); opacity: .42; }
+
+@media (max-width: 760px) {
+  .project-evolution { height: 500vh; }
+  .project-evolution__pin { min-height: 620px; }
+  .project-evolution__copy { top: 11vh; right: 24px; left: 24px; width: auto; }
+  .project-evolution__copy h2 { max-width: 94%; font-size: clamp(2.6rem, 12.5vw, 4.2rem); }
+  .project-evolution__eyebrow { margin-bottom: 13px; }
+  .project-evolution__stage-label { margin-top: 15px; }
+  .project-evolution__frame { right: 18px; bottom: 11vh; left: 18px; width: auto; aspect-ratio: 4 / 5; }
+  .project-evolution__layer img { object-position: center; }
+  .project-evolution__progress { right: 18px; bottom: calc(11vh - 18px); left: 18px; width: auto; }
+  .project-evolution__hint { display: none; }
+  .project-evolution__plan { padding: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-evolution { height: auto; }
+  .project-evolution__pin { position: relative; min-height: 100svh; }
+  .project-evolution__layer--before,
+  .project-evolution__layer--render,
+  .project-evolution__plan { display: none; }
+  .project-evolution__layer--final { opacity: 1; clip-path: none; }
+}
