@@ -752,41 +752,41 @@ window.addEventListener("load", async () => {
     });
   }
 
-  // Figueiras altas e leves substituem os antigos volumes de cacto.
-  // A copa espaçada mantém a linguagem minimalista e deixa a luz atravessar.
-  const createLivingTree = (x, z, order, mirrored = false) => {
+  // Árvore de copa leve, inspirada no porte delicado da referência.
+  const createLivingTree = (x, z, order) => {
     cylinder(.34, .54, [x, .27, z], 0xd8d0c3, order, { roughness: .86 });
-    cylinder(.09, 1.72, [x, 1.23, z], 0x796452, order + .008, { roughness: .82, edges: false });
+    cylinder(.065, 2.05, [x, 1.38, z], 0x75614f, order + .008, {
+      rotation: [.035, 0, -.07], roughness: .88, edges: false,
+    });
 
-    const direction = mirrored ? -1 : 1;
     [
-      { dx: -.2 * direction, y: 1.64, dz: .02, rx: .08, rz: -.36 * direction },
-      { dx: .24 * direction, y: 1.88, dz: -.04, rx: -.06, rz: .42 * direction },
-      { dx: -.1 * direction, y: 2.13, dz: .08, rx: .12, rz: -.2 * direction },
+      { dx: -.22, y: 1.62, dz: .02, rx: .08, rz: -.48, length: .78 },
+      { dx: .24, y: 1.92, dz: -.04, rx: -.06, rz: .46, length: .84 },
+      { dx: -.18, y: 2.2, dz: .06, rx: .1, rz: -.38, length: .68 },
+      { dx: .16, y: 2.45, dz: -.02, rx: -.04, rz: .3, length: .56 },
     ].forEach((branch, index) => {
-      cylinder(.035, .72 - index * .08, [x + branch.dx, branch.y, z + branch.dz], 0x796452, order + .012 + index * .004, {
+      cylinder(.024, branch.length, [x + branch.dx, branch.y, z + branch.dz], 0x75614f, order + .012 + index * .004, {
         rotation: [branch.rx, 0, branch.rz], roughness: .86, edges: false,
       });
     });
 
     [
-      [-.42, 1.58, .08], [.34, 1.68, -.12], [-.3, 1.92, -.18],
-      [.42, 2.02, .08], [-.12, 2.25, .12], [.2, 2.38, -.08],
-    ].forEach(([dx, y, dz], index) => {
-      const leaf = addObject(new THREE.SphereGeometry(.25, 16, 12), {
-        position: [x + dx * direction, y, z + dz],
-        color: index % 2 ? 0x7f8c78 : 0x687762,
+      [-.58, 1.58, .08, -.32], [-.35, 1.72, -.08, .2], [.42, 1.83, -.1, .3],
+      [.64, 1.98, .06, -.22], [-.48, 2.12, -.13, -.28], [-.2, 2.3, .1, .24],
+      [.38, 2.38, -.08, -.2], [.18, 2.58, .06, .26],
+    ].forEach(([dx, y, dz, tilt], index) => {
+      const leaf = addObject(new THREE.SphereGeometry(.16, 14, 10), {
+        position: [x + dx, y, z + dz],
+        color: index % 2 ? 0x78866f : 0x62715e,
         order: order + .03 + index * .004, roughness: .96, edges: false,
       });
-      leaf.scale.set(1.05, 1.5, .5);
-      leaf.rotation.z = (index % 2 ? .28 : -.32) * direction;
+      leaf.scale.set(1.65, .55, .72);
+      leaf.rotation.z = tilt;
       objects[objects.length - 1].baseScale.copy(leaf.scale);
     });
   };
-  // Uma árvore acompanha o lado esquerdo do sofá; a outra ocupa o respiro
-  // entre o estar e a bancada, sem avançar sobre a janela ou a circulação.
-  createLivingTree(.25, 3.82, .72);
-  createLivingTree(5.0, .35, .76, true);
+  // A única árvore fica mais afastada e recuada em relação ao sofá.
+  createLivingTree(.1, 4.02, .72);
 
   // Lustre do estar: mesma família dos aros do jantar, porém mais detalhado.
   [[1.16,2.82,-.08],[.88,2.55,.1],[.58,2.27,-.06]].forEach(([radius,y,tilt], index) => {
@@ -817,7 +817,7 @@ window.addEventListener("load", async () => {
   // Painel de TV contínuo, sem a lâmina perpendicular que dividia a tela.
   roundedBox([.3, 2.85, 4.2], [-6.56, 1.35, 2.55], 0x9b7a60, .84, { radius: .025, roughness: .58 });
   roundedBox([.12, 2.28, 3.68], [-6.34, 1.45, 2.55], 0xe5e0d8, .85, {
-    rotation: [0, Math.PI / 2, 0], radius: .035, roughness: .78,
+    radius: .035, roughness: .78,
   });
   roundedBox([2.55, 1.48, .1], [-6.26, 1.55, 2.55], 0x181817, .86, {
     rotation: [0, Math.PI / 2, 0], radius: .045, roughness: .12, metalness: .15,
@@ -827,10 +827,10 @@ window.addEventListener("load", async () => {
     map: televisionTexture, order: .865, roughness: .08, metalness: .08, edges: false,
   });
   roundedBox([.45, .34, 3.95], [-6.18, .34, 2.55], 0x4b443f, .9, {
-    rotation: [0, Math.PI / 2, 0], radius: .03, roughness: .52,
+    radius: .03, roughness: .52,
   });
   box([.05, .045, 3.6], [-5.92, .58, 2.55], 0xffdca1, .905, {
-    rotation: [0, Math.PI / 2, 0], roughness: .2, emissive: 0xffbd65, emissiveIntensity: 1.3, edges: false,
+    roughness: .2, emissive: 0xffbd65, emissiveIntensity: 1.3, edges: false,
   });
 
   activeParent = apartment;
