@@ -135,7 +135,7 @@ window.addEventListener("load", async () => {
     surface.width = 512;
     surface.height = 512;
     const context = surface.getContext("2d");
-    context.fillStyle = kind === "wood" ? "#dcc9ae" : kind === "stone" ? "#e9e1d3" : kind === "travertine" ? "#cfbea2" : "#d1cbc2";
+    context.fillStyle = kind === "wood" ? "#dcc9ae" : kind === "stone" ? "#e9e1d3" : kind === "quartz" ? "#f5f3ef" : kind === "travertine" ? "#cfbea2" : "#d1cbc2";
     context.fillRect(0, 0, 512, 512);
 
     if (kind === "wood") {
@@ -150,10 +150,10 @@ window.addEventListener("load", async () => {
         context.stroke();
       }
     } else if (kind === "travertine") {
-      for (let i = 0; i < 52; i += 1) {
+      for (let i = 0; i < 72; i += 1) {
         const y = Math.random() * 512;
-        context.strokeStyle = `rgba(102,79,55,${Math.random() * .09 + .025})`;
-        context.lineWidth = Math.random() * 4 + .6;
+        context.strokeStyle = `rgba(92,68,46,${Math.random() * .13 + .05})`;
+        context.lineWidth = Math.random() * 4.8 + .75;
         context.beginPath();
         context.moveTo(-15, y);
         context.bezierCurveTo(150, y - 16, 345, y + 18, 527, y - 5);
@@ -171,11 +171,12 @@ window.addEventListener("load", async () => {
         const size = kind === "stone" ? Math.random() * 2.2 : Math.random() * 1.2;
         context.fillRect(Math.random() * 512, Math.random() * 512, size, size);
       }
-      if (kind === "stone") {
+      if (kind === "stone" || kind === "quartz") {
         for (let i = 0; i < 9; i += 1) {
           const y = 28 + i * 57 + Math.random() * 18;
-          context.strokeStyle = `rgba(104,99,92,${.045 + Math.random() * .035})`;
-          context.lineWidth = .7 + Math.random() * 1.2;
+          const veinAlpha = kind === "quartz" ? .075 : .085;
+          context.strokeStyle = `rgba(104,99,92,${veinAlpha + Math.random() * .045})`;
+          context.lineWidth = (kind === "quartz" ? .45 : .7) + Math.random() * 1.2;
           context.beginPath();
           context.moveTo(-30, y);
           context.bezierCurveTo(120, y - 48, 330, y + 38, 548, y - 14);
@@ -196,6 +197,7 @@ window.addEventListener("load", async () => {
     wood: makeSurfaceTexture("wood"),
     stone: makeSurfaceTexture("stone"),
     travertine: makeSurfaceTexture("travertine"),
+    quartz: makeSurfaceTexture("quartz"),
     fabric: makeSurfaceTexture("fabric"),
   };
 
@@ -225,6 +227,7 @@ window.addEventListener("load", async () => {
     if (color === palette.quartz) {
       return new THREE.MeshPhysicalMaterial({
         color, roughness: .24, metalness: 0, clearcoat: .32, clearcoatRoughness: .3,
+        map: surfaceTextures.quartz, bumpMap: surfaceTextures.quartz, bumpScale: .012,
         transparent: true, opacity: 0, envMapIntensity: .7, ...extras,
       });
     }
@@ -715,6 +718,31 @@ window.addEventListener("load", async () => {
     radius: .035, roughness: .22, emissive: 0xffca78, emissiveIntensity: .85, edges: false,
   });
 
+  // Linhas contínuas de LED quente sob a marcenaria, na pia e na bancada.
+  const kitchenLedOptions = {
+    roughness: .16, emissive: 0xffb85f, emissiveIntensity: 2.8, edges: false,
+  };
+  box([5.5, .035, .045], [-2.58, 1.7, -3.46], 0xffe0aa, .515, kitchenLedOptions);
+  box([5.55, .03, .04], [-2.58, 1.02, -3.4], 0xffd99a, .518, kitchenLedOptions);
+  box([4.18, .035, .045], [-2.25, .79, -.92], 0xffdda3, .52, kitchenLedOptions);
+  box([4.18, .028, .035], [-2.25, .27, -1.0], 0xffc978, .522, kitchenLedOptions);
+  const kitchenLedGlow = new THREE.PointLight(0xffc77d, 0, 7.5, 2);
+  kitchenLedGlow.position.set(-2.45, 1.35, -2.45);
+  kitchenGroup.add(kitchenLedGlow);
+
+  // Champanhe em suporte e duas taças de martíni na bancada integrada.
+  cylinder(.27, .34, [-1.02, 1.08, -1.56], 0xb9b1a7, .525, { metalness: .5, roughness: .2 });
+  cylinder(.12, .48, [-1.02, 1.32, -1.56], 0x6f8067, .528, { roughness: .36, edges: false });
+  cylinder(.07, .14, [-1.02, 1.62, -1.56], 0xd0b47b, .531, { metalness: .55, roughness: .18, edges: false });
+  [-2.02, -1.63].forEach((x, index) => {
+    addObject(new THREE.ConeGeometry(.16, .24, 28, 1, true), {
+      position: [x, 1.14, -1.18], rotation: [Math.PI, 0, 0], color: palette.glass,
+      order: .534 + index * .006, roughness: .04, metalness: .02, edges: false,
+    });
+    cylinder(.018, .25, [x, .96, -1.18], 0xd8d2c9, .536 + index * .006, { metalness: .16, roughness: .1, edges: false });
+    cylinder(.09, .018, [x, .83, -1.18], 0xd8d2c9, .538 + index * .006, { metalness: .16, roughness: .1, edges: false });
+  });
+
   // Sala: somente sofá curvo, mesa central, tapete, duas plantas e luz escultórica.
   activeParent = livingGroup;
   const loungeStartIndex = livingGroup.children.length;
@@ -761,7 +789,7 @@ window.addEventListener("load", async () => {
     child.position.sub(sofaScaleGroup.position);
     sofaScaleGroup.add(child);
   });
-  sofaScaleGroup.scale.set(.82, .94, .88);
+  sofaScaleGroup.scale.set(.7, .92, .82);
 
   // Mesa baixa com livro e vaso floral.
   roundedBox([2.65, .16, .92], [2.55, .38, 1.42], palette.woodLight, .65, { radius: .09, roughness: .52 });
@@ -995,6 +1023,7 @@ window.addEventListener("load", async () => {
     windowLight.intensity = 3.2 + materialPhase * 5.4;
     diningGlow.intensity = materialPhase * 2.1;
     livingGlow.intensity = materialPhase * 2.35;
+    kitchenLedGlow.intensity = materialPhase * 2.8;
     warmFill.intensity = .5 + materialPhase * 2.2;
     renderer.toneMappingExposure = .92 + materialPhase * .18;
     renderer.render(scene, camera);
