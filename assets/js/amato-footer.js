@@ -18,33 +18,28 @@
       <div class="amato-footer__top">
         <div class="amato-footer__identity">
           <a class="amato-footer__brand" href="index.html" aria-label="Amato Lima — página inicial">
-            <img class="amato-footer__mark" src="assets/images/monograma.png" alt="" />
+            <img class="amato-footer__mark" src="assets/images/logo/9175.png" alt="" />
             <span class="amato-footer__brand-copy"><strong>Amato Lima</strong><span>Ativos Imobiliários</span></span>
           </a>
           <p class="amato-footer__intro">Arquitetura, matéria e precisão aplicadas a ativos residenciais de alto padrão em São Paulo.</p>
           <div class="amato-footer__social" aria-label="Redes sociais">
-            <a href="#" aria-label="Instagram">Instagram</a>
-            <a href="#" aria-label="LinkedIn">LinkedIn</a>
+            <a href="#" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4.25"></circle><circle cx="17.4" cy="6.7" r="1"></circle></svg></a>
+            <a href="#" aria-label="WhatsApp" title="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.7a8.4 8.4 0 0 1-12.4 7.4L3.5 20.5l1.5-4.4a8.4 8.4 0 1 1 15.5-4.4Z"></path><path d="M8.3 7.8c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.8 1.9c.1.3.1.5-.1.7l-.6.7c-.2.2-.1.4 0 .6.6 1.1 1.5 2 2.6 2.6.2.1.4.2.6 0l.8-1c.2-.2.4-.3.7-.2l1.8.8c.3.1.5.3.5.5 0 .3-.1 1.4-.7 1.9-.5.5-1.3.8-2.2.6-1-.2-2.8-.9-4.7-2.6-1.5-1.4-2.6-3.1-2.9-4.1-.3-.9 0-1.8.4-2.3.4-.4.8-.6 1.3-.6Z"></path></svg></a>
           </div>
+        </div>
+
+        <div class="amato-footer__column">
+          <h3>Institucional</h3>
+          <nav class="amato-footer__links" aria-label="Institucional">
+            <a href="sobre.html">Sobre</a>
+          </nav>
         </div>
 
         <div class="amato-footer__column">
           <h3>Ativos</h3>
           <nav class="amato-footer__links" aria-label="Ativos">
-            <a href="ativos.html">Imóveis</a>
-            <a href="reformas.html">Reformas</a>
-            <a href="projetos.html">Projetos</a>
-            <a href="contato.html">Contato</a>
-          </nav>
-        </div>
-
-        <div class="amato-footer__column">
-          <h3>Amato Lima</h3>
-          <nav class="amato-footer__links" aria-label="Amato Lima">
-            <a href="sobre.html">Sobre</a>
-            <a href="index.html#fundamentos">Fundamentos</a>
-            <a href="index.html#transformacao">Processo</a>
-            <a href="contato.html">Conversar</a>
+            <a href="ativos.html">Ativos disponíveis</a>
+            <a href="projetos.html">Portfólio</a>
           </nav>
         </div>
 
@@ -52,9 +47,6 @@
           <h3>Contato</h3>
           <nav class="amato-footer__links" aria-label="Contato">
             <a href="contato.html">Fale conosco</a>
-            <a href="projetos.html">Portfólio</a>
-            <a href="ativos.html">Ativos disponíveis</a>
-            <a href="sobre.html">São Paulo, SP</a>
           </nav>
         </div>
       </div>
