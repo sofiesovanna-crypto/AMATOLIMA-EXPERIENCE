@@ -71,27 +71,33 @@
       ease: "none"
     }, 0);
 
+  /*
+   * A segunda tela permanece completamente limpa enquanto o hero termina.
+   * O viewport da matéria já ocupa a próxima screen; apenas o conteúdo interno
+   * é revelado depois que essa screen assumiu o enquadramento, evitando que
+   * carrossel e título "desçam junto" com a transição do hero.
+   */
   if (story) {
     const spiralStage = story.querySelector(".material-spiral__stage");
     const spiralTitle = story.querySelector(".material-spiral__title");
     const enteringElements = [spiralStage, spiralTitle].filter(Boolean);
 
     if (enteringElements.length) {
-      gsap.fromTo(
-        enteringElements,
-        { y: "-46vh" },
-        {
-          y: 0,
-          ease: "none",
-          scrollTrigger: {
-            trigger: story,
-            start: "top bottom",
-            end: "top top",
-            scrub: 1.25,
-            invalidateOnRefresh: true
-          }
+      gsap.set(enteringElements, { opacity: 0, y: 0 });
+
+      gsap.to(enteringElements, {
+        opacity: 1,
+        duration: 1,
+        stagger: .04,
+        ease: "none",
+        scrollTrigger: {
+          trigger: story,
+          start: "top 12%",
+          end: "top top",
+          scrub: 1.15,
+          invalidateOnRefresh: true
         }
-      );
+      });
     }
   }
 
