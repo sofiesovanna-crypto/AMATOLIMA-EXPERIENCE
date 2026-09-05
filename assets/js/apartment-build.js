@@ -34,13 +34,15 @@ window.addEventListener("load", async () => {
 
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.6));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.02;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.setClearColor(0x000000, 0);
 
   const scene = new THREE.Scene();
-  const camera = new THREE.OrthographicCamera(-8, 8, 5, -5, .1, 100);
-  camera.position.set(13, 11, 15);
+  const camera = new THREE.PerspectiveCamera(31, 1, .1, 100);
+  camera.position.set(14.8, 10.8, 18.5);
   camera.lookAt(0, 0, 0);
 
   const apartment = new THREE.Group();
@@ -60,12 +62,27 @@ window.addEventListener("load", async () => {
   apartment.add(kitchenGroup, diningGroup, livingGroup);
   let activeParent = apartment;
 
-  const ambient = new THREE.HemisphereLight(0xfff8ed, 0x5a4435, 1.3);
-  const sun = new THREE.DirectionalLight(0xffeed0, 3.2);
+  const ambient = new THREE.HemisphereLight(0xfff8ed, 0x44362f, .72);
+  const sun = new THREE.DirectionalLight(0xffeed0, 2.8);
   sun.position.set(-8, 13, 9);
   sun.castShadow = true;
   sun.shadow.mapSize.set(1024, 1024);
+  sun.shadow.camera.left = -12;
+  sun.shadow.camera.right = 12;
+  sun.shadow.camera.top = 12;
+  sun.shadow.camera.bottom = -12;
+  sun.shadow.bias = -.00035;
   scene.add(ambient, sun);
+
+  const windowLight = new THREE.RectAreaLight(0xdde9eb, 7.5, 8.5, 3.2);
+  windowLight.position.set(1.3, 2.1, -4.08);
+  windowLight.lookAt(1.3, .4, 3.5);
+  scene.add(windowLight);
+
+  const warmFill = new THREE.RectAreaLight(0xffd7a0, 2.4, 4, 2.5);
+  warmFill.position.set(-4.9, 2.4, 1.8);
+  warmFill.lookAt(1, .4, 0);
+  scene.add(warmFill);
 
   const glow = new THREE.PointLight(0xe7bc79, 0, 18, 1.7);
   glow.position.set(-5, 4, 5);
@@ -84,10 +101,70 @@ window.addEventListener("load", async () => {
     green: 0x65715c,
   };
 
+  const makeSurfaceTexture = (kind) => {
+    const surface = document.createElement("canvas");
+    surface.width = 512;
+    surface.height = 512;
+    const context = surface.getContext("2d");
+    context.fillStyle = kind === "wood" ? "#d4c1a8" : kind === "stone" ? "#ddd6ca" : "#d1cbc2";
+    context.fillRect(0, 0, 512, 512);
+
+    if (kind === "wood") {
+      for (let i = 0; i < 150; i += 1) {
+        const y = Math.random() * 512;
+        const wave = Math.random() * 22 + 5;
+        context.strokeStyle = `rgba(72,45,27,${Math.random() * .12 + .025})`;
+        context.lineWidth = Math.random() * 2 + .35;
+        context.beginPath();
+        context.moveTo(-20, y);
+        context.bezierCurveTo(130, y - wave, 350, y + wave, 532, y - wave * .25);
+        context.stroke();
+      }
+    } else {
+      for (let i = 0; i < 3600; i += 1) {
+        const value = kind === "stone" ? 92 : 75;
+        const alpha = Math.random() * (kind === "stone" ? .06 : .035);
+        context.fillStyle = `rgba(${value},${value - 8},${value - 14},${alpha})`;
+        const size = kind === "stone" ? Math.random() * 2.2 : Math.random() * 1.2;
+        context.fillRect(Math.random() * 512, Math.random() * 512, size, size);
+      }
+    }
+
+    const texture = new THREE.CanvasTexture(surface);
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(kind === "wood" ? 2.4 : 3.2, kind === "wood" ? 5.2 : 3.2);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    return texture;
+  };
+
+  const surfaceTextures = {
+    wood: makeSurfaceTexture("wood"),
+    stone: makeSurfaceTexture("stone"),
+    fabric: makeSurfaceTexture("fabric"),
+  };
+
+  const textureForColor = (color) => {
+    if (color === palette.wood || color === palette.woodLight) return surfaceTextures.wood;
+    if (color === palette.stone || color === palette.plasterWarm) return surfaceTextures.stone;
+    if (color === palette.fabric || color === palette.fabricLight) return surfaceTextures.fabric;
+    return null;
+  };
+
   const objects = [];
-  const makeMaterial = (color, roughness = .72, metalness = 0, extras = {}) => new THREE.MeshStandardMaterial({
-    color, roughness, metalness, transparent: true, opacity: 0, ...extras,
-  });
+  const makeMaterial = (color, roughness = .72, metalness = 0, extras = {}) => {
+    if (color === palette.glass) {
+      return new THREE.MeshPhysicalMaterial({
+        color: 0xdbe6e5, roughness: .08, metalness: 0, transmission: .74,
+        thickness: .08, ior: 1.45, transparent: true, opacity: 0, side: THREE.DoubleSide, ...extras,
+      });
+    }
+    const surfaceMap = extras.map || textureForColor(color);
+    return new THREE.MeshStandardMaterial({
+      color, roughness, metalness, transparent: true, opacity: 0,
+      map: surfaceMap, bumpMap: surfaceMap, bumpScale: surfaceMap ? .028 : 0, ...extras,
+    });
+  };
 
   const addObject = (geometry, options = {}) => {
     const {
@@ -95,7 +172,9 @@ window.addEventListener("load", async () => {
       order = 0, roughness = .72, metalness = 0, edges = true,
       map = null, emissive = 0x000000, emissiveIntensity = 0,
     } = options;
-    const material = makeMaterial(color, roughness, metalness, { map, emissive, emissiveIntensity });
+    const materialExtras = { emissive, emissiveIntensity };
+    if (map) materialExtras.map = map;
+    const material = makeMaterial(color, roughness, metalness, materialExtras);
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(...position);
     mesh.rotation.set(...rotation);
@@ -282,6 +361,13 @@ window.addEventListener("load", async () => {
   });
   windowGlow.material.side = THREE.DoubleSide;
 
+  const shadowMaterial = new THREE.ShadowMaterial({ color: 0x1a120d, opacity: .16, transparent: true });
+  const shadowPlane = new THREE.Mesh(new THREE.PlaneGeometry(18, 16), shadowMaterial);
+  shadowPlane.rotation.x = -Math.PI / 2;
+  shadowPlane.position.y = -.255;
+  shadowPlane.receiveShadow = true;
+  apartment.add(shadowPlane);
+
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const smooth = (value) => {
     const x = clamp(value);
@@ -298,12 +384,8 @@ window.addEventListener("load", async () => {
     const width = sceneWrap.clientWidth;
     const height = sceneWrap.clientHeight;
     const aspect = width / Math.max(height, 1);
-    const halfWidth = window.innerWidth <= 760 ? 9.3 : 11.1;
-    const halfHeight = halfWidth / Math.max(aspect, .1);
-    camera.left = -halfWidth;
-    camera.right = halfWidth;
-    camera.top = halfHeight;
-    camera.bottom = -halfHeight;
+    camera.aspect = aspect;
+    camera.fov = window.innerWidth <= 760 ? 52 : 31;
     camera.updateProjectionMatrix();
     renderer.setSize(width, height, false);
     renderer.render(scene, camera);
@@ -329,13 +411,17 @@ window.addEventListener("load", async () => {
 
     apartment.rotation.y = -.28 + progress * .3;
     apartment.rotation.x = -.025 + progress * .035;
-    camera.position.x = 13 - progress * 1.6;
-    camera.position.z = 15 + progress * 1.1;
+    camera.position.x = 14.8 - progress * 1.9;
+    camera.position.y = 10.8 - progress * 1.15;
+    camera.position.z = 18.5 + progress * .8;
     camera.lookAt(.4, .25, 0);
     glow.intensity = smooth((progress - .67) / .2) * 5;
     indirectLight.intensity = smooth((progress - .72) / .18) * 4.2;
     glow.position.x = -6 + progress * 13;
-    sun.intensity = 1.1 + materialPhase * 2.6;
+    sun.intensity = 1.25 + materialPhase * 2.25;
+    windowLight.intensity = 3.2 + materialPhase * 5.4;
+    warmFill.intensity = .5 + materialPhase * 2.2;
+    renderer.toneMappingExposure = .92 + materialPhase * .18;
     renderer.render(scene, camera);
   };
 
