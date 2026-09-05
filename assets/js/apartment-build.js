@@ -752,21 +752,41 @@ window.addEventListener("load", async () => {
     });
   }
 
-  const createLivingPlant = (x, z, order) => {
-    cylinder(.36, .62, [x, .31, z], 0xd8d0c3, order, { roughness: .84 });
-    for (let i = 0; i < 11; i += 1) {
-      const angle = (i / 11) * Math.PI * 2;
-      const leaf = addObject(new THREE.SphereGeometry(.2, 12, 8), {
-        position: [x + Math.cos(angle) * .34, .95 + (i % 4) * .24, z + Math.sin(angle) * .28],
-        color: i % 3 ? 0x71806b : 0x88967d, order: order + .01 + i * .003, roughness: .94, edges: false,
+  // Figueiras altas e leves substituem os antigos volumes de cacto.
+  // A copa espaçada mantém a linguagem minimalista e deixa a luz atravessar.
+  const createLivingTree = (x, z, order, mirrored = false) => {
+    cylinder(.34, .54, [x, .27, z], 0xd8d0c3, order, { roughness: .86 });
+    cylinder(.09, 1.72, [x, 1.23, z], 0x796452, order + .008, { roughness: .82, edges: false });
+
+    const direction = mirrored ? -1 : 1;
+    [
+      { dx: -.2 * direction, y: 1.64, dz: .02, rx: .08, rz: -.36 * direction },
+      { dx: .24 * direction, y: 1.88, dz: -.04, rx: -.06, rz: .42 * direction },
+      { dx: -.1 * direction, y: 2.13, dz: .08, rx: .12, rz: -.2 * direction },
+    ].forEach((branch, index) => {
+      cylinder(.035, .72 - index * .08, [x + branch.dx, branch.y, z + branch.dz], 0x796452, order + .012 + index * .004, {
+        rotation: [branch.rx, 0, branch.rz], roughness: .86, edges: false,
       });
-      leaf.scale.set(.7, 2.4, .45);
-      leaf.rotation.z = -Math.cos(angle) * .42;
+    });
+
+    [
+      [-.42, 1.58, .08], [.34, 1.68, -.12], [-.3, 1.92, -.18],
+      [.42, 2.02, .08], [-.12, 2.25, .12], [.2, 2.38, -.08],
+    ].forEach(([dx, y, dz], index) => {
+      const leaf = addObject(new THREE.SphereGeometry(.25, 16, 12), {
+        position: [x + dx * direction, y, z + dz],
+        color: index % 2 ? 0x7f8c78 : 0x687762,
+        order: order + .03 + index * .004, roughness: .96, edges: false,
+      });
+      leaf.scale.set(1.05, 1.5, .5);
+      leaf.rotation.z = (index % 2 ? .28 : -.32) * direction;
       objects[objects.length - 1].baseScale.copy(leaf.scale);
-    }
+    });
   };
-  createLivingPlant(.05, 3.65, .72);
-  createLivingPlant(5.55, 3.6, .76);
+  // Uma árvore acompanha o lado esquerdo do sofá; a outra ocupa o respiro
+  // entre o estar e a bancada, sem avançar sobre a janela ou a circulação.
+  createLivingTree(.25, 3.82, .72);
+  createLivingTree(5.0, .35, .76, true);
 
   // Lustre do estar: mesma família dos aros do jantar, porém mais detalhado.
   [[1.16,2.82,-.08],[.88,2.55,.1],[.58,2.27,-.06]].forEach(([radius,y,tilt], index) => {
