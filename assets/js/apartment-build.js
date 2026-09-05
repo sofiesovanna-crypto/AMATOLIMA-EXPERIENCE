@@ -56,9 +56,9 @@ window.addEventListener("load", async () => {
   const diningGroup = new THREE.Group();
   const livingGroup = new THREE.Group();
   kitchenGroup.rotation.y = Math.PI;
-  kitchenGroup.position.set(0, 0, 3.25);
-  diningGroup.position.set(-2.35, 0, 1.55);
-  livingGroup.position.set(-2.45, 0, -5.85);
+  kitchenGroup.position.set(0, 0, 1.05);
+  diningGroup.position.set(-2.35, 0, .2);
+  livingGroup.position.set(-2.45, 0, -6.15);
   apartment.add(kitchenGroup, diningGroup, livingGroup);
   let activeParent = apartment;
 
@@ -92,12 +92,14 @@ window.addEventListener("load", async () => {
     plaster: 0xeee9df,
     plasterWarm: 0xd9cfc0,
     wood: 0x8a5c3a,
-    woodLight: 0xb78b62,
-    stone: 0xc9b899,
+    woodLight: 0xc4a17b,
+    stone: 0xeee8dc,
+    travertine: 0xcbb99d,
+    quartz: 0xf0ece4,
     fabric: 0xb9ad9d,
     fabricLight: 0xded6ca,
     metal: 0x5b493c,
-    glass: 0x96a5a4,
+    glass: 0x8d7968,
     green: 0x65715c,
   };
 
@@ -106,7 +108,7 @@ window.addEventListener("load", async () => {
     surface.width = 512;
     surface.height = 512;
     const context = surface.getContext("2d");
-    context.fillStyle = kind === "wood" ? "#d4c1a8" : kind === "stone" ? "#ddd6ca" : "#d1cbc2";
+    context.fillStyle = kind === "wood" ? "#dcc9ae" : kind === "stone" ? "#e9e1d3" : kind === "travertine" ? "#cfbea2" : "#d1cbc2";
     context.fillRect(0, 0, 512, 512);
 
     if (kind === "wood") {
@@ -119,6 +121,20 @@ window.addEventListener("load", async () => {
         context.moveTo(-20, y);
         context.bezierCurveTo(130, y - wave, 350, y + wave, 532, y - wave * .25);
         context.stroke();
+      }
+    } else if (kind === "travertine") {
+      for (let i = 0; i < 52; i += 1) {
+        const y = Math.random() * 512;
+        context.strokeStyle = `rgba(102,79,55,${Math.random() * .09 + .025})`;
+        context.lineWidth = Math.random() * 4 + .6;
+        context.beginPath();
+        context.moveTo(-15, y);
+        context.bezierCurveTo(150, y - 16, 345, y + 18, 527, y - 5);
+        context.stroke();
+      }
+      for (let i = 0; i < 900; i += 1) {
+        context.fillStyle = `rgba(81,61,42,${Math.random() * .035})`;
+        context.fillRect(Math.random() * 512, Math.random() * 512, Math.random() * 3, Math.random() * 1.2);
       }
     } else {
       for (let i = 0; i < 3600; i += 1) {
@@ -141,12 +157,14 @@ window.addEventListener("load", async () => {
   const surfaceTextures = {
     wood: makeSurfaceTexture("wood"),
     stone: makeSurfaceTexture("stone"),
+    travertine: makeSurfaceTexture("travertine"),
     fabric: makeSurfaceTexture("fabric"),
   };
 
   const textureForColor = (color) => {
     if (color === palette.wood || color === palette.woodLight) return surfaceTextures.wood;
-    if (color === palette.stone || color === palette.plasterWarm) return surfaceTextures.stone;
+    if (color === palette.travertine) return surfaceTextures.travertine;
+    if (color === palette.stone || color === palette.quartz || color === palette.plasterWarm) return surfaceTextures.stone;
     if (color === palette.fabric || color === palette.fabricLight) return surfaceTextures.fabric;
     return null;
   };
@@ -155,8 +173,8 @@ window.addEventListener("load", async () => {
   const makeMaterial = (color, roughness = .72, metalness = 0, extras = {}) => {
     if (color === palette.glass) {
       return new THREE.MeshPhysicalMaterial({
-        color: 0xdbe6e5, roughness: .08, metalness: 0, transmission: .74,
-        thickness: .08, ior: 1.45, transparent: true, opacity: 0, side: THREE.DoubleSide, ...extras,
+        color: 0xb59a80, roughness: .12, metalness: .08, transmission: .62,
+        thickness: .11, ior: 1.48, transparent: true, opacity: 0, side: THREE.DoubleSide, ...extras,
       });
     }
     const surfaceMap = extras.map || textureForColor(color);
@@ -200,8 +218,8 @@ window.addEventListener("load", async () => {
   const cylinder = (radius, height, position, color, order, extra = {}) => addObject(new THREE.CylinderGeometry(radius, radius, height, 32), { position, color, order, ...extra });
 
   // Base arquitetônica e paredes abertas, como uma maquete habitável.
-  box([14.8, .22, 10.4], [0, -.16, .3], palette.woodLight, .02);
-  for (let x = -6.9; x <= 6.9; x += .52) box([.018, .016, 9.9], [x, -.035, .3], palette.wood, .06, { edges: false });
+  box([14.8, .22, 10.4], [0, -.16, .3], palette.travertine, .02, { roughness: .82 });
+  for (let z = -4.25; z <= 4.95; z += 1.15) box([14.2, .014, .018], [0, -.035, z], palette.stone, .06, { edges: false });
 
   // Parede de fundo vazada: quatro panos enquadram uma janela real, sem parede atrás do vidro.
   box([2.45, 3.9, .2], [-5.68, 1.82, -4.5], palette.plaster, .1);
@@ -211,7 +229,7 @@ window.addEventListener("load", async () => {
 
   // Parede lateral interrompida por um acesso generoso.
   box([.2, 3.9, 5.45], [-7.38, 1.82, -1.73], palette.plasterWarm, .12);
-  box([.2, 3.9, 1.85], [-7.38, 1.82, 4.68], palette.plasterWarm, .12);
+  box([.2, 1.22, 1.85], [-7.38, .48, 4.68], palette.plasterWarm, .12);
   box([.2, .54, 2.95], [-7.38, 3.63, 2.48], palette.plasterWarm, .14);
 
   // Porta aberta e marco delicado, acrescentando uma segunda camada de profundidade.
@@ -219,6 +237,11 @@ window.addEventListener("load", async () => {
   box([.16, 2.9, .14], [-7.27, 1.43, 3.89], palette.wood, .17);
   box([.16, .14, 2.95], [-7.27, 2.87, 2.48], palette.wood, .18);
   box([1.34, 2.72, .1], [-6.78, 1.38, 1.62], palette.woodLight, .21, { rotation: [0, -.7, 0] });
+
+  // Pequeno vestíbulo atrás da porta elimina o vazio preto e cria profundidade arquitetônica.
+  box([2.35, .16, 3.0], [-8.35, -.1, 2.48], palette.travertine, .22);
+  box([.16, 3.25, 3.0], [-9.48, 1.48, 2.48], palette.plasterWarm, .23);
+  box([2.3, 3.25, .16], [-8.32, 1.48, 3.96], palette.plaster, .23);
 
   // Esquadria ampla que define a sala.
   box([8.6, .16, .18], [1.55, 3.35, -4.34], palette.metal, .18);
@@ -231,15 +254,23 @@ window.addEventListener("load", async () => {
   box([.68, 2.7, 3.55], [-6.36, 1.23, -2.35], palette.wood, .28);
   for (let z = -3.75; z <= -.95; z += .7) box([.72, .025, .035], [-5.99, 1.3, z], palette.metal, .3, { edges: false });
   box([4.9, .82, .9], [-3.55, .34, -3.92], palette.plasterWarm, .32);
-  box([5.05, .09, 1.04], [-3.55, .81, -3.92], palette.stone, .34);
+  box([5.05, .09, 1.04], [-3.55, .81, -3.92], palette.quartz, .34, { roughness: .28 });
   for (let x = -5.55; x <= -1.55; x += 1) box([.025, .72, .84], [x, .38, -3.92], palette.metal, .35, { edges: false });
   box([4.25, .84, 1.22], [-2.4, .4, -1.95], palette.woodLight, .38);
-  box([4.42, .1, 1.38], [-2.4, .87, -1.95], palette.stone, .4);
+  box([4.42, .1, 1.38], [-2.4, .87, -1.95], palette.quartz, .4, { roughness: .26 });
 
   // Banquetas da ilha.
   [-3.5, -2.35, -1.2].forEach((x, index) => {
     cylinder(.28, .12, [x, .7, -.95], palette.fabricLight, .43 + index * .006);
     cylinder(.055, .65, [x, .34, -.95], palette.metal, .43 + index * .006, { metalness: .35 });
+  });
+
+  // Copa circular no lado oposto à bancada, seguindo a área indicada na planta.
+  cylinder(1.02, .11, [3.82, .76, -3.56], palette.quartz, .455, { roughness: .3 });
+  cylinder(.12, .7, [3.82, .37, -3.56], palette.metal, .46, { metalness: .45, roughness: .3 });
+  [[2.55,-3.56],[5.09,-3.56],[3.82,-2.28],[3.82,-4.84]].forEach((point, index) => {
+    cylinder(.34, .1, [point[0], .54, point[1]], palette.fabricLight, .465 + index * .004);
+    cylinder(.045, .5, [point[0], .27, point[1]], palette.metal, .465 + index * .004, { metalness: .4 });
   });
 
   // Sala de jantar.
@@ -279,6 +310,15 @@ window.addEventListener("load", async () => {
     leaf.scale.set(1, 1.9, .65);
     objects[objects.length - 1].baseScale.copy(leaf.scale);
   }
+
+  // Luminária de piso e mesa lateral completam o estar sem bloquear a circulação.
+  cylinder(.31, .055, [5.22, .05, .64], palette.metal, .835, { metalness: .48 });
+  cylinder(.035, 2.12, [5.22, 1.1, .64], palette.metal, .84, { metalness: .48 });
+  addObject(new THREE.ConeGeometry(.42, .58, 24, 1, true), {
+    position: [5.22, 2.22, .64], color: 0xe8d9c2, order: .845, roughness: .74,
+    emissive: 0xffbd70, emissiveIntensity: .28,
+  });
+  cylinder(.48, .48, [4.78, .24, 3.72], palette.woodLight, .85);
 
   // Detalhes autorais que aparecem somente quando a maquete ganha materialidade.
   activeParent = livingGroup;
@@ -355,6 +395,15 @@ window.addEventListener("load", async () => {
   // Trama delicada do tapete e reflexos das esquadrias.
   for (let z = 1.22; z <= 3.55; z += .26) box([3.9, .009, .012], [2.7, .078, z], 0x9e8f7e, .95, { edges: false });
   activeParent = apartment;
+  // Composição de quadros no pano lateral da janela.
+  box([1.42, 1.86, .08], [-5.64, 2.02, -4.35], 0x5e4536, .87);
+  box([1.22, 1.66, .045], [-5.64, 2.02, -4.29], 0xc1a57f, .88, { edges: false });
+  box([.28, 1.22, .025], [-5.79, 1.96, -4.25], 0x716359, .89, { rotation: [0, 0, -.18], edges: false });
+  box([.42, .64, .025], [-5.43, 2.22, -4.23], 0xefe7db, .895, { rotation: [0, 0, .28], edges: false });
+
+  // Cortinas translúcidas suavizam a grande esquadria e seus vãos laterais.
+  box([.55, 3.02, .04], [-2.96, 1.87, -4.18], 0xe8dfd2, .9, { roughness: .96, edges: false });
+  box([.55, 3.02, .04], [5.92, 1.87, -4.18], 0xe8dfd2, .9, { roughness: .96, edges: false });
   const windowGlow = addObject(new THREE.PlaneGeometry(8.4, 2.7), {
     position: [1.55, 1.94, -4.25], color: 0xcbd8d5, order: .965, roughness: .08,
     metalness: .05, emissive: 0x6d8791, emissiveIntensity: .2, edges: false,
