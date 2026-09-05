@@ -79,7 +79,7 @@
     if (enteringElements.length) {
       gsap.fromTo(
         enteringElements,
-        { y: "-46vh" },
+        { y: "46vh" },
         {
           y: 0,
           ease: "none",
