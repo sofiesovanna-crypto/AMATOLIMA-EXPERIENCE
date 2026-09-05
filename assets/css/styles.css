@@ -1,6 +1,6 @@
 @import url("https://cdn.jsdelivr.net/gh/sofiesovanna-crypto/AMATOLIMA-EXPERIENCE@4ce2fd9610a363e459d4d72419d6eb2dd498c300/assets/css/styles.css");
 
-/* Small 9175 signature beside the Amato Lima wordmark in the home hero. */
+/* Small 9175 signature to the left of the Amato Lima wordmark in the home hero. */
 .hero-art__brand-line{display:flex;align-items:center;justify-content:center;gap:clamp(7px,.7vw,11px)}
-.hero-art__brand-mark{width:clamp(18px,1.65vw,25px);height:clamp(18px,1.65vw,25px);object-fit:contain;flex:0 0 auto}
-@media(max-width:760px){.hero-art__brand-line{gap:7px}.hero-art__brand-mark{width:18px;height:18px}}
+.hero-art__brand-mark{width:clamp(19.8px,1.815vw,27.5px);height:clamp(19.8px,1.815vw,27.5px);object-fit:contain;flex:0 0 auto;order:-1}
+@media(max-width:760px){.hero-art__brand-line{gap:7px}.hero-art__brand-mark{width:19.8px;height:19.8px}}
