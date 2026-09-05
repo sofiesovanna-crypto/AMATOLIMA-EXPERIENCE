@@ -10,6 +10,7 @@
   section.setAttribute("aria-label", "Projetos Amato Lima em movimento");
   section.innerHTML = `
     <div class="closing-collage__pin">
+      <div class="closing-collage__signature" aria-hidden="true">AMATO LIMA</div>
       <div class="closing-collage__stage">
         <figure class="closing-collage__layer closing-collage__layer--1" data-closing-layer><img src="assets/images/transformation/final-sala.jpg" alt="Projeto Amato Lima — arquitetura e matéria" loading="eager" /></figure>
         <figure class="closing-collage__layer closing-collage__layer--2" data-closing-layer><img src="assets/images/hero-mask.png" alt="Projeto Amato Lima — detalhe material" loading="eager" /></figure>
@@ -30,12 +31,12 @@
 
   gsapApi.registerPlugin(ScrollTriggerApi);
   gsapApi.set(layers, {
-    scale: (index) => [0.80, 0.245, 0.24, 0.235][index],
-    opacity: 1,
+    scale: (index) => [0.78, 0.22, 0.205, 0.19][index],
+    opacity: (index) => index === 0 ? 1 : 0,
     force3D: true,
     backfaceVisibility: "hidden"
   });
-  gsapApi.set(images, { scale: 1.055, force3D: true });
+  gsapApi.set(images, { scale: 1.035, force3D: true });
 
   const tl = gsapApi.timeline({
     defaults: { ease: "none" },
@@ -43,19 +44,22 @@
       trigger: section,
       start: "top top",
       end: "bottom bottom",
-      scrub: 0.75,
+      scrub: 0.45,
       invalidateOnRefresh: true
     }
   });
 
-  tl.to(layers[0], { scale: 1, duration: 24 }, 0)
-    .to(images[0], { scale: 1, duration: 24 }, 0)
-    .to(layers[1], { scale: 1, duration: 36 }, 14)
-    .to(images[1], { scale: 1, duration: 36 }, 14)
-    .to(layers[2], { scale: 1, duration: 36 }, 38)
-    .to(images[2], { scale: 1, duration: 36 }, 38)
-    .to(layers[3], { scale: 1, duration: 38 }, 62)
-    .to(images[3], { scale: 1, duration: 38 }, 62);
+  tl.to(layers[0], { scale: 1, duration: 28 }, 0)
+    .to(images[0], { scale: 1, duration: 28 }, 0)
+    .to(layers[1], { opacity: 1, duration: 4 }, 22)
+    .to(layers[1], { scale: 1, duration: 37 }, 22)
+    .to(images[1], { scale: 1, duration: 37 }, 22)
+    .to(layers[2], { opacity: 1, duration: 4 }, 47)
+    .to(layers[2], { scale: 1, duration: 35 }, 47)
+    .to(images[2], { scale: 1, duration: 35 }, 47)
+    .to(layers[3], { opacity: 1, duration: 4 }, 69)
+    .to(layers[3], { scale: 1, duration: 31 }, 69)
+    .to(images[3], { scale: 1, duration: 31 }, 69);
 
   requestAnimationFrame(() => ScrollTriggerApi.refresh());
 })();
