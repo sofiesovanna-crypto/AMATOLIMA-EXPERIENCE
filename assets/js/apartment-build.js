@@ -347,6 +347,17 @@ window.addEventListener("load", async () => {
   roundedBox([4.25, .84, 1.22], [-2.4, .4, -1.95], palette.woodLight, .38, { radius: .055 });
   roundedBox([4.42, .1, 1.38], [-2.4, .87, -1.95], palette.quartz, .4, { roughness: .26, radius: .035 });
 
+  // Leitura residencial da cozinha de referência: torre de eletros, geladeira e nichos abertos.
+  roundedBox([.64, 2.58, 1.18], [-5.96, 1.25, -.58], 0x887566, .405, { radius: .035, roughness: .68 });
+  roundedBox([.67, 2.42, 1.02], [-5.58, 1.22, -3.63], 0xb6aea2, .408, { radius: .028, roughness: .3, metalness: .16 });
+  box([.026, 2.18, .02], [-5.225, 1.22, -3.63], palette.metal, .412, { edges: false });
+  [-2.98, -2.25, -1.52, -.79].forEach((z, index) => {
+    box([.34, .045, .64], [-5.96, .72 + index * .48, z], palette.woodLight, .414 + index * .004, { edges: false });
+  });
+  [[-2.98,.91],[-2.25,1.39],[-1.52,1.87],[-.79,2.35]].forEach(([z,y], index) => {
+    cylinder(.1 + (index % 2) * .025, .2, [-5.94, y, z], index % 2 ? 0x9a9c88 : 0xe7ded1, .43 + index * .004, { roughness: .8 });
+  });
+
   // Banquetas da ilha.
   [-3.5, -2.35, -1.2].forEach((x, index) => {
     roundedBox([.62, .12, .56], [x, .7, -.95], palette.fabricLight, .43 + index * .006, { radius: .055 });
@@ -361,15 +372,26 @@ window.addEventListener("load", async () => {
     cylinder(.045, .5, [point[0], .27, point[1]], palette.metal, .465 + index * .004, { metalness: .4 });
   });
 
-  // Sala de jantar.
+  // Sala de jantar circular inspirada na referência, com mais respiro na circulação.
   activeParent = diningGroup;
-  roundedBox([3.45, .12, 1.35], [2.55, .78, -1.85], palette.stone, .48, { radius: .045 });
-  box([.22, .76, .22], [1.2, .37, -1.85], palette.metal, .49, { metalness: .28 });
-  box([.22, .76, .22], [3.9, .37, -1.85], palette.metal, .49, { metalness: .28 });
-  [[1.3,-2.75],[2.55,-2.75],[3.8,-2.75],[1.3,-.95],[2.55,-.95],[3.8,-.95]].forEach((p, index) => {
-    roundedBox([.58, .12, .58], [p[0], .73, p[1]], palette.fabric, .51 + index * .006, { radius: .045 });
-    roundedBox([.58, .76, .12], [p[0], 1.08, p[1] + (p[1] < -1.5 ? -.24 : .24)], palette.fabric, .51 + index * .006, { radius: .04 });
-  });
+  cylinder(2.02, .025, [2.55, -.01, -1.85], 0xc9c0b3, .47, { roughness: 1, edges: false });
+  cylinder(1.2, .13, [2.55, .8, -1.85], palette.wood, .48, { roughness: .58 });
+  cylinder(.38, .76, [2.55, .38, -1.85], palette.wood, .49, { roughness: .64 });
+  for (let index = 0; index < 6; index += 1) {
+    const angle = (index / 6) * Math.PI * 2;
+    const chairGroup = new THREE.Group();
+    chairGroup.position.set(2.55 + Math.cos(angle) * 1.62, 0, -1.85 + Math.sin(angle) * 1.62);
+    chairGroup.rotation.y = -angle + Math.PI / 2;
+    diningGroup.add(chairGroup);
+    activeParent = chairGroup;
+    roundedBox([.62, .12, .58], [0, .68, 0], palette.fabricLight, .505 + index * .006, { radius: .05 });
+    roundedBox([.62, .75, .12], [0, 1.02, .29], palette.fabricLight, .507 + index * .006, { radius: .045 });
+    [[-.25,-.23],[.25,-.23],[-.25,.23],[.25,.23]].forEach(([x,z]) => {
+      cylinder(.025, .62, [x, .32, z], palette.wood, .51 + index * .006, { roughness: .56, edges: false });
+    });
+  }
+  activeParent = diningGroup;
+  contactShadow(4.35, 4.35, [2.55, -.018, -1.85], .54, .11);
 
   // Estar orgânico.
   activeParent = livingGroup;
@@ -470,6 +492,22 @@ window.addEventListener("load", async () => {
   });
   cylinder(.48, .48, [4.78, .24, 3.72], palette.woodLight, .85);
 
+  // Duas poltronas de madeira deixam a composição doméstica e equilibram o sofá amplo.
+  [[.35,.85,.48],[.6,.85,3.85]].forEach((p, index) => {
+    const chair = new THREE.Group();
+    chair.position.set(p[0], 0, p[2]);
+    chair.rotation.y = index === 0 ? -.18 : .2;
+    livingGroup.add(chair);
+    activeParent = chair;
+    roundedBox([.9, .16, .76], [0, .58, 0], palette.fabricLight, .855 + index * .012, { radius: .055 });
+    roundedBox([.9, .82, .16], [0, .98, .31], palette.fabric, .858 + index * .012, { radius: .05 });
+    [-.42, .42].forEach((x) => {
+      box([.07, .7, .07], [x, .4, 0], palette.wood, .86 + index * .012, { rotation: [0, 0, x < 0 ? -.08 : .08], edges: false });
+      box([.08, .08, .85], [x, .79, .05], palette.wood, .862 + index * .012, { edges: false });
+    });
+  });
+  activeParent = livingGroup;
+
   // Costuras discretas quebram os grandes volumes do estofado sem pesar a cena.
   [1.55, 2.65, 3.75, 4.55].forEach((x, index) => {
     box([.012, .016, 1.02], [x, .724, 3.17], 0x7f7264, .846 + index * .002, { edges: false });
@@ -512,16 +550,24 @@ window.addEventListener("load", async () => {
     map: artworkTexture, order: .875, roughness: .62, edges: false,
   });
 
-  // Lustre escultórico: haste em latão e globos leitosos em alturas diferentes.
+  // Lustre escultórico do jantar: pétalas leitosas e latão em escala residencial.
   activeParent = diningGroup;
   box([.055, 1.42, .055], [2.5, 3.45, -1.86], 0x8f7045, .88, { metalness: .72, roughness: .28 });
-  const chandelierArms = [[-.86,.03,-.22],[.86,-.12,.2],[-.4,-.3,.54],[.42,-.45,-.52]];
-  chandelierArms.forEach((arm, index) => {
-    box([Math.abs(arm[0]) * 2 + .12, .045, .045], [2.5 + arm[0] / 2, 2.84 + arm[1], -1.86 + arm[2] / 2], 0x8f7045, .89 + index * .004, { metalness: .72, roughness: .28 });
-    addObject(new THREE.SphereGeometry(.2 + (index % 2) * .055, 24, 16), {
-      position: [2.5 + arm[0], 2.76 + arm[1], -1.86 + arm[2]], color: 0xffefd0,
-      order: .91 + index * .006, roughness: .22, emissive: 0xffc66d, emissiveIntensity: .8,
+  cylinder(.42, .045, [2.5, 2.73, -1.86], 0x8f7045, .89, { metalness: .72, roughness: .28 });
+  for (let index = 0; index < 9; index += 1) {
+    const angle = (index / 9) * Math.PI * 2;
+    const petal = addObject(new THREE.SphereGeometry(.34, 24, 16), {
+      position: [2.5 + Math.cos(angle) * .48, 2.68 + (index % 2) * .08, -1.86 + Math.sin(angle) * .48],
+      color: 0xf0e7d9, order: .9 + index * .004, roughness: .64,
+      emissive: 0xffd89d, emissiveIntensity: .34, edges: false,
     });
+    petal.scale.set(.58, 1.18, .2);
+    petal.rotation.y = -angle;
+    objects[objects.length - 1].baseScale.copy(petal.scale);
+  }
+  addObject(new THREE.SphereGeometry(.18, 24, 16), {
+    position: [2.5, 2.65, -1.86], color: 0xffefd0, order: .94,
+    roughness: .2, emissive: 0xffc66d, emissiveIntensity: .85, edges: false,
   });
 
   // Luz indireta integrada à marcenaria, ao painel e à ilha.
