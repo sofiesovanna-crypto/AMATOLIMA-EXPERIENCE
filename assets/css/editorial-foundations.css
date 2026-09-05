@@ -69,8 +69,20 @@
   animation-delay: calc(var(--shine-index) * 95ms);
 }
 
-/* Cópia espelhada: mesmas medidas, tipografia, respiros e animação; apenas troca os lados. */
-.editorial-foundations--mirror .editorial-foundations__image-wrap { grid-column: 2; grid-row: 1; }
+/* Cópia espelhada: a fotografia ultrapassa deliberadamente o fim da seção,
+   permanecendo visível durante os primeiros instantes do encerramento. */
+.editorial-foundations--mirror {
+  overflow: visible;
+  z-index: 3;
+}
+.editorial-foundations--mirror .editorial-foundations__layout { position: relative; z-index: 2; }
+.editorial-foundations--mirror .editorial-foundations__image-wrap {
+  grid-column: 2;
+  grid-row: 1;
+  height: 116svh;
+  position: relative;
+  z-index: 3;
+}
 .editorial-foundations--mirror .editorial-foundations__copy {
   grid-column: 1;
   grid-row: 1;
@@ -84,45 +96,13 @@
 
 @media (max-width:900px) {
   .editorial-foundations,
-  .editorial-foundations__layout {
-    min-height: auto;
-  }
-
-  .editorial-foundations__layout {
-    grid-template-columns: 1fr;
-    row-gap: 0;
-    padding: 0 16px 90px;
-  }
-
-  .editorial-foundations__image-wrap {
-    width: min(88vw,560px);
-    height: 92svh;
-    min-height: 640px;
-    margin-top: 9svh;
-  }
-
-  .editorial-foundations__copy {
-    min-height: 68svh;
-    align-items: center;
-    padding: 80px 8vw 110px;
-  }
-
-  .editorial-foundations--mirror .editorial-foundations__image-wrap {
-    grid-column: 1;
-    grid-row: 1;
-    margin-left: auto;
-  }
-
-  .editorial-foundations--mirror .editorial-foundations__copy {
-    grid-column: 1;
-    grid-row: 2;
-    padding: 80px 8vw 110px;
-  }
-
-  .editorial-foundations__text {
-    max-width: 580px;
-    font-size: clamp(.86rem,3.24vw,1.08rem);
-  }
+  .editorial-foundations__layout { min-height: auto; }
+  .editorial-foundations__layout { grid-template-columns: 1fr; row-gap: 0; padding: 0 16px 90px; }
+  .editorial-foundations__image-wrap { width: min(88vw,560px); height: 92svh; min-height: 640px; margin-top: 9svh; }
+  .editorial-foundations__copy { min-height: 68svh; align-items: center; padding: 80px 8vw 110px; }
+  .editorial-foundations--mirror .editorial-foundations__image-wrap { grid-column: 1; grid-row: 1; margin-left: auto; height: 102svh; }
+  .editorial-foundations--mirror .editorial-foundations__copy { grid-column: 1; grid-row: 2; padding: 80px 8vw 110px; }
+  .editorial-foundations__text { max-width: 580px; font-size: clamp(.86rem,3.24vw,1.08rem); }
 }
 
 @media (prefers-reduced-motion:reduce) {
