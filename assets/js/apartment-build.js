@@ -73,16 +73,17 @@ window.addEventListener("load", async () => {
   };
 
   const objects = [];
-  const makeMaterial = (color, roughness = .72, metalness = 0) => new THREE.MeshStandardMaterial({
-    color, roughness, metalness, transparent: true, opacity: 0,
+  const makeMaterial = (color, roughness = .72, metalness = 0, extras = {}) => new THREE.MeshStandardMaterial({
+    color, roughness, metalness, transparent: true, opacity: 0, ...extras,
   });
 
   const addObject = (geometry, options = {}) => {
     const {
       position = [0, 0, 0], rotation = [0, 0, 0], color = palette.plaster,
       order = 0, roughness = .72, metalness = 0, edges = true,
+      map = null, emissive = 0x000000, emissiveIntensity = 0,
     } = options;
-    const material = makeMaterial(color, roughness, metalness);
+    const material = makeMaterial(color, roughness, metalness, { map, emissive, emissiveIntensity });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(...position);
     mesh.rotation.set(...rotation);
@@ -167,7 +168,84 @@ window.addEventListener("load", async () => {
       color: palette.green, order: .82 + i * .004, roughness: .9,
     });
     leaf.scale.set(1, 1.9, .65);
+    objects[objects.length - 1].baseScale.copy(leaf.scale);
   }
+
+  // Detalhes autorais que aparecem somente quando a maquete ganha materialidade.
+  const artworkCanvas = document.createElement("canvas");
+  artworkCanvas.width = 512;
+  artworkCanvas.height = 700;
+  const artworkContext = artworkCanvas.getContext("2d");
+  const artworkGradient = artworkContext.createLinearGradient(0, 0, 512, 700);
+  artworkGradient.addColorStop(0, "#d8c6ad");
+  artworkGradient.addColorStop(.48, "#9b7058");
+  artworkGradient.addColorStop(1, "#3b2922");
+  artworkContext.fillStyle = artworkGradient;
+  artworkContext.fillRect(0, 0, 512, 700);
+  artworkContext.strokeStyle = "rgba(246,232,207,.78)";
+  artworkContext.lineWidth = 9;
+  artworkContext.beginPath();
+  artworkContext.moveTo(88, 610);
+  artworkContext.bezierCurveTo(158, 498, 92, 322, 254, 128);
+  artworkContext.bezierCurveTo(392, 286, 326, 482, 430, 612);
+  artworkContext.stroke();
+  artworkContext.strokeStyle = "rgba(67,42,31,.72)";
+  artworkContext.lineWidth = 5;
+  artworkContext.beginPath();
+  artworkContext.ellipse(272, 300, 92, 132, -.18, 0, Math.PI * 2);
+  artworkContext.moveTo(212, 294);
+  artworkContext.quadraticCurveTo(254, 270, 292, 296);
+  artworkContext.moveTo(254, 360);
+  artworkContext.quadraticCurveTo(292, 386, 330, 350);
+  artworkContext.stroke();
+  const artworkTexture = new THREE.CanvasTexture(artworkCanvas);
+  artworkTexture.colorSpace = THREE.SRGBColorSpace;
+
+  box([.08, 2.72, 2.08], [-6.56, 1.82, .82], 0x4a3326, .86, { roughness: .48 });
+  addObject(new THREE.PlaneGeometry(1.84, 2.46), {
+    position: [-6.505, 1.82, .82], rotation: [0, Math.PI / 2, 0], color: 0xffffff,
+    map: artworkTexture, order: .875, roughness: .62, edges: false,
+  });
+
+  // Lustre escultórico: haste em latão e globos leitosos em alturas diferentes.
+  box([.055, 1.42, .055], [2.5, 3.45, -1.86], 0x8f7045, .88, { metalness: .72, roughness: .28 });
+  const chandelierArms = [[-.86,.03,-.22],[.86,-.12,.2],[-.4,-.3,.54],[.42,-.45,-.52]];
+  chandelierArms.forEach((arm, index) => {
+    box([Math.abs(arm[0]) * 2 + .12, .045, .045], [2.5 + arm[0] / 2, 2.84 + arm[1], -1.86 + arm[2] / 2], 0x8f7045, .89 + index * .004, { metalness: .72, roughness: .28 });
+    addObject(new THREE.SphereGeometry(.2 + (index % 2) * .055, 24, 16), {
+      position: [2.5 + arm[0], 2.76 + arm[1], -1.86 + arm[2]], color: 0xffefd0,
+      order: .91 + index * .006, roughness: .22, emissive: 0xffc66d, emissiveIntensity: .8,
+    });
+  });
+
+  // Luz indireta integrada à marcenaria, ao painel e à ilha.
+  const ledOptions = { color: 0xffdfaa, order: .9, roughness: .2, emissive: 0xffb85c, emissiveIntensity: 2.4, edges: false };
+  box([4.72, .035, .045], [-3.55, 1.12, -3.43], ledOptions.color, ledOptions.order, ledOptions);
+  box([4.05, .028, .04], [-2.4, .86, -1.24], ledOptions.color, .915, ledOptions);
+  box([.04, 2.22, 4.5], [-6.3, 1.18, 2.15], ledOptions.color, .925, ledOptions);
+  const indirectLight = new THREE.PointLight(0xffbd70, 0, 9, 2);
+  indirectLight.position.set(-3.8, 1.5, -2.3);
+  scene.add(indirectLight);
+
+  // Almofadas, manta e pequenas peças de curadoria.
+  const cushionGeometry = new THREE.SphereGeometry(.46, 20, 14);
+  [[2.0,.82,3.18,0xc6a47b],[3.05,.84,3.2,0xe6ddd0],[4.05,.82,3.18,0x7c6654]].forEach((item, index) => {
+    const cushion = addObject(cushionGeometry, { position: item.slice(0,3), color: item[3], order: .9 + index * .008, roughness: .96 });
+    cushion.scale.set(1.2, .78, .34);
+    objects[objects.length - 1].baseScale.copy(cushion.scale);
+  });
+  box([1.28, .045, 1.14], [4.5, .72, 2.78], 0xb5886e, .93, { rotation: [0, .18, -.08], roughness: 1, edges: false });
+  cylinder(.18, .42, [1.34, .51, 1.95], 0x716359, .935);
+  addObject(new THREE.SphereGeometry(.24, 20, 14), { position: [1.34, .78, 1.95], color: 0xefe7db, order: .94, roughness: .3 });
+  cylinder(.13, .34, [.25, .55, 2.5], 0x9a9c88, .945);
+
+  // Trama delicada do tapete e reflexos das esquadrias.
+  for (let z = 1.22; z <= 3.55; z += .26) box([3.9, .009, .012], [2.7, .078, z], 0x9e8f7e, .95, { edges: false });
+  const windowGlow = addObject(new THREE.PlaneGeometry(8.4, 2.7), {
+    position: [1.55, 1.94, -4.25], color: 0xcbd8d5, order: .965, roughness: .08,
+    metalness: .05, emissive: 0x6d8791, emissiveIntensity: .2, edges: false,
+  });
+  windowGlow.material.side = THREE.DoubleSide;
 
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const smooth = (value) => {
@@ -220,6 +298,7 @@ window.addEventListener("load", async () => {
     camera.position.z = 15 + progress * 1.1;
     camera.lookAt(.4, .25, 0);
     glow.intensity = smooth((progress - .67) / .2) * 5;
+    indirectLight.intensity = smooth((progress - .72) / .18) * 4.2;
     glow.position.x = -6 + progress * 13;
     sun.intensity = 1.1 + materialPhase * 2.6;
     renderer.render(scene, camera);
