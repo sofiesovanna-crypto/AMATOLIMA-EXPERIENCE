@@ -1,9 +1,7 @@
-/* Encerramento visual — composição concêntrica leve, com entrada progressiva. */
+/* Encerramento visual — imagens concêntricas que tomam a tela em sequência. */
 .closing-collage {
   position: relative;
-  height: 720svh;
-  margin-top: -18svh;
-  padding-top: 18svh;
+  height: 300svh;
   background: #f2f3f5;
 }
 
@@ -12,32 +10,29 @@
   top: 0;
   width: 100%;
   height: 100svh;
+  padding: 16px;
   overflow: hidden;
-  display: grid;
-  place-items: center;
+  box-sizing: border-box;
   background: #f2f3f5;
 }
 
 .closing-collage__stage {
   position: relative;
-  width: min(82vw, 1260px);
-  height: min(69svh, 760px);
+  width: 100%;
+  height: 100%;
   isolation: isolate;
-  transform-origin: 50% 50%;
-  will-change: transform;
 }
 
 .closing-collage__layer {
+  --closing-inset: 0px;
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 100%;
-  height: 100%;
+  inset: var(--closing-inset);
   margin: 0;
   overflow: hidden;
   transform-origin: 50% 50%;
-  will-change: transform, opacity;
-  background: transparent;
+  will-change: transform;
+  background: #dedbd4;
+  box-shadow: 0 0 0 1px rgba(61, 53, 44, .08);
 }
 
 .closing-collage__layer img {
@@ -45,25 +40,30 @@
   height: 100%;
   display: block;
   object-fit: cover;
-  will-change: transform, opacity;
-  filter: saturate(.86) contrast(1.005) sepia(.02);
+  transform-origin: 50% 50%;
+  will-change: transform;
+  filter: saturate(.86) contrast(1.015) sepia(.018);
 }
 
-.closing-collage__layer--1 { z-index: 1; }
-.closing-collage__layer--2 { z-index: 2; }
-.closing-collage__layer--3 { z-index: 3; }
-.closing-collage__layer--4 { z-index: 4; }
+.closing-collage__layer--1 { --closing-inset: 0px; z-index: 1; }
+.closing-collage__layer--2 { --closing-inset: 16px; z-index: 2; }
+.closing-collage__layer--3 { --closing-inset: 32px; z-index: 3; }
+.closing-collage__layer--4 { --closing-inset: 48px; z-index: 4; }
 .closing-collage__layer--1 img { object-position: center 56%; }
 .closing-collage__layer--2 img { object-position: center 50%; }
 .closing-collage__layer--3 img { object-position: center 50%; }
 .closing-collage__layer--4 img { object-position: center 48%; }
 
 @media (max-width: 900px) {
-  .closing-collage { height: 650svh; margin-top: -10svh; padding-top: 10svh; }
-  .closing-collage__stage { width: 88vw; height: 60svh; }
+  .closing-collage { height: 340svh; }
+  .closing-collage__pin { padding: 10px; }
+  .closing-collage__layer--2 { --closing-inset: 10px; }
+  .closing-collage__layer--3 { --closing-inset: 20px; }
+  .closing-collage__layer--4 { --closing-inset: 30px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .closing-collage { height: 100svh; margin-top: 0; padding-top: 0; }
-  .closing-collage__layer { opacity: 1 !important; }
+  .closing-collage { height: 100svh; }
+  .closing-collage__layer { transform: scale(1) !important; }
+  .closing-collage__layer img { transform: scale(1) !important; }
 }
