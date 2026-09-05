@@ -387,25 +387,48 @@ window.addEventListener("load", async () => {
     cylinder(.045, .5, [point[0], .27, point[1]], palette.metal, .465 + index * .004, { metalness: .4 });
   });
 
-  // Sala de jantar circular inspirada na referência, com mais respiro na circulação.
+  // Sala de jantar clara e tátil, reinterpretando a referência sem o peso dos tons escuros.
   activeParent = diningGroup;
-  cylinder(2.02, .025, [2.55, -.01, -1.85], 0xc9c0b3, .47, { roughness: 1, edges: false });
-  cylinder(1.2, .13, [2.55, .8, -1.85], palette.wood, .48, { roughness: .58 });
-  cylinder(.38, .76, [2.55, .38, -1.85], palette.wood, .49, { roughness: .64 });
+  cylinder(2.18, .025, [2.55, -.01, -1.85], 0xd8d0c4, .47, { roughness: 1, edges: false });
+  cylinder(1.34, .13, [2.55, .8, -1.85], palette.woodLight, .48, { roughness: .48 });
+  addObject(new THREE.CylinderGeometry(.38, .62, .76, 36), {
+    position: [2.55, .38, -1.85], color: palette.travertine, order: .49,
+    roughness: .72, metalness: .02,
+  });
   for (let index = 0; index < 6; index += 1) {
     const angle = (index / 6) * Math.PI * 2;
     const chairGroup = new THREE.Group();
-    chairGroup.position.set(2.55 + Math.cos(angle) * 1.62, 0, -1.85 + Math.sin(angle) * 1.62);
+    chairGroup.position.set(2.55 + Math.cos(angle) * 1.72, 0, -1.85 + Math.sin(angle) * 1.72);
     chairGroup.rotation.y = -angle + Math.PI / 2;
     diningGroup.add(chairGroup);
     activeParent = chairGroup;
-    roundedBox([.62, .12, .58], [0, .68, 0], palette.fabricLight, .505 + index * .006, { radius: .05 });
-    roundedBox([.62, .75, .12], [0, 1.02, .29], palette.fabricLight, .507 + index * .006, { radius: .045 });
-    [[-.25,-.23],[.25,-.23],[-.25,.23],[.25,.23]].forEach(([x,z]) => {
-      cylinder(.025, .62, [x, .32, z], palette.wood, .51 + index * .006, { roughness: .56, edges: false });
+    roundedBox([.78, .16, .68], [0, .66, 0], 0xded5c7, .505 + index * .006, { radius: .075, roughness: .92 });
+    roundedBox([.86, .78, .17], [0, 1.0, .3], 0xc8b9a6, .507 + index * .006, { radius: .085, roughness: .88 });
+    roundedBox([.12, .42, .58], [-.43, .85, .08], 0xc8b9a6, .509 + index * .006, { radius: .055, roughness: .88 });
+    roundedBox([.12, .42, .58], [.43, .85, .08], 0xc8b9a6, .51 + index * .006, { radius: .055, roughness: .88 });
+    [[-.31,-.24],[.31,-.24],[-.31,.24],[.31,.24]].forEach(([x,z]) => {
+      cylinder(.025, .58, [x, .3, z], 0x8a725d, .512 + index * .006, { roughness: .5, metalness: .08, edges: false });
     });
   }
   activeParent = diningGroup;
+  // Fruteira escultórica de cerâmica, com maçãs em tons naturais e quentes.
+  const fruitBowl = addObject(new THREE.SphereGeometry(.43, 28, 16), {
+    position: [2.55, .96, -1.85], color: 0xe8dfd1, order: .55, roughness: .92, edges: false,
+  });
+  fruitBowl.scale.set(1.35, .32, 1.35);
+  objects[objects.length - 1].baseScale.copy(fruitBowl.scale);
+  addObject(new THREE.TorusGeometry(.5, .055, 12, 36), {
+    position: [2.55, 1.08, -1.85], rotation: [Math.PI / 2, 0, 0], color: 0xd5c8b7,
+    order: .552, roughness: .88, edges: false,
+  });
+  [[-.22,.04],[.2,.08],[-.05,-.22],[.28,-.19]].forEach(([x,z], index) => {
+    addObject(new THREE.SphereGeometry(.17, 18, 12), {
+      position: [2.55 + x, 1.16 + (index % 2) * .055, -1.85 + z],
+      color: index % 2 ? 0xb79454 : 0xc6a56a, order: .556 + index * .003,
+      roughness: .72, edges: false,
+    });
+    cylinder(.012, .12, [2.55 + x, 1.34 + (index % 2) * .055, -1.85 + z], 0x66513c, .558 + index * .003, { edges: false });
+  });
   contactShadow(4.35, 4.35, [2.55, -.018, -1.85], .54, .11);
 
   // Estar orgânico.
@@ -565,25 +588,26 @@ window.addEventListener("load", async () => {
     map: artworkTexture, order: .875, roughness: .62, edges: false,
   });
 
-  // Lustre escultórico do jantar: pétalas leitosas e latão em escala residencial.
+  // Pendente de dois aros: claro, leve e iluminado de forma indireta.
   activeParent = diningGroup;
-  box([.055, 1.42, .055], [2.5, 3.45, -1.86], 0x8f7045, .88, { metalness: .72, roughness: .28 });
-  cylinder(.42, .045, [2.5, 2.73, -1.86], 0x8f7045, .89, { metalness: .72, roughness: .28 });
-  for (let index = 0; index < 9; index += 1) {
-    const angle = (index / 9) * Math.PI * 2;
-    const petal = addObject(new THREE.SphereGeometry(.34, 24, 16), {
-      position: [2.5 + Math.cos(angle) * .48, 2.68 + (index % 2) * .08, -1.86 + Math.sin(angle) * .48],
-      color: 0xf0e7d9, order: .9 + index * .004, roughness: .64,
-      emissive: 0xffd89d, emissiveIntensity: .34, edges: false,
+  [[2.62,-.48],[2.62,.48],[2.05,-.36],[2.05,.36]].forEach(([y,x], index) => {
+    box([.018, 3.42 - y, .018], [2.55 + x, y + (3.42 - y) / 2, -1.85], 0x9a8265, .88 + index * .003, {
+      metalness: .48, roughness: .34, edges: false,
     });
-    petal.scale.set(.58, 1.18, .2);
-    petal.rotation.y = -angle;
-    objects[objects.length - 1].baseScale.copy(petal.scale);
-  }
-  addObject(new THREE.SphereGeometry(.18, 24, 16), {
-    position: [2.5, 2.65, -1.86], color: 0xffefd0, order: .94,
-    roughness: .2, emissive: 0xffc66d, emissiveIntensity: .85, edges: false,
   });
+  [
+    { radius: 1.08, y: 2.62, tube: .042 },
+    { radius: .78, y: 2.05, tube: .038 },
+  ].forEach((ring, index) => {
+    addObject(new THREE.TorusGeometry(ring.radius, ring.tube, 16, 64), {
+      position: [2.55, ring.y, -1.85], rotation: [Math.PI / 2, 0, 0],
+      color: 0xf0dfc1, order: .9 + index * .012, roughness: .25, metalness: .24,
+      emissive: 0xffca79, emissiveIntensity: .72, edges: false,
+    });
+  });
+  const diningGlow = new THREE.PointLight(0xffd49a, 0, 6.5, 2);
+  diningGlow.position.set(2.55, 2.38, -1.85);
+  diningGroup.add(diningGlow);
 
   // Luz indireta integrada à marcenaria, ao painel e à ilha.
   activeParent = kitchenGroup;
@@ -726,6 +750,7 @@ window.addEventListener("load", async () => {
     glow.position.x = -6 + progress * 13;
     sun.intensity = 1.25 + materialPhase * 2.25;
     windowLight.intensity = 3.2 + materialPhase * 5.4;
+    diningGlow.intensity = materialPhase * 2.1;
     warmFill.intensity = .5 + materialPhase * 2.2;
     renderer.toneMappingExposure = .92 + materialPhase * .18;
     renderer.render(scene, camera);
