@@ -30,54 +30,54 @@
 
   gsapApi.registerPlugin(ScrollTriggerApi);
 
-  gsapApi.set(stage, { scale: .90, yPercent: 22, force3D: true });
+  // Tudo parte de uma escala já legível. O crescimento acontece desde o primeiro pixel de scroll.
+  gsapApi.set(stage, { scale: .93, yPercent: 18, force3D: true });
   gsapApi.set(layers, { xPercent: -50, yPercent: -50, opacity: 0, force3D: true });
-  gsapApi.set(layers[0], { scale: .72, opacity: .055 });
-  gsapApi.set(layers[1], { scale: .27 });
-  gsapApi.set(layers[2], { scale: .23 });
-  gsapApi.set(layers[3], { scale: .20 });
-  gsapApi.set(images, { scale: 1.008, force3D: true });
+  gsapApi.set(layers[0], { scale: .74, opacity: .06 });
+  gsapApi.set(layers[1], { scale: .46 });
+  gsapApi.set(layers[2], { scale: .45 });
+  gsapApi.set(layers[3], { scale: .44 });
+  gsapApi.set(images, { scale: 1.006, force3D: true });
 
   const tl = gsapApi.timeline({
     defaults: { ease: "none" },
     scrollTrigger: {
       trigger: section,
-      // Começa antes: a base já nasce enquanto a seção anterior ainda ocupa a viewport.
       start: "top 112%",
       end: "bottom bottom",
-      // Inércia suficiente para limpar o movimento, sem fazer o scroll parecer pesado.
-      scrub: 1.65,
+      // Quase 1:1 com o gesto. Sem a cauda que fazia o scroll parecer pesado.
+      scrub: .42,
       invalidateOnRefresh: true,
       fastScrollEnd: false,
     },
   });
 
-  // O palco chega ao centro cedo; depois cresce apenas de forma quase imperceptível.
-  tl.to(stage, { yPercent: 0, scale: .97, duration: 24 }, 0)
-    .to(stage, { scale: 1.035, duration: 76 }, 24)
+  // Crescimento uniforme do palco: nada fica represado para explodir no final.
+  tl.to(stage, { yPercent: 0, scale: 1, duration: 30 }, 0)
+    .to(stage, { scale: 1.025, duration: 70 }, 30)
     .to(images, { scale: 1, duration: 100 }, 0);
 
-  // BASE: rápida apenas no sentido de entrar cedo na composição. Ela não é substituída cedo.
-  // Nos primeiros 20% do percurso já passa de presença parcial para protagonista.
-  tl.to(layers[0], { opacity: .72, scale: .91, duration: 22 }, 0)
-    .to(layers[0], { opacity: 1, scale: 1, duration: 78 }, 22);
+  // BASE — cresce continuamente e cedo, em vez de apenas clarear no início.
+  tl.to(layers[0], { opacity: .78, scale: .91, duration: 25 }, 0)
+    .to(layers[0], { opacity: .92, scale: .965, duration: 30 }, 25)
+    .to(layers[0], { opacity: 1, scale: 1, duration: 45 }, 55);
 
-  // As demais têm um período de leitura: aparecem, ficam reconhecíveis e só então avançam.
-  // Assim uma imagem não toma imediatamente o lugar da anterior.
-  tl.to(layers[1], { opacity: .18, scale: .34, duration: 14 }, 25)
-    .to(layers[1], { opacity: .52, scale: .49, duration: 22 }, 39)
-    .to(layers[1], { opacity: .76, scale: .62, duration: 20 }, 61)
-    .to(layers[1], { opacity: 1, scale: .90, duration: 19 }, 81);
+  // Cada imagem interna tem uma curva quase uniforme: nasce, permanece legível e cresce
+  // ao longo de uma janela ampla. Os últimos 20% fazem só refinamento, nunca um salto.
+  tl.to(layers[1], { opacity: .18, scale: .52, duration: 12 }, 25)
+    .to(layers[1], { opacity: .58, scale: .66, duration: 25 }, 37)
+    .to(layers[1], { opacity: .82, scale: .78, duration: 25 }, 62)
+    .to(layers[1], { opacity: 1, scale: .90, duration: 13 }, 87);
 
-  tl.to(layers[2], { opacity: .12, scale: .29, duration: 13 }, 47)
-    .to(layers[2], { opacity: .43, scale: .42, duration: 20 }, 60)
-    .to(layers[2], { opacity: .70, scale: .56, duration: 18 }, 80)
-    .to(layers[2], { opacity: 1, scale: .80, duration: 12 }, 88);
+  tl.to(layers[2], { opacity: .14, scale: .50, duration: 12 }, 45)
+    .to(layers[2], { opacity: .52, scale: .61, duration: 22 }, 57)
+    .to(layers[2], { opacity: .78, scale: .71, duration: 21 }, 79)
+    .to(layers[2], { opacity: 1, scale: .80, duration: 10 }, 90);
 
-  tl.to(layers[3], { opacity: .09, scale: .25, duration: 12 }, 66)
-    .to(layers[3], { opacity: .35, scale: .37, duration: 15 }, 78)
-    .to(layers[3], { opacity: .64, scale: .49, duration: 13 }, 87)
-    .to(layers[3], { opacity: 1, scale: .70, duration: 8 }, 92);
+  tl.to(layers[3], { opacity: .12, scale: .49, duration: 11 }, 63)
+    .to(layers[3], { opacity: .48, scale: .57, duration: 17 }, 74)
+    .to(layers[3], { opacity: .76, scale: .64, duration: 15 }, 86)
+    .to(layers[3], { opacity: 1, scale: .70, duration: 7 }, 93);
 
   requestAnimationFrame(() => ScrollTriggerApi.refresh());
 })();
