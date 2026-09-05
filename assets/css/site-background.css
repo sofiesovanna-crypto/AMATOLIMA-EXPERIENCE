@@ -1,0 +1,23 @@
+/* Fundo contínuo da Home: mesma base clara da composição da hero. */
+:root{--amato-home-background:#f1f1f1}
+html,
+body.home-page,
+body.home-page #app,
+body.home-page #conteudo,
+body.home-page .hero-material-stack,
+body.home-page .hero--art,
+body.home-page .material-spiral,
+body.home-page .material-spiral__viewport,
+body.home-page .editorial-foundations,
+body.home-page .project-index,
+body.home-page .apartment-build,
+body.home-page .apartment-build__pin,
+body.home-page .apartment-build__backdrop,
+body.home-page .closing-collage,
+body.home-page .closing-collage__pin,
+body.home-page .amato-footer-space,
+body.home-page .amato-footer,
+body.home-page .amato-footer__card,
+body.home-page .site-footer{
+  background:var(--amato-home-background)!important;
+}
