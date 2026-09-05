@@ -40,7 +40,28 @@ window.addEventListener("load", async () => {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.setClearColor(0x000000, 0);
 
+  // Um ambiente luminoso de estúdio dá aos materiais reflexos amplos e naturais
+  // sem acrescentar uma imagem visível ao fundo editorial da seção.
+  const environmentCanvas = document.createElement("canvas");
+  environmentCanvas.width = 1024;
+  environmentCanvas.height = 512;
+  const environmentContext = environmentCanvas.getContext("2d");
+  const environmentGradient = environmentContext.createLinearGradient(0, 0, 0, 512);
+  environmentGradient.addColorStop(0, "#d7e0df");
+  environmentGradient.addColorStop(.42, "#f4eee4");
+  environmentGradient.addColorStop(1, "#6e5542");
+  environmentContext.fillStyle = environmentGradient;
+  environmentContext.fillRect(0, 0, 1024, 512);
+  environmentContext.fillStyle = "rgba(255,248,226,.92)";
+  environmentContext.fillRect(55, 74, 280, 210);
+  environmentContext.fillStyle = "rgba(255,255,255,.72)";
+  environmentContext.fillRect(690, 92, 235, 175);
+  const environmentTexture = new THREE.CanvasTexture(environmentCanvas);
+  environmentTexture.mapping = THREE.EquirectangularReflectionMapping;
+  environmentTexture.colorSpace = THREE.SRGBColorSpace;
+
   const scene = new THREE.Scene();
+  scene.environment = environmentTexture;
   const camera = new THREE.PerspectiveCamera(31, 1, .1, 100);
   camera.position.set(14.8, 10.8, 18.5);
   camera.lookAt(0, 0, 0);
@@ -62,16 +83,18 @@ window.addEventListener("load", async () => {
   apartment.add(kitchenGroup, diningGroup, livingGroup);
   let activeParent = apartment;
 
-  const ambient = new THREE.HemisphereLight(0xfff8ed, 0x44362f, .72);
+  const ambient = new THREE.HemisphereLight(0xfff8ed, 0x44362f, .6);
   const sun = new THREE.DirectionalLight(0xffeed0, 2.8);
   sun.position.set(-8, 13, 9);
   sun.castShadow = true;
-  sun.shadow.mapSize.set(1024, 1024);
+  sun.shadow.mapSize.set(2048, 2048);
   sun.shadow.camera.left = -12;
   sun.shadow.camera.right = 12;
   sun.shadow.camera.top = 12;
   sun.shadow.camera.bottom = -12;
   sun.shadow.bias = -.00035;
+  sun.shadow.normalBias = .018;
+  sun.shadow.radius = 5;
   scene.add(ambient, sun);
 
   const windowLight = new THREE.RectAreaLight(0xdde9eb, 7.5, 8.5, 3.2);
@@ -177,10 +200,25 @@ window.addEventListener("load", async () => {
         thickness: .11, ior: 1.48, transparent: true, opacity: 0, side: THREE.DoubleSide, ...extras,
       });
     }
+    if (color === palette.quartz) {
+      return new THREE.MeshPhysicalMaterial({
+        color, roughness: .24, metalness: 0, clearcoat: .32, clearcoatRoughness: .3,
+        transparent: true, opacity: 0, envMapIntensity: .7, ...extras,
+      });
+    }
+    if (color === palette.fabric || color === palette.fabricLight) {
+      const surfaceMap = extras.map || surfaceTextures.fabric;
+      return new THREE.MeshPhysicalMaterial({
+        color, roughness: .9, metalness: 0, sheen: .28, sheenRoughness: .82,
+        sheenColor: new THREE.Color(0xe8ded0), transparent: true, opacity: 0,
+        map: surfaceMap, bumpMap: surfaceMap, bumpScale: .018, envMapIntensity: .34, ...extras,
+      });
+    }
     const surfaceMap = extras.map || textureForColor(color);
     return new THREE.MeshStandardMaterial({
       color, roughness, metalness, transparent: true, opacity: 0,
-      map: surfaceMap, bumpMap: surfaceMap, bumpScale: surfaceMap ? .028 : 0, ...extras,
+      map: surfaceMap, bumpMap: surfaceMap, bumpScale: surfaceMap ? .022 : 0,
+      envMapIntensity: metalness > .2 ? .82 : .42, ...extras,
     });
   };
 
@@ -215,7 +253,57 @@ window.addEventListener("load", async () => {
   };
 
   const box = (size, position, color, order, extra = {}) => addObject(new THREE.BoxGeometry(...size), { position, color, order, ...extra });
+  const roundedBoxGeometry = (width, height, depth, radius = .08, segments = 4) => {
+    const safeRadius = Math.min(radius, width / 2 - .001, height / 2 - .001, depth / 2 - .001);
+    const shape = new THREE.Shape();
+    const x = -width / 2;
+    const y = -height / 2;
+    shape.moveTo(x + safeRadius, y);
+    shape.lineTo(x + width - safeRadius, y);
+    shape.quadraticCurveTo(x + width, y, x + width, y + safeRadius);
+    shape.lineTo(x + width, y + height - safeRadius);
+    shape.quadraticCurveTo(x + width, y + height, x + width - safeRadius, y + height);
+    shape.lineTo(x + safeRadius, y + height);
+    shape.quadraticCurveTo(x, y + height, x, y + height - safeRadius);
+    shape.lineTo(x, y + safeRadius);
+    shape.quadraticCurveTo(x, y, x + safeRadius, y);
+    const geometry = new THREE.ExtrudeGeometry(shape, {
+      depth: Math.max(.001, depth - safeRadius * 2), steps: 1, curveSegments: segments,
+      bevelEnabled: true, bevelSegments: segments, bevelSize: safeRadius, bevelThickness: safeRadius,
+    });
+    geometry.center();
+    geometry.computeVertexNormals();
+    return geometry;
+  };
+  const roundedBox = (size, position, color, order, extra = {}) => {
+    const radius = extra.radius ?? Math.min(...size) * .18;
+    const cleanExtra = { ...extra };
+    delete cleanExtra.radius;
+    return addObject(roundedBoxGeometry(...size, radius), { position, color, order, ...cleanExtra });
+  };
   const cylinder = (radius, height, position, color, order, extra = {}) => addObject(new THREE.CylinderGeometry(radius, radius, height, 32), { position, color, order, ...extra });
+
+  const contactShadow = (width, depth, position, order, opacity = .16) => {
+    const shadowCanvas = document.createElement("canvas");
+    shadowCanvas.width = 256;
+    shadowCanvas.height = 256;
+    const context = shadowCanvas.getContext("2d");
+    const gradient = context.createRadialGradient(128, 128, 18, 128, 128, 126);
+    gradient.addColorStop(0, `rgba(35,22,14,${opacity})`);
+    gradient.addColorStop(.58, `rgba(35,22,14,${opacity * .52})`);
+    gradient.addColorStop(1, "rgba(35,22,14,0)");
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, 256, 256);
+    const map = new THREE.CanvasTexture(shadowCanvas);
+    const shadow = addObject(new THREE.PlaneGeometry(width, depth), {
+      position, rotation: [-Math.PI / 2, 0, 0], color: 0xffffff, map,
+      order, roughness: 1, edges: false,
+    });
+    shadow.material.depthWrite = false;
+    shadow.material.bumpMap = null;
+    shadow.material.opacity = 0;
+    return shadow;
+  };
 
   // Base arquitetônica e paredes abertas, como uma maquete habitável.
   box([14.8, .22, 10.4], [0, -.16, .3], palette.travertine, .02, { roughness: .82 });
@@ -256,12 +344,12 @@ window.addEventListener("load", async () => {
   box([4.9, .82, .9], [-3.55, .34, -3.92], palette.plasterWarm, .32);
   box([5.05, .09, 1.04], [-3.55, .81, -3.92], palette.quartz, .34, { roughness: .28 });
   for (let x = -5.55; x <= -1.55; x += 1) box([.025, .72, .84], [x, .38, -3.92], palette.metal, .35, { edges: false });
-  box([4.25, .84, 1.22], [-2.4, .4, -1.95], palette.woodLight, .38);
-  box([4.42, .1, 1.38], [-2.4, .87, -1.95], palette.quartz, .4, { roughness: .26 });
+  roundedBox([4.25, .84, 1.22], [-2.4, .4, -1.95], palette.woodLight, .38, { radius: .055 });
+  roundedBox([4.42, .1, 1.38], [-2.4, .87, -1.95], palette.quartz, .4, { roughness: .26, radius: .035 });
 
   // Banquetas da ilha.
   [-3.5, -2.35, -1.2].forEach((x, index) => {
-    cylinder(.28, .12, [x, .7, -.95], palette.fabricLight, .43 + index * .006);
+    roundedBox([.62, .12, .56], [x, .7, -.95], palette.fabricLight, .43 + index * .006, { radius: .055 });
     cylinder(.055, .65, [x, .34, -.95], palette.metal, .43 + index * .006, { metalness: .35 });
   });
 
@@ -275,23 +363,25 @@ window.addEventListener("load", async () => {
 
   // Sala de jantar.
   activeParent = diningGroup;
-  box([3.45, .12, 1.35], [2.55, .78, -1.85], palette.stone, .48);
+  roundedBox([3.45, .12, 1.35], [2.55, .78, -1.85], palette.stone, .48, { radius: .045 });
   box([.22, .76, .22], [1.2, .37, -1.85], palette.metal, .49, { metalness: .28 });
   box([.22, .76, .22], [3.9, .37, -1.85], palette.metal, .49, { metalness: .28 });
   [[1.3,-2.75],[2.55,-2.75],[3.8,-2.75],[1.3,-.95],[2.55,-.95],[3.8,-.95]].forEach((p, index) => {
-    box([.58, .12, .58], [p[0], .73, p[1]], palette.fabric, .51 + index * .006);
-    box([.58, .76, .12], [p[0], 1.08, p[1] + (p[1] < -1.5 ? -.24 : .24)], palette.fabric, .51 + index * .006);
+    roundedBox([.58, .12, .58], [p[0], .73, p[1]], palette.fabric, .51 + index * .006, { radius: .045 });
+    roundedBox([.58, .76, .12], [p[0], 1.08, p[1] + (p[1] < -1.5 ? -.24 : .24)], palette.fabric, .51 + index * .006, { radius: .04 });
   });
 
   // Estar orgânico.
   activeParent = livingGroup;
-  box([4.25, .12, 2.75], [2.7, .01, 2.4], palette.fabricLight, .57);
-  box([4.55, .68, 1.18], [3.05, .38, 3.18], palette.fabric, .6);
-  box([1.22, .62, 2.75], [5.0, .35, 1.98], palette.fabric, .61);
-  box([3.9, .62, .35], [2.95, .76, 3.58], palette.fabricLight, .62);
-  box([.38, .68, 2.5], [5.48, .72, 1.98], palette.fabricLight, .63);
+  roundedBox([4.25, .12, 2.75], [2.7, .01, 2.4], palette.fabricLight, .57, { radius: .045 });
+  roundedBox([4.55, .68, 1.18], [3.05, .38, 3.18], palette.fabric, .6, { radius: .16 });
+  roundedBox([1.22, .62, 2.75], [5.0, .35, 1.98], palette.fabric, .61, { radius: .15 });
+  roundedBox([3.9, .62, .35], [2.95, .76, 3.58], palette.fabricLight, .62, { radius: .12 });
+  roundedBox([.38, .68, 2.5], [5.48, .72, 1.98], palette.fabricLight, .63, { radius: .12 });
   cylinder(.74, .2, [1.34, .2, 1.95], palette.stone, .66);
   cylinder(.48, .28, [.25, .24, 2.5], palette.wood, .67);
+  contactShadow(5.5, 3.65, [3.05, -.02, 2.45], .68, .18);
+  contactShadow(4.55, 2.65, [2.55, -.025, -1.85], .55, .12);
 
   // Painel, luminárias e vegetação.
   box([.32, 2.55, 4.9], [-6.55, 1.12, 2.15], palette.wood, .7);
@@ -319,6 +409,11 @@ window.addEventListener("load", async () => {
     emissive: 0xffbd70, emissiveIntensity: .28,
   });
   cylinder(.48, .48, [4.78, .24, 3.72], palette.woodLight, .85);
+
+  // Costuras discretas quebram os grandes volumes do estofado sem pesar a cena.
+  [1.55, 2.65, 3.75, 4.55].forEach((x, index) => {
+    box([.012, .016, 1.02], [x, .724, 3.17], 0x7f7264, .846 + index * .002, { edges: false });
+  });
 
   // Detalhes autorais que aparecem somente quando a maquete ganha materialidade.
   activeParent = livingGroup;
@@ -401,12 +496,34 @@ window.addEventListener("load", async () => {
   box([.28, 1.22, .025], [-5.79, 1.96, -4.25], 0x716359, .89, { rotation: [0, 0, -.18], edges: false });
   box([.42, .64, .025], [-5.43, 2.22, -4.23], 0xefe7db, .895, { rotation: [0, 0, .28], edges: false });
 
-  // Cortinas translúcidas suavizam a grande esquadria e seus vãos laterais.
-  box([.55, 3.02, .04], [-2.96, 1.87, -4.18], 0xe8dfd2, .9, { roughness: .96, edges: false });
-  box([.55, 3.02, .04], [5.92, 1.87, -4.18], 0xe8dfd2, .9, { roughness: .96, edges: false });
+  // Cortinas com pregas, em vez de duas placas planas, respondem melhor à luz lateral.
+  [-3.09, -2.94, -2.79, 5.74, 5.89, 6.04].forEach((x, index) => {
+    roundedBox([.19, 3.02, .055], [x, 1.87, -4.16 + (index % 2) * .025], 0xe8dfd2, .9 + index * .002, {
+      radius: .022, roughness: .96, edges: false,
+    });
+  });
+
+  const viewCanvas = document.createElement("canvas");
+  viewCanvas.width = 1024;
+  viewCanvas.height = 384;
+  const viewContext = viewCanvas.getContext("2d");
+  const sky = viewContext.createLinearGradient(0, 0, 0, 384);
+  sky.addColorStop(0, "#b9c9ca");
+  sky.addColorStop(.62, "#d8d8cf");
+  sky.addColorStop(1, "#8b8d79");
+  viewContext.fillStyle = sky;
+  viewContext.fillRect(0, 0, 1024, 384);
+  viewContext.fillStyle = "rgba(76,78,65,.28)";
+  [[30,245,88],[130,220,130],[274,260,74],[358,205,118],[498,238,102],[620,188,155],[802,230,94],[902,198,122]].forEach(([x,y,w]) => {
+    viewContext.fillRect(x, y, w, 384 - y);
+  });
+  viewContext.fillStyle = "rgba(243,235,207,.32)";
+  for (let x = 54; x < 970; x += 72) viewContext.fillRect(x, 282 + (x % 3) * 7, 14, 7);
+  const viewTexture = new THREE.CanvasTexture(viewCanvas);
+  viewTexture.colorSpace = THREE.SRGBColorSpace;
   const windowGlow = addObject(new THREE.PlaneGeometry(8.4, 2.7), {
     position: [1.55, 1.94, -4.25], color: 0xcbd8d5, order: .965, roughness: .08,
-    metalness: .05, emissive: 0x6d8791, emissiveIntensity: .2, edges: false,
+    metalness: .05, map: viewTexture, emissive: 0x52666a, emissiveIntensity: .08, edges: false,
   });
   windowGlow.material.side = THREE.DoubleSide;
 
@@ -460,9 +577,9 @@ window.addEventListener("load", async () => {
 
     apartment.rotation.y = -.28 + progress * .3;
     apartment.rotation.x = -.025 + progress * .035;
-    camera.position.x = 14.8 - progress * 1.9;
-    camera.position.y = 10.8 - progress * 1.15;
-    camera.position.z = 18.5 + progress * .8;
+    camera.position.x = 14.8 - progress * 2.15;
+    camera.position.y = 10.8 - progress * 1.42;
+    camera.position.z = 18.5 + progress * .62;
     camera.lookAt(.4, .25, 0);
     glow.intensity = smooth((progress - .67) / .2) * 5;
     indirectLight.intensity = smooth((progress - .72) / .18) * 4.2;
