@@ -199,8 +199,8 @@ window.addEventListener("load", async () => {
   const makeMaterial = (color, roughness = .72, metalness = 0, extras = {}) => {
     if (color === palette.glass) {
       return new THREE.MeshPhysicalMaterial({
-        color: 0xb59a80, roughness: .12, metalness: .08, transmission: .62,
-        thickness: .11, ior: 1.48, transparent: true, opacity: 0, side: THREE.DoubleSide, ...extras,
+        color: 0xd3c4b4, roughness: .06, metalness: .02, transmission: .86,
+        thickness: .045, ior: 1.46, transparent: true, opacity: 0, side: THREE.DoubleSide, ...extras,
       });
     }
     if (color === palette.quartz) {
@@ -637,8 +637,178 @@ window.addEventListener("load", async () => {
   addObject(new THREE.SphereGeometry(.24, 20, 14), { position: [1.34, .78, 1.95], color: 0xefe7db, order: .94, roughness: .3 });
   cylinder(.13, .34, [.25, .55, 2.5], 0x9a9c88, .945);
 
-  // Trama delicada do tapete e reflexos das esquadrias.
-  for (let z = 1.22; z <= 3.55; z += .26) box([3.9, .009, .012], [2.7, .078, z], 0x9e8f7e, .95, { edges: false });
+  // A partir daqui, cozinha e estar são reconstruídos integralmente com a nova curadoria.
+  livingGroup.clear();
+  kitchenGroup.clear();
+
+  // Cozinha clara: torre de eletros, geladeira, armários, bancada, cocção e pia.
+  activeParent = kitchenGroup;
+  roundedBox([1.05, 2.7, 1.0], [-5.72, 1.3, -3.78], 0xc8c0b5, .3, { radius: .035, roughness: .62 });
+  roundedBox([.92, 2.5, .92], [-4.65, 1.26, -3.78], 0xd5d0c8, .31, { radius: .03, roughness: .28, metalness: .12 });
+  box([.025, 2.22, .025], [-4.18, 1.26, -3.76], palette.metal, .315, { edges: false });
+  roundedBox([.92, 2.7, 1.0], [-3.57, 1.3, -3.78], 0xc8c0b5, .32, { radius: .035, roughness: .62 });
+  roundedBox([.72, .68, .08], [-3.05, 1.78, -3.24], 0x282827, .33, { radius: .025, roughness: .18, metalness: .16 });
+  roundedBox([.72, .68, .08], [-3.05, .98, -3.24], 0x282827, .335, { radius: .025, roughness: .18, metalness: .16 });
+
+  // Marcenaria inferior e superior em linho quente, com fundo em pedra clara.
+  roundedBox([5.75, .78, .72], [-2.58, .38, -3.72], 0xd8d0c4, .34, { radius: .025, roughness: .74 });
+  box([5.86, .1, .86], [-2.58, .82, -3.72], palette.quartz, .35, { roughness: .22 });
+  box([5.7, 1.05, .06], [-2.58, 1.48, -4.06], palette.travertine, .36, { roughness: .78, edges: false });
+  [-1.6, -.35, .9].forEach((x, index) => {
+    roundedBox([1.16, 1.03, .48], [x, 2.24, -3.78], index === 1 ? 0xc1b8ab : 0xe2ddd5, .37 + index * .006, {
+      radius: .025, roughness: .72,
+    });
+  });
+  // Nichos envidraçados e peças internas.
+  [-2.85, 2.12].forEach((x, index) => {
+    roundedBox([.98, 1.03, .48], [x, 2.24, -3.78], palette.glass, .39 + index * .006, {
+      radius: .02, roughness: .08, edges: false,
+    });
+    [.22, .0, -.22].forEach((offset, itemIndex) => {
+      cylinder(.075, .16, [x + offset, 2.15 + (itemIndex % 2) * .12, -3.46], 0xe8dfd2, .4 + itemIndex * .003, { edges: false });
+    });
+  });
+  // Cooktop, panelas e cuba.
+  box([1.35, .025, .58], [-.15, .89, -3.5], 0x373432, .42, { roughness: .18, metalness: .12, edges: false });
+  [
+    { x: -.5, r: .22, color: 0xd2c6b5 },
+    { x: .23, r: .27, color: 0xb5aa9d },
+  ].forEach((pot, index) => {
+    cylinder(pot.r, .2, [pot.x, 1.02, -3.5], pot.color, .425 + index * .006, { roughness: .48 });
+    cylinder(.06, .08, [pot.x, 1.17, -3.5], 0x776858, .428 + index * .006, { metalness: .25, edges: false });
+  });
+  roundedBox([1.12, .055, .5], [1.98, .88, -3.5], 0xb9b4ad, .44, { radius: .03, roughness: .22, metalness: .16 });
+  addObject(new THREE.TorusGeometry(.24, .025, 10, 28, Math.PI), {
+    position: [1.98, 1.22, -3.52], rotation: [0, 0, Math.PI / 2], color: 0x8e8479,
+    order: .445, metalness: .5, roughness: .24, edges: false,
+  });
+
+  // Bancada integrada clara, com três bancos e pendente linear.
+  roundedBox([4.45, .78, 1.12], [-2.25, .4, -1.55], 0xd1c8bc, .46, { radius: .04, roughness: .72 });
+  roundedBox([4.62, .11, 1.3], [-2.25, .86, -1.55], palette.quartz, .47, { radius: .035, roughness: .2 });
+  roundedBox([2.4, .52, .08], [-2.35, .42, -.95], 0x8f7d6c, .475, { radius: .025, roughness: .62 });
+  [-3.32, -2.25, -1.18].forEach((x, index) => {
+    roundedBox([.66, .14, .54], [x, .67, -.73], 0xc7b49f, .48 + index * .006, { radius: .065, roughness: .88 });
+    cylinder(.045, .64, [x, .33, -.73], 0x847568, .482 + index * .006, { metalness: .2, edges: false });
+  });
+  box([.035, 1.15, .035], [-2.25, 3.15, -1.55], 0x8c7964, .5, { edges: false });
+  roundedBox([3.35, .07, .12], [-2.25, 2.57, -1.55], 0xeadbbf, .505, {
+    radius: .035, roughness: .22, emissive: 0xffca78, emissiveIntensity: .85, edges: false,
+  });
+
+  // Sala: somente sofá curvo, mesa central, tapete, duas plantas e luz escultórica.
+  activeParent = livingGroup;
+  cylinder(2.48, .035, [2.55, .015, 2.25], 0xaaa69f, .56, { roughness: .98, edges: false });
+  for (let radius = .52; radius <= 2.34; radius += .18) {
+    addObject(new THREE.TorusGeometry(radius, .012, 8, 72), {
+      position: [2.55, .06, 2.25], rotation: [Math.PI / 2, 0, 0], color: 0x817f7b,
+      order: .565, roughness: 1, edges: false,
+    });
+  }
+
+  // Módulos levemente girados criam a curva contínua do sofá de referência.
+  [
+    { x: 1.1, z: 3.18, ry: -.22 },
+    { x: 2.15, z: 3.42, ry: -.08 },
+    { x: 3.25, z: 3.42, ry: .08 },
+    { x: 4.3, z: 3.16, ry: .22 },
+  ].forEach((module, index) => {
+    roundedBox([1.22, .56, 1.05], [module.x, .4, module.z], palette.fabricLight, .58 + index * .008, {
+      rotation: [0, module.ry, 0], radius: .18, roughness: .94,
+    });
+    roundedBox([1.18, .72, .3], [module.x, .84, module.z + .42], palette.fabric, .584 + index * .008, {
+      rotation: [0, module.ry, 0], radius: .13, roughness: .95,
+    });
+  });
+  // Almofadas em neutros frios.
+  const livingCushionGeometry = new THREE.SphereGeometry(.42, 20, 14);
+  [[1.55,1.0,3.35,0x9aa6a5],[2.62,1.0,3.55,0xc4cbca],[3.7,1.0,3.36,0x889594]].forEach((item, index) => {
+    const cushion = addObject(livingCushionGeometry, {
+      position: item.slice(0, 3), color: item[3], order: .62 + index * .006, roughness: .96, edges: false,
+    });
+    cushion.scale.set(1.05, .82, .34);
+    objects[objects.length - 1].baseScale.copy(cushion.scale);
+  });
+
+  // Mesa baixa com livro e vaso floral.
+  roundedBox([2.65, .16, .92], [2.55, .38, 1.42], palette.travertine, .65, { radius: .09, roughness: .68 });
+  cylinder(.22, .38, [1.55, .2, 1.42], palette.travertine, .655);
+  cylinder(.22, .38, [3.55, .2, 1.42], palette.travertine, .655);
+  [0, .065].forEach((height, index) => {
+    box([.62, .055, .42], [2.05, .5 + height, 1.38], index ? 0x889cab : 0xefe7db, .67 + index * .004, {
+      rotation: [0, index ? .05 : -.03, 0], roughness: .86, edges: false,
+    });
+  });
+  cylinder(.16, .3, [2.92, .58, 1.44], 0xe2ddd6, .68, { roughness: .82 });
+  for (let i = 0; i < 7; i += 1) {
+    const angle = (i / 7) * Math.PI * 2;
+    cylinder(.012, .34, [2.92 + Math.cos(angle) * .08, .84, 1.44 + Math.sin(angle) * .08], 0x68745f, .685 + i * .002, {
+      rotation: [Math.cos(angle) * .18, 0, Math.sin(angle) * .18], edges: false,
+    });
+    addObject(new THREE.SphereGeometry(.075, 12, 8), {
+      position: [2.92 + Math.cos(angle) * .16, 1.02 + (i % 2) * .05, 1.44 + Math.sin(angle) * .16],
+      color: 0xf0ede5, order: .69 + i * .002, roughness: .9, edges: false,
+    });
+  }
+
+  const createLivingPlant = (x, z, order) => {
+    cylinder(.36, .62, [x, .31, z], 0xd8d0c3, order, { roughness: .84 });
+    for (let i = 0; i < 11; i += 1) {
+      const angle = (i / 11) * Math.PI * 2;
+      const leaf = addObject(new THREE.SphereGeometry(.2, 12, 8), {
+        position: [x + Math.cos(angle) * .34, .95 + (i % 4) * .24, z + Math.sin(angle) * .28],
+        color: i % 3 ? 0x71806b : 0x88967d, order: order + .01 + i * .003, roughness: .94, edges: false,
+      });
+      leaf.scale.set(.7, 2.4, .45);
+      leaf.rotation.z = -Math.cos(angle) * .42;
+      objects[objects.length - 1].baseScale.copy(leaf.scale);
+    }
+  };
+  createLivingPlant(.05, 3.65, .72);
+  createLivingPlant(5.55, 3.6, .76);
+
+  // Lustre do estar: mesma família dos aros do jantar, porém mais detalhado.
+  [[1.16,2.82,-.08],[.88,2.55,.1],[.58,2.27,-.06]].forEach(([radius,y,tilt], index) => {
+    addObject(new THREE.TorusGeometry(radius, .045 - index * .006, 16, 72), {
+      position: [2.7, y, 2.25], rotation: [Math.PI / 2 + tilt, tilt * .45, 0],
+      color: 0xf0dfc1, order: .8 + index * .008, roughness: .22, metalness: .2,
+      emissive: 0xffcb7c, emissiveIntensity: .74, edges: false,
+    });
+    box([.018, 3.48 - y, .018], [2.7 + (index - 1) * .34, y + (3.48 - y) / 2, 2.25], 0x9a8265, .802 + index * .008, { edges: false });
+  });
+  const livingGlow = new THREE.PointLight(0xffd6a0, 0, 7.5, 2);
+  livingGlow.position.set(2.7, 2.42, 2.25);
+  livingGroup.add(livingGlow);
+
+  // Painel de TV claro com marcenaria, nichos e base mineral escura.
+  roundedBox([.3, 2.85, 5.25], [-6.56, 1.35, 2.15], 0x9b7a60, .84, { radius: .025, roughness: .58 });
+  roundedBox([.12, 2.28, 4.48], [-6.34, 1.45, 2.15], 0xe5e0d8, .85, {
+    rotation: [0, Math.PI / 2, 0], radius: .035, roughness: .78,
+  });
+  roundedBox([2.55, 1.48, .1], [-6.26, 1.55, 2.15], 0x181817, .86, {
+    rotation: [0, Math.PI / 2, 0], radius: .045, roughness: .12, metalness: .15,
+  });
+  addObject(new THREE.PlaneGeometry(2.4, 1.34), {
+    position: [-6.2, 1.55, 2.15], rotation: [0, Math.PI / 2, 0], color: 0xffffff,
+    map: televisionTexture, order: .865, roughness: .08, metalness: .08, edges: false,
+  });
+  // Nichos laterais e livros.
+  [-.02, 3.55].forEach((z, sideIndex) => {
+    roundedBox([.1, 1.78, .72], [-6.19, 1.46, z + .35], 0xaaa194, .87 + sideIndex * .006, {
+      rotation: [0, Math.PI / 2, 0], radius: .025, roughness: .72,
+    });
+    [0, .34, .68].forEach((offset, itemIndex) => {
+      box([.08, .045, .42], [-6.1, .82 + itemIndex * .34, z + .18 + offset * .12], itemIndex === 1 ? 0x889cab : 0xefe7db,
+        .875 + sideIndex * .006 + itemIndex * .002, { rotation: [0, Math.PI / 2, 0], edges: false });
+    });
+  });
+  roundedBox([.45, .34, 4.95], [-6.18, .34, 2.15], 0x4b443f, .9, {
+    rotation: [0, Math.PI / 2, 0], radius: .03, roughness: .52,
+  });
+  box([.05, .045, 4.55], [-5.92, .58, 2.15], 0xffdca1, .905, {
+    rotation: [0, Math.PI / 2, 0], roughness: .2, emissive: 0xffbd65, emissiveIntensity: 1.3, edges: false,
+  });
+
   activeParent = apartment;
   // Composição de quadros no pano lateral da janela.
   box([1.42, 1.86, .08], [-5.64, 2.02, -4.35], 0x5e4536, .87);
@@ -756,6 +926,7 @@ window.addEventListener("load", async () => {
     sun.intensity = 1.25 + materialPhase * 2.25;
     windowLight.intensity = 3.2 + materialPhase * 5.4;
     diningGlow.intensity = materialPhase * 2.1;
+    livingGlow.intensity = materialPhase * 2.35;
     warmFill.intensity = .5 + materialPhase * 2.2;
     renderer.toneMappingExposure = .92 + materialPhase * .18;
     renderer.render(scene, camera);
