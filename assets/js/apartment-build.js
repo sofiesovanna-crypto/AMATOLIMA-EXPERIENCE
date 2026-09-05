@@ -78,8 +78,9 @@ window.addEventListener("load", async () => {
   const livingGroup = new THREE.Group();
   kitchenGroup.rotation.y = Math.PI;
   kitchenGroup.position.set(0, 0, 1.05);
-  // Jantar junto à porta; o núcleo central fica reservado exclusivamente ao estar.
-  diningGroup.position.set(-6.45, 0, 5.1);
+  // Jantar compacto junto à porta; o núcleo central fica reservado exclusivamente ao estar.
+  diningGroup.position.set(-6.04, 0, 4.8);
+  diningGroup.scale.set(.84, .9, .84);
   // O estar permanece totalmente dentro do perímetro, mesmo visto durante a volta de 360°.
   livingGroup.position.set(0, 0, -4.75);
   apartment.add(kitchenGroup, diningGroup, livingGroup);
@@ -317,21 +318,32 @@ window.addEventListener("load", async () => {
   box([11.15, .38, .2], [0, 3.71, -4.5], palette.plaster, .11);
   box([11.15, .42, .2], [0, .06, -4.5], palette.plaster, .11);
 
-  // Parede lateral interrompida por um acesso generoso.
-  box([.2, 3.9, 5.45], [-7.38, 1.82, -1.73], palette.plasterWarm, .12);
-  box([.2, 1.22, 1.85], [-7.38, .48, 4.68], palette.plasterWarm, .12);
-  box([.2, .54, 2.95], [-7.38, 3.63, 2.48], palette.plasterWarm, .14);
+  // Parede lateral predominantemente fechada, com uma porta estreita no respiro
+  // entre a sala de jantar e o estar.
+  box([.2, 3.9, 4.75], [-7.38, 1.82, -2.125], palette.plasterWarm, .12);
+  box([.2, 3.9, 3.3], [-7.38, 1.82, 3.35], palette.plasterWarm, .12);
+  box([.2, 1.02, 1.45], [-7.38, 3.37, .975], palette.plasterWarm, .14);
 
-  // Porta aberta e marco delicado, acrescentando uma segunda camada de profundidade.
-  box([.16, 2.9, .14], [-7.27, 1.43, 1.08], palette.wood, .17);
-  box([.16, 2.9, .14], [-7.27, 1.43, 3.89], palette.wood, .17);
-  box([.16, .14, 2.95], [-7.27, 2.87, 2.48], palette.wood, .18);
-  box([1.34, 2.72, .1], [-6.78, 1.38, 1.62], palette.woodLight, .21, { rotation: [0, -.7, 0] });
+  // Porta em vidro Reflecta bronze, de proporção residencial e esquadria fina.
+  box([.14, 2.86, .09], [-7.25, 1.43, .27], palette.metal, .17);
+  box([.14, 2.86, .09], [-7.25, 1.43, 1.68], palette.metal, .17);
+  box([.14, .1, 1.5], [-7.25, 2.82, .975], palette.metal, .18);
+  box([.035, 2.62, 1.28], [-7.24, 1.48, .975], palette.glass, .205, {
+    roughness: .14, metalness: .12, edges: false,
+  });
+  [.84, 1.58, 2.3].forEach((y, index) => {
+    box([.025, .035, 1.28], [-7.205, y, .975], 0x554940, .212 + index * .003, { edges: false });
+  });
+  box([.025, 2.55, .035], [-7.205, 1.5, .975], 0x554940, .222, { edges: false });
+  cylinder(.035, .28, [-7.12, 1.42, 1.44], 0x8f775d, .23, {
+    rotation: [0, 0, Math.PI / 2], metalness: .7, roughness: .28, edges: false,
+  });
 
-  // Pequeno vestíbulo atrás da porta elimina o vazio preto e cria profundidade arquitetônica.
-  box([2.35, .16, 3.0], [-8.35, -.1, 2.48], palette.travertine, .22);
-  box([.16, 3.25, 3.0], [-9.48, 1.48, 2.48], palette.plasterWarm, .23);
-  box([2.3, 3.25, .16], [-8.32, 1.48, 3.96], palette.plaster, .23);
+  // Vestíbulo compacto atrás do vidro evita qualquer vazio escuro durante a rotação.
+  box([2.35, .16, 1.9], [-8.35, -.1, .975], palette.travertine, .22);
+  box([.16, 3.25, 1.9], [-9.48, 1.48, .975], palette.plasterWarm, .23);
+  box([2.3, 3.25, .16], [-8.32, 1.48, .08], palette.plaster, .23);
+  box([2.3, 3.25, .16], [-8.32, 1.48, 1.87], palette.plaster, .23);
 
   // Esquadria panorâmica clara: perfis finos, quatro folhas e persianas horizontais.
   const windowCenter = .18;
