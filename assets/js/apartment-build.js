@@ -383,9 +383,69 @@ window.addEventListener("load", async () => {
   contactShadow(5.5, 3.65, [3.05, -.02, 2.45], .68, .18);
   contactShadow(4.55, 2.65, [2.55, -.025, -1.85], .55, .12);
 
-  // Painel, luminárias e vegetação.
+  // Painel de TV e curadoria do estar.
   box([.32, 2.55, 4.9], [-6.55, 1.12, 2.15], palette.wood, .7);
-  box([.12, 1.65, 2.45], [-6.33, 1.35, 2.15], palette.metal, .72);
+  const televisionCanvas = document.createElement("canvas");
+  televisionCanvas.width = 640;
+  televisionCanvas.height = 360;
+  const televisionContext = televisionCanvas.getContext("2d");
+  const televisionGradient = televisionContext.createLinearGradient(0, 0, 640, 360);
+  televisionGradient.addColorStop(0, "#0e1112");
+  televisionGradient.addColorStop(.58, "#1a1b1a");
+  televisionGradient.addColorStop(1, "#29251f");
+  televisionContext.fillStyle = televisionGradient;
+  televisionContext.fillRect(0, 0, 640, 360);
+  const reflection = televisionContext.createLinearGradient(0, 0, 430, 250);
+  reflection.addColorStop(0, "rgba(216,229,224,.2)");
+  reflection.addColorStop(.42, "rgba(216,229,224,.035)");
+  reflection.addColorStop(1, "rgba(216,229,224,0)");
+  televisionContext.fillStyle = reflection;
+  televisionContext.beginPath();
+  televisionContext.moveTo(0, 0);
+  televisionContext.lineTo(390, 0);
+  televisionContext.lineTo(225, 360);
+  televisionContext.lineTo(0, 360);
+  televisionContext.closePath();
+  televisionContext.fill();
+  const televisionTexture = new THREE.CanvasTexture(televisionCanvas);
+  televisionTexture.colorSpace = THREE.SRGBColorSpace;
+
+  roundedBox([2.58, 1.56, .11], [-6.335, 1.55, 2.15], 0x181817, .72, {
+    rotation: [0, Math.PI / 2, 0], radius: .055, roughness: .14, metalness: .18,
+  });
+  addObject(new THREE.PlaneGeometry(2.42, 1.4), {
+    position: [-6.272, 1.55, 2.15], rotation: [0, Math.PI / 2, 0], color: 0xffffff,
+    map: televisionTexture, order: .728, roughness: .09, metalness: .08, edges: false,
+  });
+
+  // Rack suspenso: volume baixo e leve, com frentes contínuas e sombra própria.
+  roundedBox([3.72, .4, .52], [-6.24, .48, 2.15], palette.woodLight, .735, {
+    rotation: [0, Math.PI / 2, 0], radius: .055, roughness: .62,
+  });
+  [-.02, 1.22, 2.46].forEach((z, index) => {
+    box([.018, .3, .015], [-5.968, .48, z + 1.52], palette.metal, .74 + index * .002, { edges: false });
+  });
+  contactShadow(.95, 4.35, [-6.05, -.02, 2.15], .745, .12);
+
+  // Livros, escultura em pedra e vaso baixo — poucos elementos, como no desenho.
+  [0, .075, .15].forEach((height, index) => {
+    box([.48, .055, .72], [-5.94, .72 + height, 1.02], index === 1 ? 0x716359 : 0xe8dfd2, .755 + index * .004, {
+      rotation: [0, index === 1 ? .05 : -.025, 0], roughness: .86, edges: false,
+    });
+  });
+  cylinder(.19, .34, [-5.93, .89, 2.92], palette.travertine, .77, { roughness: .82 });
+  addObject(new THREE.SphereGeometry(.24, 24, 16), {
+    position: [-5.91, .84, 3.62], color: 0x9a9c88, order: .78, roughness: .76,
+  });
+  addObject(new THREE.TorusGeometry(.27, .055, 14, 32), {
+    position: [-5.86, 1.07, 3.62], rotation: [0, Math.PI / 2, 0], color: 0xc1a57f,
+    order: .786, roughness: .38, metalness: .22, edges: false,
+  });
+
+  // Filete de luz atrás da TV: perceptível apenas no estágio materializado.
+  box([.024, 1.78, 2.82], [-6.39, 1.55, 2.15], 0xffdfaa, .715, {
+    roughness: .22, emissive: 0xffb85c, emissiveIntensity: 1.35, edges: false,
+  });
   [[-.4,2.2,-1.9],[2.55,2.2,-1.9],[4.75,2.45,2.2]].forEach((p, index) => {
     cylinder(.16, .12, p, 0xd2b37e, .75 + index * .01, { metalness: .45 });
     cylinder(.018, 1.15, [p[0], p[1]+.62, p[2]], palette.metal, .75 + index * .01, { metalness: .55 });
