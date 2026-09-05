@@ -65,6 +65,13 @@
   background:#e9e7e3;
 }
 
+.project-index.has-scroll-reveal .project-index__item{
+  opacity:0;
+  transform:scale(.7);
+  transform-origin:50% 50%;
+  will-change:opacity,transform;
+}
+
 .project-index__name,
 .project-index__location{
   display:block;
@@ -134,4 +141,5 @@
 
 @media(prefers-reduced-motion:reduce){
   .project-index__line{animation:none}
+  .project-index.has-scroll-reveal .project-index__item{opacity:1;transform:none}
 }
