@@ -29,9 +29,6 @@
   z-index: 20;
   top: clamp(25px, 4.4svh, 42px);
   left: 50%;
-  display: inline-flex;
-  align-items: center;
-  gap: clamp(6px, .65vw, 10px);
   transform: translateX(-50%);
   color: #171513;
   font-family: "Cormorant Garamond", Georgia, serif;
@@ -40,14 +37,6 @@
   letter-spacing: .04em;
   white-space: nowrap;
   pointer-events: none;
-}
-
-.closing-collage__signature-mark {
-  display: block;
-  width: clamp(15px, 1.45vw, 21px);
-  height: clamp(15px, 1.45vw, 21px);
-  object-fit: contain;
-  flex: 0 0 auto;
 }
 
 .closing-collage__layer {
