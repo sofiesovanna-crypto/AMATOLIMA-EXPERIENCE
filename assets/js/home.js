@@ -85,7 +85,7 @@ function interactiveApartmentTemplate() {
 }
 
 function mainTemplate() {
-  return `<main id="conteudo">${heroTemplate()}${perspectiveTemplate()}${principlesTemplate()}${projectsTemplate()}${interactiveApartmentTemplate()}</main>`;
+  return `<main id="conteudo"><div class="hero-material-stack">${heroTemplate()}${perspectiveTemplate()}</div>${principlesTemplate()}${projectsTemplate()}${interactiveApartmentTemplate()}</main>`;
 }
 
 function footerTemplate() {
