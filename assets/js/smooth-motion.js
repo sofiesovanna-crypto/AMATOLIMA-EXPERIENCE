@@ -46,57 +46,39 @@
       invalidateOnRefresh: true
     }
   })
-    .to(item(".hero-art__brand"), {
-      yPercent: -45,
-      opacity: .35,
-      ease: "none"
-    }, 0)
-    .to(item(".hero-art__arte"), {
-      xPercent: -3,
-      yPercent: -14,
-      ease: "none"
-    }, 0)
-    .to(item(".hero-art__de"), {
-      xPercent: 5,
-      yPercent: -22,
-      ease: "none"
-    }, 0)
-    .to(item(".hero-art__habitar"), {
-      xPercent: 8,
-      yPercent: -17,
-      ease: "none"
-    }, 0)
-    .to(item(".hero-art__wood"), {
-      yPercent: -5,
-      ease: "none"
-    }, 0);
+    .to(item(".hero-art__brand"), { yPercent: -45, opacity: .35, ease: "none" }, 0)
+    .to(item(".hero-art__arte"), { xPercent: -3, yPercent: -14, ease: "none" }, 0)
+    .to(item(".hero-art__de"), { xPercent: 5, yPercent: -22, ease: "none" }, 0)
+    .to(item(".hero-art__habitar"), { xPercent: 8, yPercent: -17, ease: "none" }, 0)
+    .to(item(".hero-art__wood"), { yPercent: -5, ease: "none" }, 0);
 
-  /*
-   * A segunda tela permanece completamente limpa enquanto o hero termina.
-   * O viewport da matéria já ocupa a próxima screen; apenas o conteúdo interno
-   * é revelado depois que essa screen assumiu o enquadramento, evitando que
-   * carrossel e título "desçam junto" com a transição do hero.
-   */
+  /* ScrollTrigger controla a passagem para a segunda screen como scrub real. */
   if (story) {
+    const viewport = story.querySelector(".material-spiral__viewport");
     const spiralStage = story.querySelector(".material-spiral__stage");
     const spiralTitle = story.querySelector(".material-spiral__title");
-    const enteringElements = [spiralStage, spiralTitle].filter(Boolean);
+    const progress = story.querySelector(".material-spiral__progress");
+    const enteringElements = [spiralStage, spiralTitle, progress].filter(Boolean);
 
-    if (enteringElements.length) {
-      gsap.set(enteringElements, { opacity: 0, y: 0 });
+    if (viewport && enteringElements.length) {
+      gsap.set(enteringElements, { autoAlpha: 0 });
 
-      gsap.to(enteringElements, {
-        opacity: 1,
-        duration: 1,
-        stagger: .04,
-        ease: "none",
-        scrollTrigger: {
-          trigger: story,
-          start: "top 12%",
-          end: "top top",
-          scrub: 1.15,
-          invalidateOnRefresh: true
-        }
+      const storyEntrance = gsap.timeline({ paused: true })
+        .fromTo(
+          enteringElements,
+          { autoAlpha: 0, yPercent: 18 },
+          { autoAlpha: 1, yPercent: 0, stagger: .035, ease: "none", duration: 1 },
+          0
+        );
+
+      ScrollTrigger.create({
+        trigger: story,
+        start: "top bottom",
+        end: "top top",
+        animation: storyEntrance,
+        scrub: 1,
+        anticipatePin: 1,
+        invalidateOnRefresh: true
       });
     }
   }
