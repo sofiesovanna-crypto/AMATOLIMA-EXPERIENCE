@@ -211,6 +211,27 @@ window.addEventListener("load", async () => {
 
   const objects = [];
   const makeMaterial = (color, roughness = .72, metalness = 0, extras = {}) => {
+    if (color === palette.wood || color === palette.woodLight) {
+      return new THREE.MeshPhysicalMaterial({
+        color, roughness: .5, metalness: 0, clearcoat: .16, clearcoatRoughness: .58,
+        map: surfaceTextures.wood, bumpMap: surfaceTextures.wood, bumpScale: .028,
+        transparent: true, opacity: 0, envMapIntensity: .58, ...extras,
+      });
+    }
+    if (color === palette.travertine) {
+      return new THREE.MeshPhysicalMaterial({
+        color, roughness: .76, metalness: 0, clearcoat: .06, clearcoatRoughness: .82,
+        map: surfaceTextures.travertine, bumpMap: surfaceTextures.travertine, bumpScale: .038,
+        transparent: true, opacity: 0, envMapIntensity: .38, ...extras,
+      });
+    }
+    if (color === palette.plaster || color === palette.plasterWarm) {
+      return new THREE.MeshPhysicalMaterial({
+        color, roughness: .88, metalness: 0,
+        map: surfaceTextures.stone, bumpMap: surfaceTextures.stone, bumpScale: .026,
+        transparent: true, opacity: 0, envMapIntensity: .3, ...extras,
+      });
+    }
     if (color === palette.reflecta) {
       return new THREE.MeshPhysicalMaterial({
         color: 0xa48165, roughness: .025, metalness: .32, transmission: .58,
@@ -361,11 +382,38 @@ window.addEventListener("load", async () => {
     rotation: [0, 0, Math.PI / 2], metalness: .7, roughness: .28, edges: false,
   });
 
-  // Vestíbulo compacto atrás do vidro evita qualquer vazio escuro durante a rotação.
-  box([2.35, .16, 1.9], [-8.35, -.1, .975], palette.travertine, .22);
-  box([.16, 3.25, 1.9], [-9.48, 1.48, .975], palette.plasterWarm, .23);
-  box([2.3, 3.25, .16], [-8.32, 1.48, .08], palette.plaster, .23);
-  box([2.3, 3.25, .16], [-8.32, 1.48, 1.87], palette.plaster, .23);
+  // Corredor do andar: extensão real da circulação, em vez de um volume fechado.
+  box([5.45, .16, 1.9], [-10.08, -.1, .975], palette.travertine, .22);
+  box([5.45, 3.25, .14], [-10.08, 1.48, .08], palette.plaster, .23);
+  box([5.45, 3.25, .14], [-10.08, 1.48, 1.87], palette.plasterWarm, .23);
+  // Rodapés contínuos reforçam a perspectiva do corredor.
+  box([5.35, .16, .06], [-10.08, .08, .17], palette.woodLight, .235, { edges: false });
+  box([5.35, .16, .06], [-10.08, .08, 1.78], palette.woodLight, .235, { edges: false });
+  // Portas dos apartamentos vizinhos e abertura mais escura ao fundo.
+  [-9.28, -11.18].forEach((x, index) => {
+    roundedBox([1.08, 2.55, .09], [x, 1.29, 1.77], 0x9a795e, .24 + index * .008, {
+      radius: .025, roughness: .5,
+    });
+    cylinder(.025, .16, [x + .36, 1.3, 1.68], 0xbca077, .246 + index * .008, {
+      rotation: [Math.PI / 2, 0, 0], metalness: .65, roughness: .22, edges: false,
+    });
+  });
+  box([.12, 3.2, 1.9], [-12.78, 1.47, .975], palette.plasterWarm, .26);
+  roundedBox([.08, 2.62, 1.12], [-12.69, 1.34, .975], 0x4f4c49, .27, {
+    radius: .025, roughness: .22, metalness: .16,
+  });
+  // Balizadores e luz linear quente conduzem o olhar até o fim do andar.
+  [-8.55, -10.05, -11.55].forEach((x, index) => {
+    box([.34, .055, .035], [x, .42, .16], 0xffd9a0, .275 + index * .004, {
+      emissive: 0xffb65f, emissiveIntensity: 2.1, roughness: .18, edges: false,
+    });
+  });
+  box([4.7, .035, .045], [-10.22, 3.02, .975], 0xffdfad, .29, {
+    emissive: 0xffb967, emissiveIntensity: 2.4, roughness: .16, edges: false,
+  });
+  const corridorGlow = new THREE.PointLight(0xffc982, 0, 7, 2);
+  corridorGlow.position.set(-10.2, 2.35, .98);
+  apartment.add(corridorGlow);
 
   // Esquadria panorâmica clara: perfis finos, quatro folhas e persianas horizontais.
   const windowCenter = .18;
@@ -681,6 +729,13 @@ window.addEventListener("load", async () => {
       radius: .025, roughness: .72,
     });
   });
+  // Frisos, puxadores e juntas deixam a marcenaria menos monolítica.
+  [-4.48, -3.52, -2.56, -1.6, -.64].forEach((x, index) => {
+    box([.018, .65, .035], [x, .4, -3.34], 0x95897d, .385 + index * .002, { edges: false });
+    box([.32, .018, .025], [x + .26, .6, -3.32], 0xa6927d, .387 + index * .002, {
+      metalness: .28, roughness: .32, edges: false,
+    });
+  });
   // Nichos envidraçados e peças internas.
   [-2.85, 2.12].forEach((x, index) => {
     roundedBox([.98, 1.03, .48], [x, 2.24, -3.78], palette.glass, .39 + index * .006, {
@@ -692,6 +747,12 @@ window.addEventListener("load", async () => {
   });
   // Cooktop, panelas e cuba.
   box([1.35, .025, .58], [-.15, .89, -3.5], 0x373432, .42, { roughness: .18, metalness: .12, edges: false });
+  [-.48, -.08, .32].forEach((x, index) => {
+    addObject(new THREE.TorusGeometry(.12 + index * .025, .009, 10, 30), {
+      position: [x, .916, -3.5], rotation: [Math.PI / 2, 0, 0], color: 0xaaa39a,
+      order: .423 + index * .002, metalness: .6, roughness: .24, edges: false,
+    });
+  });
   [
     { x: -.5, r: .22, color: 0xd2c6b5 },
     { x: .23, r: .27, color: 0xb5aa9d },
@@ -767,6 +828,9 @@ window.addEventListener("load", async () => {
     });
     roundedBox([1.18, .72, .3], [module.x, .84, module.z + .42], palette.fabric, .584 + index * .008, {
       rotation: [0, module.ry, 0], radius: .13, roughness: .95,
+    });
+    box([.86, .012, .018], [module.x, .69, module.z - .13], 0xa99d8e, .59 + index * .008, {
+      rotation: [0, module.ry, 0], roughness: 1, edges: false,
     });
   });
   // Almofadas em neutros frios.
@@ -1024,6 +1088,7 @@ window.addEventListener("load", async () => {
     diningGlow.intensity = materialPhase * 2.1;
     livingGlow.intensity = materialPhase * 2.35;
     kitchenLedGlow.intensity = materialPhase * 2.8;
+    corridorGlow.intensity = materialPhase * 1.9;
     warmFill.intensity = .5 + materialPhase * 2.2;
     renderer.toneMappingExposure = .92 + materialPhase * .18;
     renderer.render(scene, camera);
