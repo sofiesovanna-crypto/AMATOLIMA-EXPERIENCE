@@ -681,14 +681,20 @@ window.addEventListener("load", async () => {
       }
     });
 
-    // A construção permanece estável no início; depois, a maquete completa uma
-    // volta inteira e retorna exatamente ao enquadramento frontal.
-    const rotationPhase = smooth((progress - .42) / .54);
-    apartment.rotation.y = -.28 + rotationPhase * Math.PI * 2;
+    // A volta termina antes do fim do scroll, reservando o trecho final para
+    // contemplar a maquete pronta em um ângulo mais frontal e aberto.
+    const rotationPhase = smooth((progress - .42) / .38);
+    const finalViewPhase = smooth((progress - .8) / .16);
+    apartment.rotation.y = -.28 + rotationPhase * (Math.PI * 2 + .2);
     apartment.rotation.x = -.025 + progress * .035;
-    camera.position.x = 14.8 - progress * 2.15;
-    camera.position.y = 10.8 - progress * 1.42;
-    camera.position.z = 18.5 + progress * .62;
+    camera.position.x = 14.8 - progress * 2.15 - finalViewPhase * 1.85;
+    camera.position.y = 10.8 - progress * 1.42 - finalViewPhase * .9;
+    camera.position.z = 18.5 + progress * .62 + finalViewPhase * 1.8;
+
+    if (window.innerWidth > 760) {
+      camera.fov = 31 + finalViewPhase * 3;
+      camera.updateProjectionMatrix();
+    }
     camera.lookAt(.4, .25, 0);
     glow.intensity = smooth((progress - .67) / .2) * 5;
     indirectLight.intensity = smooth((progress - .72) / .18) * 4.2;
