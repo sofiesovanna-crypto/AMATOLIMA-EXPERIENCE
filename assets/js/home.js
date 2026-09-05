@@ -62,9 +62,9 @@ function perspectiveTemplate() {
 }
 
 function principlesTemplate() {
-  const text="A matéria orienta cada decisão. Luz, textura e proporção trabalham juntas para criar espaços precisos, acolhedores e construídos para permanecer."; let characterIndex=0;
+  const text="Materiais naturais, tons aquecidos e proporções precisas transformam o espaço sem excessos, revelando uma sofisticação que se percebe antes de se explicar."; let characterIndex=0;
   const words=text.split(" ").map(word=>{const characters=Array.from(word).map(character=>`<span class="editorial-foundations__character" style="--shine-index:${characterIndex++}">${character}</span>`).join("");characterIndex++;return `<span class="editorial-foundations__word">${characters}</span>`;}).join(" ");
-  return `<section class="editorial-foundations" id="fundamentos"><div class="editorial-foundations__layout"><figure class="editorial-foundations__image-wrap"><img src="assets/images/hero-mask-mobile.png" alt="Detalhe de matéria natural em composição vertical" loading="lazy" /></figure><div class="editorial-foundations__copy"><p class="editorial-foundations__text" data-editorial-scroll-reveal>${words}</p></div></div></section>`;
+  return `<section class="editorial-foundations" id="fundamentos"><div class="editorial-foundations__layout"><figure class="editorial-foundations__image-wrap"><img src="assets/images/sections-home/31809.jpg" alt="Detalhe de material natural em composição vertical" loading="lazy" /></figure><div class="editorial-foundations__copy"><p class="editorial-foundations__text" data-editorial-scroll-reveal>${words}</p></div></div></section>`;
 }
 
 function projectsTemplate() {
