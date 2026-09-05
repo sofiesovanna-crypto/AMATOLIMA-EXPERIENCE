@@ -1,8 +1,8 @@
 /* Encerramento visual — imagens concêntricas que tomam a tela em sequência. */
 .closing-collage {
   position: relative;
-  height: 300svh;
-  background: #f2f3f5;
+  height: 420svh;
+  background: #f7f6f3;
 }
 
 .closing-collage__pin {
@@ -10,26 +10,47 @@
   top: 0;
   width: 100%;
   height: 100svh;
-  padding: 16px;
+  padding: 0;
   overflow: hidden;
   box-sizing: border-box;
-  background: #f2f3f5;
+  background: #f7f6f3;
 }
 
 .closing-collage__stage {
-  position: relative;
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   isolation: isolate;
 }
 
+.closing-collage__signature {
+  position: absolute;
+  z-index: 20;
+  top: clamp(25px, 4.4svh, 42px);
+  left: 50%;
+  transform: translateX(-50%);
+  color: #171513;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(.8rem, 1.55vw, 1.35rem);
+  font-weight: 500;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
 .closing-collage__layer {
   --closing-inset: 0px;
   position: absolute;
-  inset: var(--closing-inset);
+  left: 50%;
+  top: 52%;
+  width: calc(100vw - (var(--closing-inset) * 2) - 32px);
+  height: auto;
+  aspect-ratio: 2.22 / 1;
   margin: 0;
   overflow: hidden;
   transform-origin: 50% 50%;
+  translate: -50% -50%;
   will-change: transform;
   background: #dedbd4;
   box-shadow: 0 0 0 1px rgba(61, 53, 44, .08);
@@ -55,11 +76,14 @@
 .closing-collage__layer--4 img { object-position: center 48%; }
 
 @media (max-width: 900px) {
-  .closing-collage { height: 340svh; }
-  .closing-collage__pin { padding: 10px; }
-  .closing-collage__layer--2 { --closing-inset: 10px; }
-  .closing-collage__layer--3 { --closing-inset: 20px; }
-  .closing-collage__layer--4 { --closing-inset: 30px; }
+  .closing-collage { height: 440svh; }
+  .closing-collage__layer {
+    width: calc(100vw - (var(--closing-inset) * 2) - 20px);
+    aspect-ratio: 1.12 / 1;
+  }
+  .closing-collage__layer--2 { --closing-inset: 8px; }
+  .closing-collage__layer--3 { --closing-inset: 16px; }
+  .closing-collage__layer--4 { --closing-inset: 24px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
