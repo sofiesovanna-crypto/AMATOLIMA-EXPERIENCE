@@ -4,10 +4,13 @@
   const apartment = document.querySelector("[data-apartment-build]");
   if (!apartment || document.querySelector("[data-editorial-mirror]")) return;
 
-  const lines = ["Valor que se constrói.", "Conforto que permanece."];
+  const lines = [
+    { text: "Espaços integrados", className: "editorial-foundations__line editorial-foundations__line--title" },
+    { text: "Espaços desenhados para sentir, feitos para durar, livres de excessos", className: "editorial-foundations__line editorial-foundations__line--body" }
+  ];
   let characterIndex = 0;
-  const words = lines.map((line) => {
-    const lineWords = line.split(" ").map((word) => {
+  const words = lines.map(({ text, className }) => {
+    const lineWords = text.split(" ").map((word) => {
       const characters = Array.from(word).map((character) => {
         const index = characterIndex++;
         return `<span class="editorial-foundations__character" style="--shine-index:${index}">${character}</span>`;
@@ -15,7 +18,7 @@
       characterIndex++;
       return `<span class="editorial-foundations__word">${characters}</span>`;
     }).join(" ");
-    return `<span class="editorial-foundations__line">${lineWords}</span>`;
+    return `<span class="${className}">${lineWords}</span>`;
   }).join("");
 
   const section = document.createElement("section");
