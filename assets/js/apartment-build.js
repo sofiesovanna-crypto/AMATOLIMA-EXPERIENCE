@@ -681,7 +681,10 @@ window.addEventListener("load", async () => {
       }
     });
 
-    apartment.rotation.y = -.28 + progress * .3;
+    // A construção permanece estável no início; depois, a maquete completa uma
+    // volta inteira e retorna exatamente ao enquadramento frontal.
+    const rotationPhase = smooth((progress - .42) / .54);
+    apartment.rotation.y = -.28 + rotationPhase * Math.PI * 2;
     apartment.rotation.x = -.025 + progress * .035;
     camera.position.x = 14.8 - progress * 2.15;
     camera.position.y = 10.8 - progress * 1.42;
