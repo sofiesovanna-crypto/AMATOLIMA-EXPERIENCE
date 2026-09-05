@@ -49,7 +49,7 @@
   margin: 0;
   color: #4c4037;
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-  font-size: clamp(.91rem,1.1vw,1.13rem);
+  font-size: clamp(.728rem,.88vw,.904rem);
   font-weight: 400;
   letter-spacing: .075em;
   line-height: 1.72;
@@ -59,7 +59,7 @@
 .editorial-foundations__word {
   display: inline-block;
   opacity: 0;
-  will-change: opacity;
+  will-change: opacity, filter;
 }
 
 .editorial-foundations__character {
@@ -102,10 +102,10 @@
   .editorial-foundations__copy { min-height: 68svh; align-items: center; padding: 80px 8vw 110px; }
   .editorial-foundations--mirror .editorial-foundations__image-wrap { grid-column: 1; grid-row: 1; margin-left: auto; height: 102svh; }
   .editorial-foundations--mirror .editorial-foundations__copy { grid-column: 1; grid-row: 2; padding: 80px 8vw 110px; }
-  .editorial-foundations__text { max-width: 580px; font-size: clamp(.86rem,3.24vw,1.08rem); }
+  .editorial-foundations__text { max-width: 580px; font-size: clamp(.688rem,2.592vw,.864rem); }
 }
 
 @media (prefers-reduced-motion:reduce) {
-  .editorial-foundations__word { opacity: 1; }
+  .editorial-foundations__word { opacity: 1; filter: none; }
   .editorial-foundations__character { animation: none; }
 }
