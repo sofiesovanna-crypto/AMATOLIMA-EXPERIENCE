@@ -710,7 +710,7 @@ window.addEventListener("load", async () => {
     // contemplar a maquete pronta em um ângulo mais frontal e aberto.
     const rotationPhase = smooth((progress - .42) / .38);
     const finalViewPhase = smooth((progress - .8) / .16);
-    apartment.rotation.y = -.28 + rotationPhase * (Math.PI * 2 + .2);
+    apartment.rotation.y = -.28 + rotationPhase * (Math.PI * 2 + .48);
     apartment.rotation.x = -.025 + progress * .035;
     camera.position.x = 14.8 - progress * 2.15 - finalViewPhase * 1.85;
     camera.position.y = 10.8 - progress * 1.42 - finalViewPhase * .9;
