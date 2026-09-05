@@ -46,7 +46,7 @@
   overflow: hidden;
   color: #261c12;
   font-family: "Alta","Cormorant Garamond",Georgia,serif;
-  font-size: clamp(.86rem,1.42vw,1.365rem);
+  font-size: clamp(.817rem,1.349vw,1.297rem);
   font-weight: 400;
   letter-spacing: .18em;
   line-height: 1.1;
@@ -108,7 +108,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: clamp(104px,10vw,160px);
+  width: clamp(120px,11.5vw,184px);
   aspect-ratio: 1/1;
   display: block;
   overflow: hidden;
@@ -188,7 +188,7 @@
 
   .material-spiral__title {
     justify-content: center;
-    font-size: clamp(.58rem,2.36vw,.76rem);
+    font-size: clamp(.551rem,2.242vw,.722rem);
     letter-spacing: .12em;
   }
 
@@ -205,7 +205,7 @@
   }
 
   .material-spiral__card {
-    width: clamp(66px,20vw,86px);
+    width: clamp(76px,23vw,99px);
   }
 
   .material-spiral__progress {
