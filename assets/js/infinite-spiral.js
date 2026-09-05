@@ -3,7 +3,7 @@
 const clamp=(v,a,b)=>Math.min(Math.max(v,a),b),smooth=(a,b,x)=>{x=clamp((x-a)/(b-a),0,1);return x*x*(3-2*x)};
 document.querySelectorAll("[data-material-scroll]").forEach(section=>{
 const root=section.querySelector("[data-material-spiral]"),cards=[...section.querySelectorAll("[data-spiral-card]")],text=section.querySelector("[data-spiral-text]"),copy=section.querySelector(".material-spiral__copy"),gallery=section.querySelector(".material-spiral__gallery"),experience=section.querySelector("[data-material-card]"),card=section.querySelector("[data-project-card]"),reflection=section.querySelector("[data-card-reflection]"),projects=[...section.querySelectorAll("[data-card-project]")];if(!root||!cards.length||!text)return;
-const projectSources=["assets/images/card/6124.jpg","assets/images/card/27946.jpg","assets/images/card/11805.png"];
+const projectSources=["assets/images/card/6124.jpg","assets/images/card/27946.jpg","assets/images/sections-home/12548.webp"];
 projects.forEach((img,i)=>{if(projectSources[i])img.src=projectSources[i]});
 let shown=-1,current=0,target=0,drag=false,lastY=0;
 const setText=i=>{if(i===shown)return;shown=i;const value=cards[i].dataset.spiralLabel||"";text.innerHTML=Array.from(value).map((ch,n)=>`<span class="${ch===" "?"material-spiral__space":"material-spiral__character"}" style="--character-index:${n}" aria-hidden="true">${ch===" "?"&nbsp;":ch}</span>`).join("");text.setAttribute("aria-label",value)};
