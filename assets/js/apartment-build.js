@@ -45,8 +45,20 @@ window.addEventListener("load", async () => {
 
   const apartment = new THREE.Group();
   apartment.rotation.y = -.12;
-  apartment.position.set(.7, -.55, 0);
+  apartment.position.set(.25, -.72, 0);
+  apartment.scale.set(.72, .92, 1.38);
   scene.add(apartment);
+
+  // O eixo longitudinal segue o recorte cozinha - jantar - estar da planta Sergipe 686.
+  const kitchenGroup = new THREE.Group();
+  const diningGroup = new THREE.Group();
+  const livingGroup = new THREE.Group();
+  kitchenGroup.rotation.y = Math.PI;
+  kitchenGroup.position.set(0, 0, 3.25);
+  diningGroup.position.set(-2.5, 0, 1.75);
+  livingGroup.position.set(-2.7, 0, -6.25);
+  apartment.add(kitchenGroup, diningGroup, livingGroup);
+  let activeParent = apartment;
 
   const ambient = new THREE.HemisphereLight(0xfff8ed, 0x5a4435, 1.3);
   const sun = new THREE.DirectionalLight(0xffeed0, 3.2);
@@ -89,7 +101,7 @@ window.addEventListener("load", async () => {
     mesh.rotation.set(...rotation);
     mesh.castShadow = true;
     mesh.receiveShadow = true;
-    apartment.add(mesh);
+    activeParent.add(mesh);
 
     let line = null;
     if (edges) {
@@ -99,7 +111,7 @@ window.addEventListener("load", async () => {
       );
       line.position.copy(mesh.position);
       line.rotation.copy(mesh.rotation);
-      apartment.add(line);
+      activeParent.add(line);
     }
     objects.push({ mesh, line, order, baseScale: mesh.scale.clone() });
     return mesh;
@@ -121,6 +133,7 @@ window.addEventListener("load", async () => {
   for (let x = -1.89; x <= 4.99; x += 1.72) box([1.58, 2.65, .035], [x, 1.94, -4.37], palette.glass, .23, { roughness: .18, metalness: .05, edges: false });
 
   // Cozinha e marcenaria contínua.
+  activeParent = kitchenGroup;
   box([.68, 2.7, 3.55], [-6.36, 1.23, -2.35], palette.wood, .28);
   for (let z = -3.75; z <= -.95; z += .7) box([.72, .025, .035], [-5.99, 1.3, z], palette.metal, .3, { edges: false });
   box([4.9, .82, .9], [-3.55, .34, -3.92], palette.plasterWarm, .32);
@@ -136,6 +149,7 @@ window.addEventListener("load", async () => {
   });
 
   // Sala de jantar.
+  activeParent = diningGroup;
   box([3.45, .12, 1.35], [2.55, .78, -1.85], palette.stone, .48);
   box([.22, .76, .22], [1.2, .37, -1.85], palette.metal, .49, { metalness: .28 });
   box([.22, .76, .22], [3.9, .37, -1.85], palette.metal, .49, { metalness: .28 });
@@ -145,6 +159,7 @@ window.addEventListener("load", async () => {
   });
 
   // Estar orgânico.
+  activeParent = livingGroup;
   box([4.25, .12, 2.75], [2.7, .01, 2.4], palette.fabricLight, .57);
   box([4.55, .68, 1.18], [3.05, .38, 3.18], palette.fabric, .6);
   box([1.22, .62, 2.75], [5.0, .35, 1.98], palette.fabric, .61);
@@ -172,6 +187,7 @@ window.addEventListener("load", async () => {
   }
 
   // Detalhes autorais que aparecem somente quando a maquete ganha materialidade.
+  activeParent = livingGroup;
   const artworkCanvas = document.createElement("canvas");
   artworkCanvas.width = 512;
   artworkCanvas.height = 700;
@@ -208,6 +224,7 @@ window.addEventListener("load", async () => {
   });
 
   // Lustre escultórico: haste em latão e globos leitosos em alturas diferentes.
+  activeParent = diningGroup;
   box([.055, 1.42, .055], [2.5, 3.45, -1.86], 0x8f7045, .88, { metalness: .72, roughness: .28 });
   const chandelierArms = [[-.86,.03,-.22],[.86,-.12,.2],[-.4,-.3,.54],[.42,-.45,-.52]];
   chandelierArms.forEach((arm, index) => {
@@ -219,6 +236,7 @@ window.addEventListener("load", async () => {
   });
 
   // Luz indireta integrada à marcenaria, ao painel e à ilha.
+  activeParent = kitchenGroup;
   const ledOptions = { color: 0xffdfaa, order: .9, roughness: .2, emissive: 0xffb85c, emissiveIntensity: 2.4, edges: false };
   box([4.72, .035, .045], [-3.55, 1.12, -3.43], ledOptions.color, ledOptions.order, ledOptions);
   box([4.05, .028, .04], [-2.4, .86, -1.24], ledOptions.color, .915, ledOptions);
@@ -228,6 +246,7 @@ window.addEventListener("load", async () => {
   scene.add(indirectLight);
 
   // Almofadas, manta e pequenas peças de curadoria.
+  activeParent = livingGroup;
   const cushionGeometry = new THREE.SphereGeometry(.46, 20, 14);
   [[2.0,.82,3.18,0xc6a47b],[3.05,.84,3.2,0xe6ddd0],[4.05,.82,3.18,0x7c6654]].forEach((item, index) => {
     const cushion = addObject(cushionGeometry, { position: item.slice(0,3), color: item[3], order: .9 + index * .008, roughness: .96 });
@@ -241,6 +260,7 @@ window.addEventListener("load", async () => {
 
   // Trama delicada do tapete e reflexos das esquadrias.
   for (let z = 1.22; z <= 3.55; z += .26) box([3.9, .009, .012], [2.7, .078, z], 0x9e8f7e, .95, { edges: false });
+  activeParent = apartment;
   const windowGlow = addObject(new THREE.PlaneGeometry(8.4, 2.7), {
     position: [1.55, 1.94, -4.25], color: 0xcbd8d5, order: .965, roughness: .08,
     metalness: .05, emissive: 0x6d8791, emissiveIntensity: .2, edges: false,
@@ -263,7 +283,7 @@ window.addEventListener("load", async () => {
     const width = sceneWrap.clientWidth;
     const height = sceneWrap.clientHeight;
     const aspect = width / Math.max(height, 1);
-    const halfWidth = window.innerWidth <= 760 ? 8.3 : 9.1;
+    const halfWidth = window.innerWidth <= 760 ? 8.7 : 10.4;
     const halfHeight = halfWidth / Math.max(aspect, .1);
     camera.left = -halfWidth;
     camera.right = halfWidth;
