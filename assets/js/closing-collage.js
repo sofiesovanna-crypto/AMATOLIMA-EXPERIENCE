@@ -26,7 +26,6 @@
       </div>
     </div>`;
 
-  /* Mantém a colagem como última experiência visual, imediatamente antes da faixa/rodapé. */
   const quote = main.querySelector(".quote-band");
   if (quote) main.insertBefore(section, quote);
   else main.appendChild(section);
@@ -34,75 +33,95 @@
   const layers = Array.from(section.querySelectorAll("[data-closing-layer]"));
   const images = layers.map((layer) => layer.querySelector("img"));
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduceMotion) return;
-
   const gsapApi = window.gsap;
   const ScrollTriggerApi = window.ScrollTrigger;
 
-  if (gsapApi && ScrollTriggerApi) {
-    gsapApi.registerPlugin(ScrollTriggerApi);
-
-    const starts = [
-      { x: 0, y: 18, scale: 1.13, rotate: -.35 },
-      { x: -5, y: 30, scale: 1.18, rotate: .28 },
-      { x: 6, y: 42, scale: 1.22, rotate: -.22 },
-      { x: 0, y: 58, scale: 1.28, rotate: .18 },
-    ];
-
-    layers.forEach((layer, index) => {
-      const from = starts[index];
-      gsapApi.set(layer, {
-        xPercent: -50,
-        yPercent: -50,
-        x: `${from.x}vw`,
-        y: `${from.y}vh`,
-        scale: from.scale,
-        rotation: from.rotate,
-        clipPath: "inset(48% 0 48% 0)",
-        opacity: index === 0 ? .96 : .78,
-      });
-      gsapApi.set(images[index], { scale: 1.12 + index * .025, yPercent: 4 + index * 1.5 });
+  if (reduceMotion || !gsapApi || !ScrollTriggerApi) {
+    layers.forEach((layer) => {
+      layer.style.transform = "translate(-50%, -50%)";
+      layer.style.opacity = "1";
     });
-
-    const timeline = gsapApi.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 1.35,
-        invalidateOnRefresh: true,
-      },
-    });
-
-    layers.forEach((layer, index) => {
-      timeline.to(layer, {
-        x: 0,
-        y: 0,
-        scale: 1,
-        rotation: 0,
-        clipPath: "inset(0% 0 0% 0)",
-        opacity: 1,
-        duration: 1.15,
-        ease: "power2.out",
-      }, index * .34);
-      timeline.to(images[index], {
-        scale: 1,
-        yPercent: 0,
-        duration: 1.25,
-        ease: "power1.out",
-      }, index * .34);
-    });
-
-    /* Pequena sustentação no final para a composição completa permanecer em cena. */
-    timeline.to({}, { duration: .75 });
-    requestAnimationFrame(() => ScrollTriggerApi.refresh());
     return;
   }
 
-  /* Fallback sem GSAP: a composição final permanece íntegra. */
-  layers.forEach((layer) => {
-    layer.style.transform = "translate(-50%, -50%)";
-    layer.style.opacity = "1";
-    layer.style.clipPath = "inset(0)";
+  gsapApi.registerPlugin(ScrollTriggerApi);
+
+  /* Poeza-like logic: a base já existe. Cada nova fotografia começa como um
+     pequeno núcleo translúcido no centro e emerge, em sequência, de dentro da anterior. */
+  gsapApi.set(layers[0], { xPercent: -50, yPercent: -50, scale: 1, opacity: 1 });
+  gsapApi.set(images[0], { scale: 1.035, opacity: 1 });
+
+  for (let i = 1; i < layers.length; i += 1) {
+    gsapApi.set(layers[i], {
+      xPercent: -50,
+      yPercent: -50,
+      scale: .055,
+      opacity: 0,
+    });
+    gsapApi.set(images[i], { scale: 1.16, opacity: .34 });
+  }
+
+  const timeline = gsapApi.timeline({
+    defaults: { ease: "none" },
+    scrollTrigger: {
+      trigger: section,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 1.75,
+      invalidateOnRefresh: true,
+    },
   });
+
+  /* Base respira muito pouco enquanto recebe as demais imagens. */
+  timeline.to(layers[0], { scale: .985, duration: 1.05 }, 0)
+    .to(images[0], { scale: 1, duration: 1.05 }, 0);
+
+  const arrivals = [0.72, 1.72, 2.72];
+  for (let i = 1; i < layers.length; i += 1) {
+    const at = arrivals[i - 1];
+    const previous = layers[i - 1];
+
+    /* Primeiro aparece quase como uma transparência dentro da imagem anterior. */
+    timeline.to(layers[i], {
+      opacity: .28,
+      scale: .18,
+      duration: .22,
+    }, at);
+
+    /* Depois ganha presença e dimensão, sem salto de escala. */
+    timeline.to(layers[i], {
+      opacity: .72,
+      scale: .68,
+      duration: .42,
+    }, at + .22);
+    timeline.to(images[i], {
+      opacity: .78,
+      scale: 1.07,
+      duration: .42,
+    }, at + .22);
+
+    /* Assenta no tamanho final enquanto a camada anterior perde só um pouco de força. */
+    timeline.to(layers[i], {
+      opacity: 1,
+      scale: 1,
+      duration: .42,
+    }, at + .64);
+    timeline.to(images[i], {
+      opacity: 1,
+      scale: 1,
+      duration: .42,
+    }, at + .64);
+    timeline.to(previous, {
+      opacity: i === 1 ? .88 : .9,
+      duration: .32,
+    }, at + .34);
+    timeline.to(previous, {
+      opacity: 1,
+      duration: .32,
+    }, at + .74);
+  }
+
+  /* Sustenta a composição final para o olho conseguir lê-la antes do rodapé. */
+  timeline.to({}, { duration: 1.05 });
+  requestAnimationFrame(() => ScrollTriggerApi.refresh());
 })();
