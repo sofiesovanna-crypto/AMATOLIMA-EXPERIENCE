@@ -46,82 +46,64 @@
 
   gsapApi.registerPlugin(ScrollTriggerApi);
 
-  /* Poeza-like logic: a base já existe. Cada nova fotografia começa como um
-     pequeno núcleo translúcido no centro e emerge, em sequência, de dentro da anterior. */
+  // Uma única origem: nenhuma camada viaja pela tela. Todas nascem exatamente
+  // no centro da fotografia anterior, como uma nova janela que se abre dentro dela.
   gsapApi.set(layers[0], { xPercent: -50, yPercent: -50, scale: 1, opacity: 1 });
-  gsapApi.set(images[0], { scale: 1.035, opacity: 1 });
-
+  gsapApi.set(images[0], { scale: 1.025, opacity: 1 });
   for (let i = 1; i < layers.length; i += 1) {
-    gsapApi.set(layers[i], {
-      xPercent: -50,
-      yPercent: -50,
-      scale: .055,
-      opacity: 0,
-    });
-    gsapApi.set(images[i], { scale: 1.16, opacity: .34 });
+    gsapApi.set(layers[i], { xPercent: -50, yPercent: -50, scale: .72, opacity: 0 });
+    gsapApi.set(images[i], { scale: 1.055, opacity: .58 });
   }
 
   const timeline = gsapApi.timeline({
-    defaults: { ease: "none" },
+    defaults: { ease: "power1.inOut" },
     scrollTrigger: {
       trigger: section,
       start: "top top",
       end: "bottom bottom",
-      scrub: 1.75,
+      scrub: 1.35,
       invalidateOnRefresh: true,
     },
   });
 
-  /* Base respira muito pouco enquanto recebe as demais imagens. */
-  timeline.to(layers[0], { scale: .985, duration: 1.05 }, 0)
-    .to(images[0], { scale: 1, duration: 1.05 }, 0);
+  // A base já está completa. Ela apenas assenta; não foge nem muda de direção.
+  timeline.to(images[0], { scale: 1, duration: .8, ease: "none" }, 0);
 
-  const arrivals = [0.72, 1.72, 2.72];
+  // Intervalos largos e regulares: uma imagem termina de nascer antes da próxima.
+  const arrivals = [.72, 1.82, 2.92];
   for (let i = 1; i < layers.length; i += 1) {
     const at = arrivals[i - 1];
-    const previous = layers[i - 1];
 
-    /* Primeiro aparece quase como uma transparência dentro da imagem anterior. */
+    // Primeiro a nova fotografia é percebida como uma presença translúcida.
     timeline.to(layers[i], {
-      opacity: .28,
-      scale: .18,
-      duration: .22,
+      opacity: .38,
+      scale: .82,
+      duration: .24,
+    }, at);
+    timeline.to(images[i], {
+      opacity: .68,
+      scale: 1.035,
+      duration: .24,
     }, at);
 
-    /* Depois ganha presença e dimensão, sem salto de escala. */
+    // Em seguida ela emerge da mesma origem central e ocupa sua moldura definitiva.
     timeline.to(layers[i], {
-      opacity: .72,
-      scale: .68,
-      duration: .42,
-    }, at + .22);
+      opacity: 1,
+      scale: 1,
+      duration: .58,
+    }, at + .24);
     timeline.to(images[i], {
-      opacity: .78,
-      scale: 1.07,
-      duration: .42,
-    }, at + .22);
+      opacity: 1,
+      scale: 1,
+      duration: .58,
+    }, at + .24);
 
-    /* Assenta no tamanho final enquanto a camada anterior perde só um pouco de força. */
-    timeline.to(layers[i], {
-      opacity: 1,
-      scale: 1,
-      duration: .42,
-    }, at + .64);
-    timeline.to(images[i], {
-      opacity: 1,
-      scale: 1,
-      duration: .42,
-    }, at + .64);
-    timeline.to(previous, {
-      opacity: i === 1 ? .88 : .9,
-      duration: .32,
-    }, at + .34);
-    timeline.to(previous, {
-      opacity: 1,
-      duration: .32,
-    }, at + .74);
+    // A imagem anterior permanece integralmente visível como moldura da seguinte.
+    timeline.to(layers[i - 1], { opacity: .96, duration: .18 }, at + .12)
+      .to(layers[i - 1], { opacity: 1, duration: .34 }, at + .48);
   }
 
-  /* Sustenta a composição final para o olho conseguir lê-la antes do rodapé. */
-  timeline.to({}, { duration: 1.05 });
+  // Pausa visual: a composição final permanece montada antes do rodapé.
+  timeline.to({}, { duration: 1.15 });
   requestAnimationFrame(() => ScrollTriggerApi.refresh());
 })();
