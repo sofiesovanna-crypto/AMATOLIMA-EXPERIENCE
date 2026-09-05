@@ -69,6 +69,14 @@
   animation-delay: calc(var(--shine-index) * 95ms);
 }
 
+/* Cópia espelhada: mesmas medidas, tipografia, respiros e animação; apenas troca os lados. */
+.editorial-foundations--mirror .editorial-foundations__image-wrap { grid-column: 2; grid-row: 1; }
+.editorial-foundations--mirror .editorial-foundations__copy {
+  grid-column: 1;
+  grid-row: 1;
+  padding: 14svh 0 8svh clamp(36px,6vw,110px);
+}
+
 @keyframes editorial-letter-shine {
   0%,42%,48%,100% { color: #4c4037; }
   45% { color: #c3a06b; }
@@ -96,6 +104,18 @@
   .editorial-foundations__copy {
     min-height: 68svh;
     align-items: center;
+    padding: 80px 8vw 110px;
+  }
+
+  .editorial-foundations--mirror .editorial-foundations__image-wrap {
+    grid-column: 1;
+    grid-row: 1;
+    margin-left: auto;
+  }
+
+  .editorial-foundations--mirror .editorial-foundations__copy {
+    grid-column: 1;
+    grid-row: 2;
     padding: 80px 8vw 110px;
   }
 
