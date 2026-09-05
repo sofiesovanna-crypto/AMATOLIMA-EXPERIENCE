@@ -170,7 +170,7 @@
   padding: 0 22px;
   color: #f4f4f4;
   font-family: var(--wordmark);
-  font-size: clamp(.94rem,1.62vw,1.33rem);
+  font-size: clamp(.846rem,1.458vw,1.197rem);
   font-weight: 500;
   letter-spacing: .16em;
   line-height: 1;
@@ -224,7 +224,7 @@
 .flowing-menu__part > span:first-child {
   padding-inline: 14px;
   font-family: var(--wordmark);
-  font-size: clamp(.9rem,1.53vw,1.26rem);
+  font-size: clamp(.81rem,1.377vw,1.134rem);
   font-weight: 500;
   letter-spacing: .16em;
   line-height: 1;
@@ -275,12 +275,12 @@ body.flowing-menu-open { overflow: hidden; }
   }
 
   .flowing-menu__link {
-    font-size: clamp(.86rem,3.96vw,1.08rem);
+    font-size: clamp(.774rem,3.564vw,.972rem);
     letter-spacing: .15em;
   }
 
   .flowing-menu__part > span:first-child {
-    font-size: clamp(.86rem,3.78vw,1.04rem);
+    font-size: clamp(.774rem,3.402vw,.936rem);
   }
 
   .flowing-menu__img {
