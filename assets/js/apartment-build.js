@@ -79,7 +79,8 @@ window.addEventListener("load", async () => {
   kitchenGroup.rotation.y = Math.PI;
   kitchenGroup.position.set(0, 0, 1.05);
   diningGroup.position.set(-2.35, 0, .2);
-  livingGroup.position.set(-2.45, 0, -6.15);
+  // O estar permanece totalmente dentro do perímetro, mesmo visto durante a volta de 360°.
+  livingGroup.position.set(0, 0, -4.75);
   apartment.add(kitchenGroup, diningGroup, livingGroup);
   let activeParent = apartment;
 
@@ -639,6 +640,23 @@ window.addEventListener("load", async () => {
     metalness: .03, map: viewTexture, emissive: 0xa9c3b1, emissiveIntensity: .13, edges: false,
   });
   windowGlow.material.side = THREE.DoubleSide;
+
+  // Segunda face da janela: durante a rotação completa, o verso mantém a mesma
+  // luminosidade e o mesmo desenho de persianas, em vez de revelar o vidro marrom.
+  const exteriorWindowGlow = addObject(new THREE.PlaneGeometry(10.55, 2.88), {
+    position: [windowCenter, 1.94, -4.54], rotation: [0, Math.PI, 0], color: 0xe3ece5,
+    order: .966, roughness: .06, metalness: .03, map: viewTexture,
+    emissive: 0xa9c3b1, emissiveIntensity: .13, edges: false,
+  });
+  exteriorWindowGlow.material.side = THREE.DoubleSide;
+  for (let y = 1.62; y <= 3.34; y += .095) {
+    box([10.55, .026, .052], [windowCenter, y, -4.59], 0xe9e7e1, .968 + (y - 1.62) * .004, {
+      rotation: [.09, 0, 0], roughness: .72, edges: false,
+    });
+  }
+  [-2.5, .18, 2.86].forEach((x, index) => {
+    box([.018, 1.8, .03], [x, 2.48, -4.625], 0x8a847c, .982 + index * .002, { edges: false });
+  });
 
   const shadowMaterial = new THREE.ShadowMaterial({ color: 0x1a120d, opacity: .16, transparent: true });
   const shadowPlane = new THREE.Mesh(new THREE.PlaneGeometry(18, 16), shadowMaterial);
