@@ -3,7 +3,7 @@
 /* Hero brand lockup: mark left, Amato Lima centered above its descriptor. */
 .hero-art__brand{align-items:flex-start}
 .hero-art__brand-line{position:relative;display:flex;align-items:center;justify-content:center;gap:clamp(10px,.9vw,14px)}
-.hero-art__brand-name{transform:translateY(-5px)}
+.hero-art__brand-name{font-size:clamp(1.225rem,1.764vw,1.715rem);transform:translateY(-5px)}
 .hero-art__brand-mark{width:clamp(56px,4.592vw,69.44px);height:clamp(56px,4.592vw,69.44px);object-fit:contain;flex:0 0 auto;order:-1;transform:translateX(-4px)}
-.hero-art__brand-descriptor{align-self:flex-end;width:calc(100% - clamp(70px,5.492vw,87.44px));text-align:center;transform:translateY(-16px)}
+.hero-art__brand-descriptor{align-self:flex-end;width:calc(100% - clamp(70px,5.492vw,87.44px));font-size:clamp(.5096rem,.7056vw,.6664rem);text-align:center;transform:translateY(-16px)}
 @media(max-width:760px){.hero-art__brand-line{gap:9px}.hero-art__brand-name{transform:translateY(-4px)}.hero-art__brand-mark{width:56px;height:56px;transform:translateX(-3px)}.hero-art__brand-descriptor{width:calc(100% - 68px);transform:translateY(-15px)}}
