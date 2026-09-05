@@ -3,7 +3,7 @@
 const navigationItems = [
   { label: "Home", href: "index.html", current: true },
   { label: "Institucional", href: "sobre.html" },
-  { label: "Viver Amato Lima", href: "reformas.html" },
+  { label: "Viver Amato e Lima", href: "reformas.html" },
   { label: "Ativos", href: "ativos.html" },
   { label: "Contato", href: "contato.html" },
 ];
@@ -11,7 +11,7 @@ const navigationItems = [
 const flowingMenuItems = [
   { label: "Home", href: "index.html", image: "assets/images/menu/31815.jpg", position: "center" },
   { label: "Institucional", href: "sobre.html", image: "assets/images/menu/31814.jpg", position: "center bottom" },
-  { label: "Viver Amato Lima", href: "reformas.html", image: "assets/images/menu/31816.jpg", position: "center" },
+  { label: "Viver Amato e Lima", href: "reformas.html", image: "assets/images/menu/31816.jpg", position: "center" },
   { label: "Ativos", href: "ativos.html", image: "assets/images/menu/31812.jpg", position: "center" },
   { label: "Contato", href: "contato.html", image: "assets/images/menu/31813.jpg", position: "center bottom" },
 ];
@@ -30,11 +30,12 @@ const selectedProjects = [
 ];
 
 const materialSpiralImages = [
-  { image: "assets/images/material/11650.png", alt: "Composição que representa a matéria antes do ativo imobiliário" },
+  { image: "assets/images/sections-home/28152.jpg", alt: "Composição que representa a matéria antes do ativo imobiliário" },
   { image: "assets/images/material/31803.jpg", alt: "Detalhe de madeira clara" },
   { image: "assets/images/material/31805.jpg", alt: "Detalhe de piso em travertino" },
   { image: "assets/images/material/31806.jpg", alt: "Detalhe de vidro reflecta bronze" },
   { image: "assets/images/material/31808.jpg", alt: "Detalhe de pedra em quartzo branco" },
+  { image: "assets/images/sections-home/31868.jpg", alt: "Detalhe de pedra natural Hijau" },
 ];
 
 function navigationTemplate() {
@@ -56,14 +57,22 @@ function heroTemplate() {
 }
 
 function perspectiveTemplate() {
-  const scrollPhrases = ["A MATÉRIA PRECEDE O ATIVO","MADEIRA CLARA","PISO TRAVERTINO","VIDROS REFLECTA BRONZE","PEDRAS EM QUARTZO BRANCO"];
+  const scrollPhrases = ["A MATÉRIA PRECEDE O ATIVO","MADEIRA CLARA","PISO TRAVERTINO","VIDROS REFLECTA BRONZE","PEDRAS EM QUARTZO BRANCO","PEDRA NATURAL HIJAU"];
   const cards = scrollPhrases.map((phrase,index)=>{const item=materialSpiralImages[index%materialSpiralImages.length];return `<figure class="material-spiral__card" data-spiral-card data-spiral-label="${phrase}"><img src="${item.image}" alt="${item.alt}" loading="lazy" draggable="false" /></figure>`;}).join("");
-  return `<section class="material-spiral" id="perspectiva" aria-labelledby="material-title" data-material-scroll><div class="material-spiral__viewport"><div class="material-spiral__copy"><h2 class="material-spiral__title" id="material-title" data-spiral-text aria-live="polite"></h2></div><div class="material-spiral__gallery" data-material-spiral aria-label="Carrossel de materiais controlado pelo scroll"><div class="material-spiral__stage">${cards}</div></div><div class="material-card-experience" data-material-card aria-label="Cartão Amato Lima com projetos selecionados"><div class="material-card-experience__fluid" data-ferrofluid aria-hidden="true"></div><div class="material-card-experience__stage"><div class="material-card-experience__card" data-project-card><div class="material-card-experience__face material-card-experience__face--project"><div class="material-card-experience__projects"><img class="is-active" data-card-project src="assets/images/card/11805.png" alt="Projeto Amato Lima — matéria natural" /><img data-card-project src="assets/images/card/6124.jpg" alt="Projeto Amato Lima — composição arquitetônica" /><img data-card-project src="assets/images/hero-mask-mobile.png" alt="Projeto Amato Lima — detalhe arquitetônico" /></div><span class="material-card-experience__reflection" data-card-reflection aria-hidden="true"></span></div><div class="material-card-experience__face material-card-experience__face--identity" style="background-image:url('assets/images/card/10494.png');background-size:cover;background-position:center;background-repeat:no-repeat;"><img class="material-card-experience__mark" src="assets/images/monograma.png" alt="" /></div></div></div></div></div></section>`;
+  return `<section class="material-spiral" id="perspectiva" aria-labelledby="material-title" data-material-scroll><div class="material-spiral__viewport"><div class="material-spiral__copy"><h2 class="material-spiral__title" id="material-title" data-spiral-text aria-live="polite"></h2></div><div class="material-spiral__gallery" data-material-spiral aria-label="Carrossel de materiais controlado pelo scroll"><div class="material-spiral__stage">${cards}</div></div><div class="material-card-experience" data-material-card aria-label="Cartão Amato Lima com projetos selecionados"><div class="material-card-experience__fluid" data-ferrofluid aria-hidden="true"></div><div class="material-card-experience__stage"><div class="material-card-experience__card" data-project-card><div class="material-card-experience__face material-card-experience__face--project"><div class="material-card-experience__projects"><img class="is-active" data-card-project src="assets/images/card/6124.jpg" alt="Projeto Amato Lima — matéria natural" /><img data-card-project src="assets/images/card/27946.jpg" alt="Projeto Amato Lima — composição arquitetônica" /><img data-card-project src="assets/images/sections-home/12548.webp" alt="Projeto Amato Lima — detalhe arquitetônico" /></div><span class="material-card-experience__reflection" data-card-reflection aria-hidden="true"></span></div><div class="material-card-experience__face material-card-experience__face--identity" style="background-image:url('assets/images/card/10494.png');background-size:cover;background-position:center;background-repeat:no-repeat;"><img class="material-card-experience__mark" src="assets/images/monograma.png" alt="" /></div></div></div></div></div></section>`;
+}
+
+function editorialRevealMarkup(title, text) {
+  let characterIndex=0;
+  const render=(value,className)=>{
+    const words=value.split(" ").map(word=>{const characters=Array.from(word).map(character=>`<span class="editorial-foundations__character" style="--shine-index:${characterIndex++}">${character}</span>`).join("");characterIndex++;return `<span class="editorial-foundations__word">${characters}</span>`;}).join(" ");
+    return `<span class="${className}">${words}</span>`;
+  };
+  return `${render(title,"editorial-foundations__line editorial-foundations__line--title")}${render(text,"editorial-foundations__line editorial-foundations__line--body")}`;
 }
 
 function principlesTemplate() {
-  const text="Materiais naturais, tons aquecidos e proporções precisas transformam o espaço sem excessos, revelando uma sofisticação que se percebe antes de se explicar."; let characterIndex=0;
-  const words=text.split(" ").map(word=>{const characters=Array.from(word).map(character=>`<span class="editorial-foundations__character" style="--shine-index:${characterIndex++}">${character}</span>`).join("");characterIndex++;return `<span class="editorial-foundations__word">${characters}</span>`;}).join(" ");
+  const words=editorialRevealMarkup("Arquitetura discreta","O verdadeiro luxo não grita; ele acolhe em silêncio através de texturas e tempo.");
   return `<section class="editorial-foundations" id="fundamentos"><div class="editorial-foundations__layout"><figure class="editorial-foundations__image-wrap"><img src="assets/images/sections-home/31809.jpg" alt="Detalhe de material natural em composição vertical" loading="lazy" /></figure><div class="editorial-foundations__copy"><p class="editorial-foundations__text" data-editorial-scroll-reveal>${words}</p></div></div></section>`;
 }
 
