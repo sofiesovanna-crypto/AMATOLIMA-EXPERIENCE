@@ -45,8 +45,8 @@ window.addEventListener("load", async () => {
 
   const apartment = new THREE.Group();
   apartment.rotation.y = -.12;
-  apartment.position.set(.25, -.72, 0);
-  apartment.scale.set(.72, .92, 1.38);
+  apartment.position.set(.1, -.72, 0);
+  apartment.scale.set(.84, .92, 1.26);
   scene.add(apartment);
 
   // O eixo longitudinal segue o recorte cozinha - jantar - estar da planta Sergipe 686.
@@ -55,8 +55,8 @@ window.addEventListener("load", async () => {
   const livingGroup = new THREE.Group();
   kitchenGroup.rotation.y = Math.PI;
   kitchenGroup.position.set(0, 0, 3.25);
-  diningGroup.position.set(-2.5, 0, 1.75);
-  livingGroup.position.set(-2.7, 0, -6.25);
+  diningGroup.position.set(-2.35, 0, 1.55);
+  livingGroup.position.set(-2.45, 0, -5.85);
   apartment.add(kitchenGroup, diningGroup, livingGroup);
   let activeParent = apartment;
 
@@ -121,10 +121,25 @@ window.addEventListener("load", async () => {
   const cylinder = (radius, height, position, color, order, extra = {}) => addObject(new THREE.CylinderGeometry(radius, radius, height, 32), { position, color, order, ...extra });
 
   // Base arquitetônica e paredes abertas, como uma maquete habitável.
-  box([13.6, .22, 9.2], [0, -.16, 0], palette.woodLight, .02);
-  for (let x = -6.2; x <= 6.2; x += .52) box([.018, .016, 8.7], [x, -.035, 0], palette.wood, .06, { edges: false });
-  box([13.8, 3.9, .2], [0, 1.82, -4.5], palette.plaster, .1);
-  box([.2, 3.9, 9.1], [-6.8, 1.82, 0], palette.plasterWarm, .12);
+  box([14.8, .22, 10.4], [0, -.16, .3], palette.woodLight, .02);
+  for (let x = -6.9; x <= 6.9; x += .52) box([.018, .016, 9.9], [x, -.035, .3], palette.wood, .06, { edges: false });
+
+  // Parede de fundo vazada: quatro panos enquadram uma janela real, sem parede atrás do vidro.
+  box([2.45, 3.9, .2], [-5.68, 1.82, -4.5], palette.plaster, .1);
+  box([2.45, 3.9, .2], [5.68, 1.82, -4.5], palette.plaster, .1);
+  box([8.92, .46, .2], [0, 3.67, -4.5], palette.plaster, .11);
+  box([8.92, .54, .2], [0, .11, -4.5], palette.plaster, .11);
+
+  // Parede lateral interrompida por um acesso generoso.
+  box([.2, 3.9, 5.45], [-7.38, 1.82, -1.73], palette.plasterWarm, .12);
+  box([.2, 3.9, 1.85], [-7.38, 1.82, 4.68], palette.plasterWarm, .12);
+  box([.2, .54, 2.95], [-7.38, 3.63, 2.48], palette.plasterWarm, .14);
+
+  // Porta aberta e marco delicado, acrescentando uma segunda camada de profundidade.
+  box([.16, 2.9, .14], [-7.27, 1.43, 1.08], palette.wood, .17);
+  box([.16, 2.9, .14], [-7.27, 1.43, 3.89], palette.wood, .17);
+  box([.16, .14, 2.95], [-7.27, 2.87, 2.48], palette.wood, .18);
+  box([1.34, 2.72, .1], [-6.78, 1.38, 1.62], palette.woodLight, .21, { rotation: [0, -.7, 0] });
 
   // Esquadria ampla que define a sala.
   box([8.6, .16, .18], [1.55, 3.35, -4.34], palette.metal, .18);
@@ -283,7 +298,7 @@ window.addEventListener("load", async () => {
     const width = sceneWrap.clientWidth;
     const height = sceneWrap.clientHeight;
     const aspect = width / Math.max(height, 1);
-    const halfWidth = window.innerWidth <= 760 ? 8.7 : 10.4;
+    const halfWidth = window.innerWidth <= 760 ? 9.3 : 11.1;
     const halfHeight = halfWidth / Math.max(aspect, .1);
     camera.left = -halfWidth;
     camera.right = halfWidth;
