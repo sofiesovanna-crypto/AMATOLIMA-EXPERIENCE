@@ -11,26 +11,39 @@ html.lenis,html.lenis body{height:auto}
   display:none!important;
 }
 
+/*
+ * Smooth-scroll reference behavior, scoped ONLY to the second section.
+ * Nothing is overlaid while the hero is still travelling. The effect begins
+ * naturally when .material-spiral reaches the top of the viewport: its own
+ * viewport then becomes the sticky panel while the existing 600svh story
+ * continues to drive the carousel/content progression underneath it.
+ */
 .material-spiral{
+  position:relative;
   z-index:5;
   margin-top:0;
   isolation:isolate;
+  background:#f1f1f1;
 }
 
 .material-spiral__viewport{
+  position:sticky!important;
+  top:0!important;
+  z-index:1;
+  width:100%;
+  height:100svh;
   transform:none!important;
   border-radius:0!important;
   box-shadow:none!important;
+  overflow:hidden;
+  background:#f1f1f1;
 }
 
 @media(max-width:760px){
-  .material-spiral{
-    margin-top:0;
-  }
+  .material-spiral{margin-top:0}
 }
 
 @media(prefers-reduced-motion:reduce){
-  .material-spiral{
-    margin-top:0;
-  }
+  .material-spiral{margin-top:0}
+  .material-spiral__viewport{position:relative!important}
 }
