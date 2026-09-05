@@ -1,7 +1,7 @@
 .apartment-build {
   position: relative;
   height: 620vh;
-  background: #f1f1f1;
+  background: #f2f3f5;
 }
 
 .apartment-build__pin {
@@ -12,14 +12,15 @@
   overflow: hidden;
   isolation: isolate;
   color: #30251d;
+  background: #f2f3f5;
 }
 
 .apartment-build__backdrop {
   position: absolute;
   z-index: -2;
   inset: 0;
-  background: #f1f1f1;
-  will-change: background-color;
+  background: #f2f3f5 !important;
+  will-change: auto;
 }
 
 .apartment-build__copy {
@@ -57,6 +58,7 @@
   inset: 0;
   display: grid;
   place-items: center;
+  background: transparent;
 }
 
 .apartment-build__scene canvas {
@@ -64,6 +66,7 @@
   height: 100%;
   display: block;
   outline: none;
+  background: transparent;
 }
 
 .apartment-build__fallback {
