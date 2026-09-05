@@ -9,11 +9,11 @@ const navigationItems = [
 ];
 
 const flowingMenuItems = [
-  { label: "Home", href: "index.html", image: "assets/images/menu/31813.jpg" },
-  { label: "Institucional", href: "sobre.html", image: "assets/images/hero-mask-3.png" },
-  { label: "Viver Amato Lima", href: "reformas.html", image: "assets/images/menu/31815.jpg" },
-  { label: "Ativos", href: "ativos.html", image: "assets/images/menu/31814.jpg" },
-  { label: "Contato", href: "contato.html", image: "assets/images/menu/31813.jpg" },
+  { label: "Home", href: "index.html", image: "assets/images/menu/31815.jpg", position: "center" },
+  { label: "Institucional", href: "sobre.html", image: "assets/images/menu/31814.jpg", position: "center bottom" },
+  { label: "Viver Amato Lima", href: "reformas.html", image: "assets/images/menu/31816.jpg", position: "center" },
+  { label: "Ativos", href: "ativos.html", image: "assets/images/menu/31812.jpg", position: "center" },
+  { label: "Contato", href: "contato.html", image: "assets/images/menu/31813.jpg", position: "center bottom" },
 ];
 
 const principles = [
@@ -43,10 +43,10 @@ function navigationTemplate() {
 }
 
 function flowingMenuTemplate() {
-  const items = flowingMenuItems.map(({ label, href, image }) => `
+  const items = flowingMenuItems.map(({ label, href, image, position = "center" }) => `
     <div class="flowing-menu__item" data-flowing-menu-item data-speed="15">
       <a class="flowing-menu__link" href="${href}"><span class="flowing-menu__label">${label}</span></a>
-      <div class="flowing-menu__marquee" aria-hidden="true"><div class="flowing-menu__marquee-wrap"><div class="flowing-menu__marquee-inner" data-flowing-menu-inner><div class="flowing-menu__part" data-flowing-menu-part><span>${label}</span><img class="flowing-menu__img" src="${image}" alt="" /></div></div></div></div>
+      <div class="flowing-menu__marquee" aria-hidden="true"><div class="flowing-menu__marquee-wrap"><div class="flowing-menu__marquee-inner" data-flowing-menu-inner><div class="flowing-menu__part" data-flowing-menu-part><span>${label}</span><img class="flowing-menu__img" src="${image}" alt="" style="object-position:${position}" /></div></div></div></div>
     </div>`).join("");
   return `<div class="staggered-flow-menu" data-staggered-flow-menu><div class="flowing-menu-backdrop" data-flowing-menu-backdrop aria-hidden="true"></div><div class="flowing-menu-prelayers" aria-hidden="true"><span class="flowing-menu-prelayer" data-flowing-menu-prelayer></span><span class="flowing-menu-prelayer" data-flowing-menu-prelayer></span></div><aside class="flowing-menu-panel" id="flowing-menu-panel" data-flowing-menu-panel aria-hidden="true"><div class="flowing-menu-wrap"><nav class="flowing-menu" aria-label="Navegação principal">${items}</nav></div></aside><button class="flowing-menu-toggle" type="button" data-flowing-menu-toggle aria-label="Abrir menu" aria-controls="flowing-menu-panel" aria-expanded="false"><span class="flowing-menu-toggle__text-wrap" aria-hidden="true"><span class="flowing-menu-toggle__text-inner"><span class="flowing-menu-toggle__line">Menu</span><span class="flowing-menu-toggle__line">Fechar</span></span></span><span class="flowing-menu-toggle__icon" aria-hidden="true"><span class="flowing-menu-toggle__icon-line"></span><span class="flowing-menu-toggle__icon-line flowing-menu-toggle__icon-line--vertical"></span></span></button></div>`;
 }
