@@ -12,6 +12,7 @@
     blocks.forEach((block) => {
       block.querySelectorAll(".editorial-foundations__word").forEach((word) => {
         word.style.opacity = "1";
+        word.style.filter = "none";
       });
     });
     return;
@@ -25,9 +26,10 @@
 
     gsapApi.fromTo(
       words,
-      { opacity: 0, willChange: "opacity" },
+      { opacity: 0, filter: "blur(8px)", willChange: "opacity, filter" },
       {
         opacity: 1,
+        filter: "blur(0px)",
         ease: "none",
         stagger: .055,
         scrollTrigger: {
