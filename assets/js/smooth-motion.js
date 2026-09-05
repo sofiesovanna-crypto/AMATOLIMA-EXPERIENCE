@@ -32,7 +32,6 @@
   gsap.registerPlugin(ScrollTrigger);
 
   const hero = document.querySelector(".hero--art");
-  const story = document.querySelector(".material-spiral");
   if (!hero) return;
 
   const item = (selector) => hero.querySelector(selector);
@@ -70,30 +69,6 @@
       yPercent: -5,
       ease: "none"
     }, 0);
-
-  if (story) {
-    const spiralStage = story.querySelector(".material-spiral__stage");
-    const spiralTitle = story.querySelector(".material-spiral__title");
-    const enteringElements = [spiralStage, spiralTitle].filter(Boolean);
-
-    if (enteringElements.length) {
-      gsap.fromTo(
-        enteringElements,
-        { y: "46vh" },
-        {
-          y: 0,
-          ease: "none",
-          scrollTrigger: {
-            trigger: story,
-            start: () => innerWidth <= 760 ? "top 22%" : "top 31%",
-            end: "top top",
-            scrub: 1.25,
-            invalidateOnRefresh: true
-          }
-        }
-      );
-    }
-  }
 
   ScrollTrigger.refresh();
 })();
