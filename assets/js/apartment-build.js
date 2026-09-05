@@ -708,6 +708,7 @@ window.addEventListener("load", async () => {
   }
 
   // Módulos levemente girados criam a curva contínua do sofá de referência.
+  const sofaStartIndex = livingGroup.children.length;
   [
     { x: 1.1, z: 3.18, ry: -.22 },
     { x: 2.15, z: 3.42, ry: -.08 },
@@ -730,6 +731,18 @@ window.addEventListener("load", async () => {
     cushion.scale.set(1.05, .82, .34);
     objects[objects.length - 1].baseScale.copy(cushion.scale);
   });
+
+  // Compacta somente o sofá e suas almofadas em torno do próprio centro,
+  // evitando que qualquer módulo ultrapasse o perímetro da maquete.
+  const sofaScaleGroup = new THREE.Group();
+  sofaScaleGroup.position.set(2.7, 0, 3.3);
+  const sofaChildren = livingGroup.children.slice(sofaStartIndex);
+  livingGroup.add(sofaScaleGroup);
+  sofaChildren.forEach((child) => {
+    child.position.sub(sofaScaleGroup.position);
+    sofaScaleGroup.add(child);
+  });
+  sofaScaleGroup.scale.set(.82, .94, .88);
 
   // Mesa baixa com livro e vaso floral.
   roundedBox([2.65, .16, .92], [2.55, .38, 1.42], palette.travertine, .65, { radius: .09, roughness: .68 });
