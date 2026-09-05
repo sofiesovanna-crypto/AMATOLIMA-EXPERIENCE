@@ -1,0 +1,71 @@
+/* Encerramento visual — composição editorial em quatro camadas. */
+.closing-collage {
+  position: relative;
+  height: 320svh;
+  background: #f2f3f5;
+}
+
+.closing-collage__pin {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: #f2f3f5;
+}
+
+.closing-collage__stage {
+  position: relative;
+  width: min(95vw, 1480px);
+  height: min(84svh, 900px);
+  isolation: isolate;
+}
+
+.closing-collage__layer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: 0;
+  overflow: hidden;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity, clip-path;
+  background: #ded9d1;
+}
+
+.closing-collage__layer img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transform: scale(1.08);
+  will-change: transform;
+  filter: saturate(.84) contrast(1.025) sepia(.045);
+}
+
+/* Quatro molduras encaixadas, na mesma lógica editorial da referência. */
+.closing-collage__layer--1 { width: 96%; height: 82%; z-index: 1; }
+.closing-collage__layer--2 { width: 74%; height: 62%; z-index: 2; }
+.closing-collage__layer--3 { width: 56%; height: 47%; z-index: 3; }
+.closing-collage__layer--4 { width: 42%; height: 34%; z-index: 4; }
+
+.closing-collage__layer--1 img { object-position: center 58%; }
+.closing-collage__layer--2 img { object-position: center 45%; }
+.closing-collage__layer--3 img { object-position: center 52%; }
+.closing-collage__layer--4 img { object-position: center 48%; }
+
+@media (max-width: 900px) {
+  .closing-collage { height: 280svh; }
+  .closing-collage__stage { width: 100vw; height: 76svh; }
+  .closing-collage__layer--1 { width: 94%; height: 76%; }
+  .closing-collage__layer--2 { width: 82%; height: 60%; }
+  .closing-collage__layer--3 { width: 68%; height: 45%; }
+  .closing-collage__layer--4 { width: 54%; height: 31%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .closing-collage { height: 100svh; }
+  .closing-collage__layer { transform: translate(-50%, -50%) !important; opacity: 1 !important; clip-path: inset(0) !important; }
+  .closing-collage__layer img { transform: none !important; }
+}
