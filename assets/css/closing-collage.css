@@ -1,7 +1,7 @@
-/* Encerramento visual — sequência de quatro imagens emergindo uma de dentro da outra. */
+/* Encerramento visual — composição concêntrica guiada pelos frames de referência. */
 .closing-collage {
   position: relative;
-  height: 430svh;
+  height: 760svh;
   background: #f2f3f5;
 }
 
@@ -18,20 +18,24 @@
 
 .closing-collage__stage {
   position: relative;
-  width: min(95.2vw, 1540px);
-  height: min(86svh, 930px);
+  width: min(96vw, 1660px);
+  height: min(91svh, 980px);
   isolation: isolate;
+  transform-origin: 50% 50%;
+  will-change: transform;
 }
 
 .closing-collage__layer {
   position: absolute;
   left: 50%;
   top: 50%;
+  width: 100%;
+  height: 100%;
   margin: 0;
   overflow: hidden;
   transform-origin: 50% 50%;
   will-change: transform, opacity;
-  background: #d8d3cc;
+  background: #dedbd6;
 }
 
 .closing-collage__layer img {
@@ -40,31 +44,25 @@
   display: block;
   object-fit: cover;
   will-change: transform, opacity;
-  filter: saturate(.84) contrast(1.015) sepia(.035);
+  filter: saturate(.84) contrast(1.01) sepia(.025);
 }
 
-/* A primeira fotografia é o campo-base. As outras nascem centralizadas dentro dela. */
-.closing-collage__layer--1 { width: 96%; height: 82%; z-index: 1; }
-.closing-collage__layer--2 { width: 76%; height: 62%; z-index: 2; }
-.closing-collage__layer--3 { width: 58%; height: 45%; z-index: 3; }
-.closing-collage__layer--4 { width: 43%; height: 32%; z-index: 4; }
-
-.closing-collage__layer--1 img { object-position: center 58%; }
-.closing-collage__layer--2 img { object-position: center 48%; }
-.closing-collage__layer--3 img { object-position: center 52%; }
+/* Todas usam a mesma tela-base; JS define a escala de cada moldura durante o scroll. */
+.closing-collage__layer--1 { z-index: 1; }
+.closing-collage__layer--2 { z-index: 2; }
+.closing-collage__layer--3 { z-index: 3; }
+.closing-collage__layer--4 { z-index: 4; }
+.closing-collage__layer--1 img { object-position: center 56%; }
+.closing-collage__layer--2 img { object-position: center 50%; }
+.closing-collage__layer--3 img { object-position: center 50%; }
 .closing-collage__layer--4 img { object-position: center 48%; }
 
 @media (max-width: 900px) {
-  .closing-collage { height: 380svh; }
-  .closing-collage__stage { width: 100vw; height: 76svh; }
-  .closing-collage__layer--1 { width: 94%; height: 76%; }
-  .closing-collage__layer--2 { width: 82%; height: 59%; }
-  .closing-collage__layer--3 { width: 68%; height: 43%; }
-  .closing-collage__layer--4 { width: 54%; height: 30%; }
+  .closing-collage { height: 650svh; }
+  .closing-collage__stage { width: 94vw; height: 76svh; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .closing-collage { height: 100svh; }
-  .closing-collage__layer { transform: translate(-50%, -50%) !important; opacity: 1 !important; }
-  .closing-collage__layer img { transform: none !important; opacity: 1 !important; }
+  .closing-collage__layer { opacity: 1 !important; }
 }
