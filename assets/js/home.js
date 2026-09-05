@@ -9,11 +9,11 @@ const navigationItems = [
 ];
 
 const flowingMenuItems = [
-  { label: "Home", href: "index.html", image: "assets/images/hero-mask.png" },
+  { label: "Home", href: "index.html", image: "assets/images/menu/31813.jpg" },
   { label: "Institucional", href: "sobre.html", image: "assets/images/hero-mask-3.png" },
-  { label: "Viver Amato Lima", href: "reformas.html", image: "assets/images/hero-mask-mobile.png" },
-  { label: "Ativos", href: "ativos.html", image: "assets/images/hero-mask-2.png" },
-  { label: "Contato", href: "contato.html", image: "assets/images/hero-mask.png" },
+  { label: "Viver Amato Lima", href: "reformas.html", image: "assets/images/menu/31815.jpg" },
+  { label: "Ativos", href: "ativos.html", image: "assets/images/menu/31814.jpg" },
+  { label: "Contato", href: "contato.html", image: "assets/images/menu/31813.jpg" },
 ];
 
 const principles = [
