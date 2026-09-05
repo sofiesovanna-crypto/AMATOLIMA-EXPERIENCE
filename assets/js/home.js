@@ -1,19 +1,18 @@
 "use strict";
 
 const navigationItems = [
-  { label: "Início", href: "index.html", current: true },
-  { label: "Sobre", href: "sobre.html" },
+  { label: "Home", href: "index.html", current: true },
+  { label: "Institucional", href: "sobre.html" },
+  { label: "Viver Amato Lima", href: "reformas.html" },
   { label: "Ativos", href: "ativos.html" },
-  { label: "Reformas", href: "reformas.html" },
-  { label: "Projetos", href: "projetos.html" },
   { label: "Contato", href: "contato.html" },
 ];
 
 const flowingMenuItems = [
-  { label: "Sobre", href: "sobre.html", image: "assets/images/hero-mask-3.png" },
+  { label: "Home", href: "index.html", image: "assets/images/hero-mask.png" },
+  { label: "Institucional", href: "sobre.html", image: "assets/images/hero-mask-3.png" },
+  { label: "Viver Amato Lima", href: "reformas.html", image: "assets/images/hero-mask-mobile.png" },
   { label: "Ativos", href: "ativos.html", image: "assets/images/hero-mask-2.png" },
-  { label: "Reformas", href: "reformas.html", image: "assets/images/hero-mask-mobile.png" },
-  { label: "Projetos", href: "projetos.html", image: "assets/images/hero-mask.png" },
   { label: "Contato", href: "contato.html", image: "assets/images/hero-mask.png" },
 ];
 
