@@ -3,7 +3,6 @@ html.lenis,html.lenis body{height:auto}
 .lenis.lenis-stopped{overflow:hidden}
 
 .hero--art{
-  position:relative;
   isolation:isolate;
   z-index:1;
 }
@@ -13,11 +12,9 @@ html.lenis,html.lenis body{height:auto}
 }
 
 .material-spiral{
-  position:relative;
   z-index:5;
-  margin-top:-100svh;
+  margin-top:0;
   isolation:isolate;
-  will-change:transform;
 }
 
 .material-spiral__viewport{
@@ -28,13 +25,12 @@ html.lenis,html.lenis body{height:auto}
 
 @media(max-width:760px){
   .material-spiral{
-    margin-top:-100svh;
+    margin-top:0;
   }
 }
 
 @media(prefers-reduced-motion:reduce){
   .material-spiral{
     margin-top:0;
-    transform:none!important;
   }
 }
