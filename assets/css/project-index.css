@@ -113,7 +113,7 @@
 @supports ((-webkit-background-clip:text) or (background-clip:text)){
   .project-index__line{
     color:transparent;
-    background-image:url("../images/hero-mask-3.png");
+    background-image:url("../images/sections-home/31811.jpg");
     background-size:135% auto;
     background-position:50% 50%;
     background-repeat:no-repeat;
