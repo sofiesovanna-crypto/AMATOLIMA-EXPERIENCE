@@ -271,16 +271,81 @@ function transformationTemplate() {
             <img src="assets/images/transformation/final-sala.jpg" alt="Área social depois da transformação" />
           </figure>
 
-          <svg class="project-evolution__plan" viewBox="0 0 1200 760" role="img" aria-label="Planta arquitetônica sendo desenhada" data-evolution-plan>
-            <g class="project-evolution__plan-lines">
-              <path d="M92 92H1108V668H92Z" />
-              <path d="M92 286H450V668M450 92V668M450 388H1108" />
-              <path d="M746 92V388M916 388V668" />
-              <path d="M177 286V187H355V286M530 184H665V296H530Z" />
-              <path d="M526 481H820V596H526Z" />
-              <path d="M916 493H1029V603H916" />
-              <path d="M450 286a92 92 0 0 1-92 92M746 388a82 82 0 0 1 82-82M916 493a72 72 0 0 1 72-72" />
-              <path d="M127 118H413M485 118H713M781 118H1070" />
+          <svg class="project-evolution__plan" viewBox="0 0 1200 760" role="img" aria-label="Planta arquitetônica detalhada sendo desenhada" data-evolution-plan>
+            <g class="project-evolution__plan-sheet">
+              <g class="project-evolution__plan-dimensions">
+                <path class="project-evolution__vector-line" d="M82 58H1118M82 46V70M1118 46V70M310 50V66M724 50V66" />
+                <path class="project-evolution__vector-line" d="M48 90V674M36 90H60M36 674H60M40 338H56" />
+                <path class="project-evolution__vector-line" d="M82 704H1118M82 692V716M1118 692V716" />
+                <path class="project-evolution__vector-line" d="M1148 90V674M1136 90H1160M1136 674H1160" />
+              </g>
+
+              <g class="project-evolution__plan-walls">
+                <path class="project-evolution__vector-line project-evolution__vector-line--heavy" d="M82 90H1118V674H82Z" />
+                <path class="project-evolution__vector-line project-evolution__vector-line--heavy" d="M94 102H1106V662H94Z" />
+                <path class="project-evolution__vector-line project-evolution__vector-line--heavy" d="M310 102V282M310 390V662M724 102V338M724 446V662" />
+                <path class="project-evolution__vector-line project-evolution__vector-line--heavy" d="M94 338H310M310 338H724M724 338H1106" />
+                <path class="project-evolution__vector-line" d="M94 325H298M322 325H712M736 325H1106" />
+              </g>
+
+              <g class="project-evolution__plan-openings">
+                <path class="project-evolution__vector-line" d="M122 90V102M150 90V102M178 90V102M206 90V102M234 90V102M262 90V102" />
+                <path class="project-evolution__vector-line" d="M758 90V102M794 90V102M830 90V102M866 90V102M902 90V102M938 90V102M974 90V102M1010 90V102M1046 90V102" />
+                <path class="project-evolution__vector-line" d="M310 282H418M310 282A108 108 0 0 1 418 390" />
+                <path class="project-evolution__vector-line" d="M724 446H832M724 446A108 108 0 0 0 832 338" />
+                <path class="project-evolution__vector-line" d="M522 338V432M522 338A94 94 0 0 0 428 432" />
+              </g>
+
+              <g class="project-evolution__plan-kitchen">
+                <path class="project-evolution__vector-line" d="M108 122H286V306H108ZM120 134V294M166 134V294M212 134V294M258 134V294" />
+                <path class="project-evolution__vector-line" d="M126 162H278M126 234H278" />
+                <path class="project-evolution__vector-line" d="M359 158H650V252H359Z" />
+                <path class="project-evolution__vector-line" d="M380 178H629V232H380ZM401 205H608" />
+                <circle class="project-evolution__vector-line" cx="405" cy="285" r="18" />
+                <circle class="project-evolution__vector-line" cx="478" cy="285" r="18" />
+                <circle class="project-evolution__vector-line" cx="551" cy="285" r="18" />
+                <circle class="project-evolution__vector-line" cx="624" cy="285" r="18" />
+              </g>
+
+              <g class="project-evolution__plan-living">
+                <path class="project-evolution__vector-line" d="M356 466H650V604H356Q334 604 334 582V488Q334 466 356 466Z" />
+                <path class="project-evolution__vector-line" d="M376 486H630V526H376ZM376 542H630V584H376Z" />
+                <path class="project-evolution__vector-line" d="M786 486C786 455 811 430 842 430H1016C1047 430 1072 455 1072 486V590H786Z" />
+                <path class="project-evolution__vector-line" d="M808 490H1050M868 442V590M990 442V590" />
+                <ellipse class="project-evolution__vector-line" cx="716" cy="552" rx="78" ry="52" />
+                <ellipse class="project-evolution__vector-line" cx="716" cy="552" rx="58" ry="36" />
+                <path class="project-evolution__vector-line" d="M680 616H754M692 628H742" />
+              </g>
+
+              <g class="project-evolution__plan-dining">
+                <rect class="project-evolution__vector-line" x="792" y="164" width="214" height="108" rx="54" />
+                <ellipse class="project-evolution__vector-line" cx="830" cy="140" rx="25" ry="18" />
+                <ellipse class="project-evolution__vector-line" cx="900" cy="140" rx="25" ry="18" />
+                <ellipse class="project-evolution__vector-line" cx="970" cy="140" rx="25" ry="18" />
+                <ellipse class="project-evolution__vector-line" cx="830" cy="296" rx="25" ry="18" />
+                <ellipse class="project-evolution__vector-line" cx="900" cy="296" rx="25" ry="18" />
+                <ellipse class="project-evolution__vector-line" cx="970" cy="296" rx="25" ry="18" />
+              </g>
+
+              <g class="project-evolution__plan-lighting">
+                <circle class="project-evolution__vector-line" cx="510" cy="397" r="22" />
+                <path class="project-evolution__vector-line" d="M494 381L526 413M526 381L494 413" />
+                <circle class="project-evolution__vector-line" cx="900" cy="218" r="34" />
+                <path class="project-evolution__vector-line" d="M876 194L924 242M924 194L876 242" />
+                <circle class="project-evolution__vector-line" cx="714" cy="552" r="18" />
+              </g>
+
+              <g class="project-evolution__plan-notes">
+                <path class="project-evolution__vector-line" d="M183 430L148 394H106M640 132L678 106H740M995 600L1060 628" />
+                <text x="102" y="382">MARCENARIA EXISTENTE</text>
+                <text x="746" y="108">EIXO DE ILUMINAÇÃO</text>
+                <text x="935" y="646">ESTAR</text>
+                <text x="458" y="650">SALA DE JANTAR</text>
+                <text x="124" y="642">COZINHA</text>
+                <text x="78" y="742">PLANTA DE INTERVENÇÃO · ESCALA 1:50</text>
+                <text x="510" y="54">10,36 m</text>
+                <text x="18" y="410" transform="rotate(-90 18 410)">5,84 m</text>
+              </g>
             </g>
           </svg>
 

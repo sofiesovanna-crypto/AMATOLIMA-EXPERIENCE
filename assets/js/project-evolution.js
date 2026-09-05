@@ -1,6 +1,6 @@
 "use strict";
 
-window.addEventListener("load", () => {
+window.addEventListener("load", async () => {
   const section = document.querySelector("[data-project-evolution]");
   if (!section || !window.gsap || !window.ScrollTrigger) return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -13,17 +13,31 @@ window.addEventListener("load", () => {
   const render = section.querySelector('[data-evolution-layer="render"]');
   const finalImage = section.querySelector('[data-evolution-layer="final"]');
   const plan = section.querySelector("[data-evolution-plan]");
-  const paths = plan.querySelectorAll("path");
+  const vectorLines = plan.querySelectorAll(".project-evolution__vector-line");
   const label = section.querySelector("[data-evolution-label]");
   const progress = section.querySelector("[data-evolution-progress]");
   const reflection = section.querySelector("[data-evolution-reflection]");
 
   window.gsap.registerPlugin(window.ScrollTrigger);
 
-  paths.forEach((path) => {
-    const length = path.getTotalLength();
-    window.gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
-  });
+  let drawingAnimation = null;
+
+  try {
+    const { animate, svg, stagger } = await import("https://cdn.jsdelivr.net/npm/animejs@4.1.3/+esm");
+    const drawables = svg.createDrawable(vectorLines);
+    drawingAnimation = animate(drawables, {
+      draw: ["0 0", "0 1"],
+      ease: "linear",
+      duration: 1600,
+      delay: stagger(34),
+      autoplay: false,
+    });
+  } catch (error) {
+    vectorLines.forEach((line) => {
+      const length = typeof line.getTotalLength === "function" ? line.getTotalLength() : 1000;
+      window.gsap.set(line, { strokeDasharray: length, strokeDashoffset: length });
+    });
+  }
 
   const setLabel = (text) => () => { label.textContent = text; };
   const timeline = window.gsap.timeline({
@@ -34,7 +48,19 @@ window.addEventListener("load", () => {
       end: "bottom bottom",
       scrub: 1.35,
       invalidateOnRefresh: true,
-      onUpdate: (self) => window.gsap.set(progress, { scaleX: self.progress }),
+      onUpdate: (self) => {
+        window.gsap.set(progress, { scaleX: self.progress });
+        const drawingProgress = Math.max(0, Math.min(1, (self.progress - .17) / .25));
+
+        if (drawingAnimation) {
+          drawingAnimation.seek(drawingAnimation.duration * drawingProgress);
+        } else {
+          window.gsap.set(vectorLines, { strokeDashoffset: (index, target) => {
+            const length = typeof target.getTotalLength === "function" ? target.getTotalLength() : 1000;
+            return length * (1 - drawingProgress);
+          }});
+        }
+      },
     },
   });
 
@@ -45,7 +71,6 @@ window.addEventListener("load", () => {
     .add(setLabel("Leitura do existente"), .62)
     .to(plan, { opacity: 1, duration: .35 }, .7)
     .to(before, { opacity: .14, duration: .4 }, .7)
-    .to(paths, { strokeDashoffset: 0, stagger: .045, duration: .75 }, .82)
     .add(setLabel("Desenho arquitetônico"), .92)
     .to(background, { backgroundColor: "#f4f4f4", duration: .9 }, .72)
     .to(plan, { opacity: 0, duration: .38 }, 1.78)

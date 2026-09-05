@@ -93,17 +93,33 @@
   height: 100%;
   padding: 5%;
   opacity: 0;
-  color: #4a3a2d;
-  background: rgba(244, 244, 244, .9);
+  color: #3d3027;
+  background: rgba(244, 244, 244, .97);
 }
 
-.project-evolution__plan-lines {
+.project-evolution__plan-sheet {
+  transform-origin: center;
+}
+
+.project-evolution__vector-line {
   fill: none;
   stroke: currentColor;
-  stroke-width: 2;
+  stroke-width: 1.25;
   stroke-linecap: round;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
+}
+
+.project-evolution__vector-line--heavy { stroke-width: 3.2; }
+.project-evolution__plan-dimensions { opacity: .5; }
+.project-evolution__plan-notes path { opacity: .62; }
+.project-evolution__plan-notes text {
+  fill: currentColor;
+  stroke: none;
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 2px;
 }
 
 .project-evolution__wash { z-index: 3; background: rgba(244,244,244,0); pointer-events: none; }
