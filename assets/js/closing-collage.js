@@ -10,10 +10,7 @@
   section.setAttribute("aria-label", "Projetos Amato Lima em movimento");
   section.innerHTML = `
     <div class="closing-collage__pin">
-      <div class="closing-collage__signature" aria-hidden="true">
-        <img class="closing-collage__signature-mark" src="assets/images/logo/9175.png" alt="" />
-        <span>AMATO LIMA</span>
-      </div>
+      <div class="closing-collage__signature" aria-hidden="true">AMATO LIMA</div>
       <div class="closing-collage__stage">
         <figure class="closing-collage__layer closing-collage__layer--1" data-closing-layer><img src="assets/images/transformation/final-sala.jpg" alt="Projeto Amato Lima — arquitetura e matéria" loading="eager" /></figure>
         <figure class="closing-collage__layer closing-collage__layer--2" data-closing-layer><img src="assets/images/hero-mask.png" alt="Projeto Amato Lima — detalhe material" loading="eager" /></figure>
