@@ -698,6 +698,7 @@ window.addEventListener("load", async () => {
 
   // Sala: somente sofá curvo, mesa central, tapete, duas plantas e luz escultórica.
   activeParent = livingGroup;
+  const loungeStartIndex = livingGroup.children.length;
   cylinder(2.48, .035, [2.55, .015, 2.25], 0xaaa69f, .56, { roughness: .98, edges: false });
   for (let radius = .52; radius <= 2.34; radius += .18) {
     addObject(new THREE.TorusGeometry(radius, .012, 8, 72), {
@@ -780,32 +781,35 @@ window.addEventListener("load", async () => {
   livingGlow.position.set(2.7, 2.42, 2.25);
   livingGroup.add(livingGlow);
 
-  // Painel de TV claro com marcenaria, nichos e base mineral escura.
-  roundedBox([.3, 2.85, 5.25], [-6.56, 1.35, 2.15], 0x9b7a60, .84, { radius: .025, roughness: .58 });
-  roundedBox([.12, 2.28, 4.48], [-6.34, 1.45, 2.15], 0xe5e0d8, .85, {
+  // O conjunto inteiro gira como uma composição única: sofá e mesa passam a
+  // olhar para o painel de TV, preservando todas as distâncias entre as peças.
+  const loungePivot = new THREE.Group();
+  loungePivot.position.set(2.55, 0, 2.25);
+  const loungeChildren = livingGroup.children.slice(loungeStartIndex);
+  livingGroup.add(loungePivot);
+  loungeChildren.forEach((child) => {
+    child.position.sub(loungePivot.position);
+    loungePivot.add(child);
+  });
+  loungePivot.rotation.y = Math.PI / 2;
+  activeParent = livingGroup;
+
+  // Painel de TV contínuo, sem a lâmina perpendicular que dividia a tela.
+  roundedBox([.3, 2.85, 4.2], [-6.56, 1.35, 2.55], 0x9b7a60, .84, { radius: .025, roughness: .58 });
+  roundedBox([.12, 2.28, 3.68], [-6.34, 1.45, 2.55], 0xe5e0d8, .85, {
     rotation: [0, Math.PI / 2, 0], radius: .035, roughness: .78,
   });
-  roundedBox([2.55, 1.48, .1], [-6.26, 1.55, 2.15], 0x181817, .86, {
+  roundedBox([2.55, 1.48, .1], [-6.26, 1.55, 2.55], 0x181817, .86, {
     rotation: [0, Math.PI / 2, 0], radius: .045, roughness: .12, metalness: .15,
   });
   addObject(new THREE.PlaneGeometry(2.4, 1.34), {
-    position: [-6.2, 1.55, 2.15], rotation: [0, Math.PI / 2, 0], color: 0xffffff,
+    position: [-6.2, 1.55, 2.55], rotation: [0, Math.PI / 2, 0], color: 0xffffff,
     map: televisionTexture, order: .865, roughness: .08, metalness: .08, edges: false,
   });
-  // Nichos laterais e livros.
-  [-.02, 3.55].forEach((z, sideIndex) => {
-    roundedBox([.1, 1.78, .72], [-6.19, 1.46, z + .35], 0xaaa194, .87 + sideIndex * .006, {
-      rotation: [0, Math.PI / 2, 0], radius: .025, roughness: .72,
-    });
-    [0, .34, .68].forEach((offset, itemIndex) => {
-      box([.08, .045, .42], [-6.1, .82 + itemIndex * .34, z + .18 + offset * .12], itemIndex === 1 ? 0x889cab : 0xefe7db,
-        .875 + sideIndex * .006 + itemIndex * .002, { rotation: [0, Math.PI / 2, 0], edges: false });
-    });
-  });
-  roundedBox([.45, .34, 4.95], [-6.18, .34, 2.15], 0x4b443f, .9, {
+  roundedBox([.45, .34, 3.95], [-6.18, .34, 2.55], 0x4b443f, .9, {
     rotation: [0, Math.PI / 2, 0], radius: .03, roughness: .52,
   });
-  box([.05, .045, 4.55], [-5.92, .58, 2.15], 0xffdca1, .905, {
+  box([.05, .045, 3.6], [-5.92, .58, 2.55], 0xffdca1, .905, {
     rotation: [0, Math.PI / 2, 0], roughness: .2, emissive: 0xffbd65, emissiveIntensity: 1.3, edges: false,
   });
 
